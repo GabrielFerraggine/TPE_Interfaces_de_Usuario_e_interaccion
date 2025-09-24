@@ -5,14 +5,15 @@ let juegosAventura;
 let juegosPuzzle;
 
 
-
 async function obtenerJuegos() {
     try {
         const response = await fetch('https://vj.interfaces.jima.com.ar/api');
         const games = await response.json();
 
         // Filtrar juegos con rating mayor a 4.0 si tienen rating
-        const juegosDestacados = games.filter(game => game.rating && game.rating > 4.0);
+        const juegosDestacados = Array.isArray(games)
+            ? games.filter(game => game.rating && game.rating > 4.0)
+            : [];
         return juegosDestacados;
     } catch (error) {
         console.error('Error:', error);
@@ -20,6 +21,7 @@ async function obtenerJuegos() {
     }
 }
 
+//tiene por objetivo mostrar los array que recibe 
 function formatearValor(valor) {
     if (Array.isArray(valor)) {
         // Convertir array a lista separada por comas
@@ -36,6 +38,7 @@ async function mostrarJuegos() {
     const gameList = document.getElementById('gameList');
     const juegos = await obtenerJuegos();
 
+    //todo una funcion anonima
     juegos.forEach(game => {
         const card = document.createElement('div');
         card.className = 'game-card';
@@ -56,8 +59,6 @@ async function mostrarJuegos() {
 }
 
 mostrarJuegos();
-
-
 
 /*
 function filtrarJuegos(filtroCategoria) {

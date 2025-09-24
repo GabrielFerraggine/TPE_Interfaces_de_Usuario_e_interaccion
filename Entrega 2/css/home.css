@@ -16,7 +16,7 @@
 
 body {
     font-family: 'Inter', Regular;
-    background-color: var(--background-dark);
+    background-color: var(--background-light);
     color: var(--text-primary);
 }
 
@@ -42,14 +42,13 @@ ul {
 }
 
 .content-wrapper {
-    padding: 0 30px;
     overflow-y: auto;
 }
 
 
 /* ==================== SIDEBAR ==================== */
 .sidebar {
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,7 +103,7 @@ ul {
     padding: 10px 15px;
     border-radius: 20px;
     border: none;
-    background-color: var(--background-light);
+    background-color: white;
     color: var(--text-primary);
     font-size: 0.9rem;
 }
@@ -244,12 +243,11 @@ ul {
 
 /* ==================== FOOTER ==================== */
 .main-footer {
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     padding: 40px;
-    border-radius: 15px 15px 0 0;
 }
 
 .footer-section h4 {
@@ -298,7 +296,7 @@ ul {
     padding: 20px 40px;
     font-size: 0.9rem;
     color: var(--text-secondary);
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     border-top: 1px solid #2c3e50;
 }
 
