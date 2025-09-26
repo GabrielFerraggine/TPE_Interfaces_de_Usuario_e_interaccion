@@ -108,19 +108,142 @@ function filterGames(juegosArray, filtroCategoria) {
     });
 }
 
+//funcion para obtener juegos aleatorios
+function getRandomGames(juegosArray, limite) {
+    if (!juegosArray || juegosArray.length === 0) return [];
+    
+    const shuffled = [...juegosArray]; 
+    
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Intercambio
+    }
+    
+    // Devolver el número de juegos aleatorios solicitado
+    return shuffled.slice(0, limite);
+}
+
+function showCarouselGames(juegosArray, seccionMostrar, limite) {
+    const container = document.getElementById(seccionMostrar);
+    container.innerHTML = '';
+
+    if (!juegosArray || juegosArray.length === 0) {
+        container.innerHTML = '<p>No se encontraron juegos.</p>';
+        return;
+    }
+
+    const juegosMostrar = (typeof limite === 'number' && limite > 0) ? juegosArray.slice(0, limite) : juegosArray;
+
+    juegosMostrar.forEach(game => {
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+
+        let imageUrl = '';
+        for (const key in game) {
+            if (key.toLowerCase().includes('image') && game[key]) {
+                imageUrl = game[key];
+                break;
+            }
+        }
+
+        let content = '';
+        if (imageUrl) {
+            content += `<img src="${imageUrl}" alt="${game.name || 'Juego'}">`;
+        }
+        content += `<h3>${game.name || 'Sin nombre'}</h3>`;
+
+        slide.innerHTML = content;
+        container.appendChild(slide);
+    });
+}
 
 
 
-/*Ejecucion cada vez que abro el home/index*/
+//Ejecucion cada vez que abro el home
 async function init() {
-    await getGames(); // primero cargo todos los juegos
+    await getGames(); //se cargan todos los juegos
 
-    //para que recomendados tenga juego se puede usar un random (proximamente)
-    showGames(filterGames(juegos, 'RPG'), 'gameListRecommended', 6);
+    //recomendados usa la funcion de aleatorios
+    const randomGames = getRandomGames(juegos, 6);
+    showGames(randomGames, 'gameListRecommended', 6);
+
     showGames(filterGames(juegos, 'Adventure'), 'gameListAdventure', 6);
     showGames(filterGames(juegos, 'Puzzle'), 'gameListPuzzle', 6);
 
 }
 
 init();
+
+//Carrusel principal
+
+document.addEventListener('DOMContentLoaded', () => {
+    const slider = document.querySelector('.game-slider');
+    const slides = slider.querySelectorAll('.slide');
+    const btnLeft = slider.querySelector('.carousel-arrow.left');
+    const btnRight = slider.querySelector('.carousel-arrow.right');
+
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        slides.forEach((slide, index) => {
+            let offset = index - currentIndex;
+
+            // Para que sea circular (siempre toma el vecino más cercano)
+            if (offset < -Math.floor(slides.length / 2)) {
+                offset += slides.length;
+            } else if (offset > Math.floor(slides.length / 2)) {
+                offset -= slides.length;
+            }
+
+            slide.classList.remove("active-slide");
+
+            let transform = '';
+            let opacity = '0';
+            let zIndex = '0';
+
+            const baseTransform = 'translateX(-50%)';
+
+            if (offset === 0) {
+                // Slide central
+                transform = `${baseTransform} scale(1)`;
+                opacity = '1';
+                zIndex = '3';
+                slide.classList.add("active-slide");
+            } else if (offset === 1) {
+                // Vecino derecho
+                transform = `translateX(calc(-50% + 550px)) scale(0.8)`;
+                opacity = '1';
+                zIndex = '2';
+            } else if (offset === -1) {
+                // Vecino izquierdo
+                transform = `translateX(calc(-50% - 550px)) scale(0.8)`;
+                opacity = '1';
+                zIndex = '2';
+            } else {
+                // Los demás (no se ven, pero siguen existiendo para rotar)
+                transform = `${baseTransform} scale(0.6)`;
+                opacity = '0';
+                zIndex = '0';
+            }
+
+            slide.style.transform = transform;
+            slide.style.opacity = opacity;
+            slide.style.zIndex = zIndex;
+        });
+    }
+
+
+    btnRight.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+    });
+
+    btnLeft.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel();
+    });
+
+    updateCarousel();
+});
+
 
