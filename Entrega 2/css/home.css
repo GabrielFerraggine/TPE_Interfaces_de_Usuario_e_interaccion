@@ -1,4 +1,3 @@
-
 :root {
     --primary-color: #FF6B35; /* Naranja Valhalla */
     --background-dark: #172a3a; /* Fondo principal oscuro */
@@ -36,9 +35,8 @@ ul {
 
 /* ==================== ESTRUCTURA PRINCIPAL ==================== */
 .main-container {
-    display: grid;
-    grid-template-columns: 80px 1fr;
     min-height: 100vh;
+    margin-left: 57px; /* Deja espacio para el sidebar fijo */
 }
 
 .content-wrapper {
@@ -52,12 +50,21 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     min-height: 100vh;
-    width: 56px;
+    width: 57px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1100;
 }
-
+/* Ajustar tamaño de los íconos de la barra lateral */
+.sidebar-nav img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
 
 
 .sidebar-nav ul li {
@@ -65,10 +72,22 @@ ul {
     text-align: center;
 }
 
-.sidebar-logo{
-    margin-top: -11px;
+.sidebar-logo img{
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
 }
-
+.sidebar-nav li a img {
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+}
+.sidebar-nav li a:hover img {
+    filter: brightness(1.2) drop-shadow(0 0 4px #f3732f);
+    transform: scale(1.08);
+}
+#menuHamburguesaBtn{
+   background-color: var(--background-dark);
+}
 
 /* ==================== HEADER ==================== */
 .main-header {
@@ -78,7 +97,7 @@ ul {
     padding: 0 20px;
     background-color: var(--background-dark);
     position: fixed;      
-    left: 50px;              
+    left: 57px;              
     right: 0;             
     height: 56px;
     z-index: 1000;

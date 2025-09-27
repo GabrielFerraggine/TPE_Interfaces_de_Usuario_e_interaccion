@@ -157,27 +157,10 @@ function showCarouselGames(juegosArray, seccionMostrar, limite) {
     });
 }
 
-
-
-//Ejecucion cada vez que abro el home
-async function init() {
-    await getGames(); //se cargan todos los juegos
-
-    //recomendados usa la funcion de aleatorios
-    const randomGames = getRandomGames(juegos, 6);
-    showGames(randomGames, 'gameListRecommended', 6);
-
-    showGames(filterGames(juegos, 'Adventure'), 'gameListAdventure', 6);
-    showGames(filterGames(juegos, 'Puzzle'), 'gameListPuzzle', 6);
-
-}
-
-init();
-
-//Carrusel principal
-
-document.addEventListener('DOMContentLoaded', () => {
+//Carrusel principal encapsulado en una función
+function initCarousel() {
     const slider = document.querySelector('.game-slider');
+    if (!slider) return;
     const slides = slider.querySelectorAll('.slide');
     const btnLeft = slider.querySelector('.carousel-arrow.left');
     const btnRight = slider.querySelector('.carousel-arrow.right');
@@ -232,18 +215,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (btnRight) {
+        btnRight.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+        });
+    }
 
-    btnRight.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateCarousel();
-    });
-
-    btnLeft.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateCarousel();
-    });
+    if (btnLeft) {
+        btnLeft.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateCarousel();
+        });
+    }
 
     updateCarousel();
-});
+}
+
+
+//Ejecucion cada vez que abro el home
+async function init() {
+    await getGames(); //se cargan todos los juegos
+
+    //recomendados usa la funcion de aleatorios
+    const randomGames = getRandomGames(juegos, 6);
+    showGames(randomGames, 'gameListRecommended', 6);
+
+    showGames(filterGames(juegos, 'Adventure'), 'gameListAdventure', 6);
+    showGames(filterGames(juegos, 'Puzzle'), 'gameListPuzzle', 6);
+
+}
+
+// Inicializa el carrusel una vez que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', initCarousel);
+
+//Inicio de la aplicación
+init();
+
 
 
