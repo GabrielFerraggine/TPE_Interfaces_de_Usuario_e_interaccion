@@ -24,7 +24,7 @@ document.querySelectorAll(".close-btn").forEach(btn => {
 });
 
 //Validacion del form de login y redirige si todo es correcto
-document.getElementById("formLoginCampos").addEventListener("submit", function(event) {
+document.getElementById("formLoginCampos").addEventListener("submit", function (event) {
   event.preventDefault();
   //Limpia mensajes de error
   document.getElementById("emailLoginError").textContent = "";
@@ -61,7 +61,7 @@ document.getElementById("formLoginCampos").addEventListener("submit", function(e
 });
 
 //Validaciones del form de registro y redirige a la pagina principal si todo es correcto
-document.getElementById("formRegistroCampos").addEventListener("submit", function(event) {
+document.getElementById("formRegistroCampos").addEventListener("submit", function (event) {
   event.preventDefault();
   //Limpiar mensajes de error
   document.getElementById("nombreCompletoRegistroError").textContent = "";
