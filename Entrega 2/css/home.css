@@ -1,10 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 :root {
-    --primary-color: #FF6B35; /* Naranja Valhalla */
-    --background-dark: #172a3a; /* Fondo principal oscuro */
-    --background-light: #213C48; /* Fondo de elementos como header y footer */
+    /*Colores*/
+    --primary-color: #FF6B35;
+    --background-dark: #13252E;
+    --background-light: #213C48;
     --text-primary: #ffffff;
     --text-secondary: #ffffff;
-    --card-background: #172a3a;
+    --card-background: #13252E;
+
+    /*Familia tipografica*/
+    --font-family-inter: 'Inter', sans-serif;
+
+    --font-regular: 400;
+    --font-bold: 700;
+    --font-extrabold: 800;
+
+    /*Tamaños*/
+    --font-size-small: 12px;
+    --font-size-medium: 16px;
+    --font-size-large: 24px;
+    --font-size-xlarge: 32px;
+    --font-size-xxlarge: 48px;
+
+    /*Ejemplos de clases tipográficas (Se aplica en html como clase o se colocan estos 3 parametros en cada elemento en css)
+        .text-small {
+        font-family: var(--font-family-inter);
+        font-weight: var(--font-regular);
+        font-size: var(--font-size-small);
+        }
+        .text-medium-bold {
+            font-family: var(--font-family-inter);
+            font-weight: var(--font-bold);
+            font-size: var(--font-size-medium);
+        }
+        .text-large-extrabold {
+            font-family: var(--font-family-inter);
+            font-weight: var(--font-extrabold);
+            font-size: var(--font-size-large);
+        }
+    */
 }
 
 * {
@@ -14,7 +48,6 @@
 }
 
 body {
-    font-family: 'Inter', Regular;
     background-color: var(--background-light);
     color: var(--text-primary);
 }

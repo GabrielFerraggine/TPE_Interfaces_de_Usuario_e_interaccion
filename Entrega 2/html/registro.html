@@ -14,30 +14,36 @@
       <h2>Registrarse</h2>
       <form id="formRegistroCampos">
         <div class="input-box">
-          <input type="text" id="nombreCompletoRegistro" placeholder="Apellido y Nombre">
+          <p class="placeholder">Email *</p>
+          <input type="text" id="nombreCompletoRegistro">
           <p id="nombreCompletoRegistroError"></p>
         </div>
         <div class="input-box">
-          <input type="text" id="nicknameRegistro" placeholder="Nickname">
+           <p class="placeholder">Nickname *</p>
+          <input type="text" id="nicknameRegistro">
           <p id="nicknameRegistroError"></p>
         </div>
 
         <div class="input-box">
-          <input type="text" id="edadRegistro" placeholder="Edad">
+           <p class="placeholder">Edad *</p>
+          <input type="text" id="edadRegistro">
           <p id="edadRegistroError"></p>
         </div>
 
         <div class="input-box">
-          <input type="email" id="mailRegistro" placeholder="Mail">
+           <p class="placeholder">Mail *</p>
+          <input type="email" id="mailRegistro">
           <p id="mailRegistroError"></p>
         </div>
 
         <div class="input-box">
-          <input type="password" id="passwordRegistro" placeholder="Contraseña">
+          <p class="placeholder">Contraseña *</p>
+          <input type="password" id="passwordRegistro">
           <p id="passwordRegistroError"></p>
         </div>
 
         <div class="input-box">
+          <p class="placeholder">Confirmar contraseña *</p>
           <input type="password" id="confirmarPasswordRegistro" placeholder="Confirmar contraseña">
           <p id="confirmarPasswordRegistroError"></p>
         </div>
@@ -54,10 +60,16 @@
 
         <button class="btn" id="btn_registrarse">Registrarse</button>
       </form>
+      
+      <div class="line-container">
+        <div class="line"></div>
+        <div class="circle">O</div>
+        <div class="line"></div>
+      </div>
 
       <div class="social-login">
         <button class="google"><img src="../img/Google.png" alt="Google"></button>
-        <button class="facebook"><img src="../img/FacebookLogin.png" alt="Facebook" style="width:32px;height:32px;"></button>
+        <button class="facebook"><img src="../img/FacebookLogin.png" alt="Facebook"></button>
       </div>
 
       <p class="login-text">¿Ya tienes cuenta? <a href="#" id="btnLogin">Inicia Sesión</a></p>
@@ -65,16 +77,18 @@
 
     <!-- Formulario Login -->
     <div class="form-box hidden" id="formLogin">
-      <div class="close-btn">&times;</div>
+      <div class="close-btn"><img src="../img/CruzCancelar.png" alt="Volver al menu"></div>
       <h2>Inicia Sesión</h2>
       <form id="formLoginCampos">
         <div class="input-box">
-          <input type="email" id="emailLogin" placeholder="Email">
+           <p class="placeholder">Email *</p>
+          <input type="email" id="emailLogin">
           <p id="emailLoginError"></p>
         </div>
 
         <div class="input-box">
-          <input type="password" id="passwordLogin" placeholder="Contraseña">
+           <p class="placeholder">Contraseña *</p>
+          <input type="password" id="passwordLogin">
           <p id="passwordLoginError"></p>
         </div>
 
@@ -90,10 +104,14 @@
 
         <button class="btn">Iniciar Sesión</button>
       </form>
-
+      <div class="line-container">
+        <div class="line"></div>
+        <div class="circle">O</div>
+        <div class="line"></div>
+      </div>
       <div class="social-login">
-  <button class="google"><img src="../img/Google.png" alt="Google" style="width:32px;height:32px;"></button>
-  <button class="facebook"><img src="../img/FacebookLogin.jpg" alt="Facebook" style="width:32px;height:32px;"></button>
+  <button class="google"><img src="../img/Google.png" alt="Google"></button>
+  <button class="facebook"><img src="../img/FacebookLogin.png" alt="Facebook"></button>
       </div>
 
       <p class="login-text">¿No tienes cuenta? <a href="#" id="btnRegistro">Registrarse</a></p>
