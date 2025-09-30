@@ -24,27 +24,66 @@ document.querySelectorAll(".close-btn").forEach(btn => {
 });
 
 //Validacion del form de login y redirige si todo es correcto
+
 document.getElementById("formLoginCampos").addEventListener("submit", function (event) {
   event.preventDefault();
-  //Limpia mensajes de error
+  // Limpiar mensajes de error
   document.getElementById("emailLoginError").textContent = "";
   document.getElementById("passwordLoginError").textContent = "";
   let captchaError = document.getElementById("captchaLoginError");
   if (captchaError) captchaError.textContent = "";
+
   // Campos del formulario
   let email = document.getElementById("emailLogin").value.trim();
   let password = document.getElementById("passwordLogin").value.trim();
   let valido = true;
-  //Validaciones
-  if (email === "" || !email.includes("@") || !email.endsWith(".com")) {
-    document.getElementById("emailLoginError").textContent = "El email debe ser válido, contener @ y finalizar con '.com'";
-    valido = false;
-  }
-  if (password === "" || password.length < 6) {
-    document.getElementById("passwordLoginError").textContent = "La contraseña debe tener al menos 6 caracteres.";
-    valido = false;
-  }
-  //Validación del captcha
+
+  // Validaciones y animación de placeholders
+  const camposLogin = [
+    {
+      value: email,
+      errorId: "emailLoginError",
+      errorMsg: "El email debe ser válido, contener @ y finalizar con '.com'",
+      placeholderText: "Email *"
+    },
+    {
+      value: password,
+      errorId: "passwordLoginError",
+      errorMsg: "La contraseña debe tener al menos 6 caracteres.",
+      placeholderText: "Contraseña *"
+    }
+  ];
+
+  camposLogin.forEach((campo, idx) => {
+    let error = false;
+    let errorText = "";
+    if (idx === 0 && (campo.value === "" || !campo.value.includes("@") || !campo.value.endsWith(".com"))) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 1 && (campo.value === "" || campo.value.length < 6)) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (error) {
+      // Solo mostrar el error en el placeholder
+      let inputBox = document.getElementById(campo.errorId).parentElement;
+      let placeholder = inputBox.querySelector('.placeholder');
+      if (placeholder) {
+        let originalText = placeholder.textContent;
+        placeholder.textContent = errorText;
+        placeholder.style.color = 'red';
+        setTimeout(() => {
+          placeholder.textContent = originalText;
+          placeholder.style.color = '';
+        }, 10000);
+      }
+      document.getElementById(campo.errorId).textContent = "";
+      valido = false;
+    }
+  });
+
+  // Validación del captcha
   const captchaCheck = document.querySelector('#formLoginCampos .captcha-check');
   if (!captchaCheck.checked) {
     if (!captchaError) {
@@ -55,6 +94,7 @@ document.getElementById("formLoginCampos").addEventListener("submit", function (
     captchaError.textContent = 'Debes marcar el captcha para continuar.';
     valido = false;
   }
+
   if (valido) {
     window.location.href = "../index.html";
   }
@@ -63,7 +103,7 @@ document.getElementById("formLoginCampos").addEventListener("submit", function (
 //Validaciones del form de registro y redirige a la pagina principal si todo es correcto
 document.getElementById("formRegistroCampos").addEventListener("submit", function (event) {
   event.preventDefault();
-  //Limpiar mensajes de error
+  // Limpiar mensajes de error
   document.getElementById("nombreCompletoRegistroError").textContent = "";
   document.getElementById("nicknameRegistroError").textContent = "";
   document.getElementById("edadRegistroError").textContent = "";
@@ -73,7 +113,7 @@ document.getElementById("formRegistroCampos").addEventListener("submit", functio
   let captchaError = document.getElementById("captchaRegistroError");
   if (captchaError) captchaError.textContent = "";
 
-  //campos del formulario
+  // campos del formulario
   let nombre = document.getElementById("nombreCompletoRegistro").value.trim();
   let nickname = document.getElementById("nicknameRegistro").value.trim();
   let edad = document.getElementById("edadRegistro").value.trim();
@@ -82,37 +122,103 @@ document.getElementById("formRegistroCampos").addEventListener("submit", functio
   let confirmarPassword = document.getElementById("confirmarPasswordRegistro").value.trim();
   let valido = true;
 
-  //Validaciones
-  if (nombre === "") {
-    document.getElementById("nombreCompletoRegistroError").textContent = "El nombre y apellido es obligatorio.";
-    valido = false;
-  }
-  if (nickname === "" || nickname.length < 3) {
-    document.getElementById("nicknameRegistroError").textContent = "Debe tener al menos 3 caracteres en el nickname.";
-    valido = false;
-  }
-  if (edad === "" || isNaN(edad) || Number(edad) < 3 || Number(edad) > 100) {
-    document.getElementById("edadRegistroError").textContent = "La edad debe tener valor y debe estar entre 3 y 100 años.";
-    valido = false;
-  }
-  if (mail === "" || !mail.includes("@") || !mail.endsWith(".com")) {
-    document.getElementById("mailRegistroError").textContent = "El mail debe ser válido, contener @ y finalizar con '.com'";
-    valido = false;
-  }
-  if (password === "" || password.length < 6) {
-    document.getElementById("passwordRegistroError").textContent = "La contraseña debe tener al menos 6 caracteres.";
-    valido = false;
-  }
-  if (confirmarPassword.length < 6 || confirmarPassword !== password) {
-    document.getElementById("confirmarPasswordRegistroError").textContent = "La contraseña debe tener al menos 6 caracteres y coincidir con la anterior.";
-    valido = false;
-  }
+  // Validaciones y animación de placeholders
+  const campos = [
+    {
+      value: nombre,
+      errorId: "nombreCompletoRegistroError",
+      placeholderClass: "nombreCompletoRegistro",
+      errorMsg: "El nombre y apellido es obligatorio.",
+      placeholderText: "Email *"
+    },
+    {
+      value: nickname,
+      errorId: "nicknameRegistroError",
+      placeholderClass: "nicknameRegistro",
+      errorMsg: "Debe tener al menos 3 caracteres en el nickname.",
+      placeholderText: "Nickname *"
+    },
+    {
+      value: edad,
+      errorId: "edadRegistroError",
+      placeholderClass: "edadRegistro",
+      errorMsg: "La edad debe tener valor y debe estar entre 3 y 100 años.",
+      placeholderText: "Edad *"
+    },
+    {
+      value: mail,
+      errorId: "mailRegistroError",
+      placeholderClass: "mailRegistro",
+      errorMsg: "El mail debe ser válido, contener @ y finalizar con '.com'",
+      placeholderText: "Mail *"
+    },
+    {
+      value: password,
+      errorId: "passwordRegistroError",
+      placeholderClass: "passwordRegistro",
+      errorMsg: "La contraseña debe tener al menos 6 caracteres.",
+      placeholderText: "Contraseña *"
+    },
+    {
+      value: confirmarPassword,
+      errorId: "confirmarPasswordRegistroError",
+      placeholderClass: "confirmarPasswordRegistro",
+      errorMsg: "La contraseña debe tener al menos 6 caracteres y coincidir con la anterior.",
+      placeholderText: "Confirmar contraseña *"
+    }
+  ];
+
+  let animar = false;
+  campos.forEach((campo, idx) => {
+    let error = false;
+    let errorText = "";
+    if (idx === 0 && campo.value === "") {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 1 && (campo.value === "" || campo.value.length < 3)) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 2 && (campo.value === "" || isNaN(campo.value) || Number(campo.value) < 3 || Number(campo.value) > 100)) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 3 && (campo.value === "" || !campo.value.includes("@") || !campo.value.endsWith(".com"))) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 4 && (campo.value === "" || campo.value.length < 6)) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (idx === 5 && (campo.value.length < 6 || campo.value !== password)) {
+      error = true;
+      errorText = campo.errorMsg;
+    }
+    if (error) {
+      // Solo mostrar el error en el placeholder
+      let inputBox = document.getElementById(campo.errorId).parentElement;
+      let placeholder = inputBox.querySelector('.placeholder');
+      if (placeholder) {
+        let originalText = placeholder.textContent;
+        placeholder.textContent = errorText;
+        placeholder.style.color = 'red';
+        animar = true;
+        setTimeout(() => {
+          placeholder.textContent = originalText;
+          placeholder.style.color = '';
+        }, 10000);
+      }
+      document.getElementById(campo.errorId).textContent = "";
+      valido = false;
+    }
+  });
 
   // Validación del captcha
   const captchaCheck = document.querySelector('#formRegistroCampos .captcha-check');
   if (!captchaCheck.checked) {
     if (!captchaError) {
-      // Si no existe el <p>, lo crea y lo pone después del captcha
       captchaError = document.createElement('p');
       captchaError.id = 'captchaRegistroError';
       captchaCheck.parentElement.parentElement.appendChild(captchaError);

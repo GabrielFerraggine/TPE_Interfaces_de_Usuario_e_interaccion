@@ -2,6 +2,7 @@
 :root {
   --font-family-inter: 'Inter', sans-serif;
 
+  /*Densidad/peso*/
   --font-regular: 400;
   --font-bold: 700;
   --font-extrabold: 800;
@@ -13,7 +14,7 @@
   --font-size-xlarge: 32px;
   --font-size-xxlarge: 48px;
 
-  /*Ejemplos de clases tipográficas
+  /*Ejemplos de clases tipograficas
 
     .text-small {
       font-family: var(--font-family-inter);
@@ -37,6 +38,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  --font-family-inter: 'Inter', sans-serif;
 }
 
 body {
@@ -44,7 +46,31 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: url("../img/Fondo_registro_login.jpeg") no-repeat center center/cover;
+  opacity: 0.75;
+  z-index: -1;
+}
+
+p {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-medium);
+}
+
+h2 {
+    font-family: var(--font-family-inter);
+    font-weight: var(--font-extrabold);
+    font-size: var(--font-size-xxlarge);
 }
 
 .container {
@@ -68,13 +94,15 @@ body {
   align-items: center;
 }
 
+input .colorInput{
+  color: #d9d9d9;
+}
 .form-box {
   background: #13252E;
-  color: #d9d9d9;
-  padding: 30px;
+  color: #ffffff;
   border-radius: 15px;
   width: 700px;
-  height: 900px;
+  height: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +111,6 @@ body {
 
 .form-box h2 {
   text-align: center;
-  margin-bottom: 20px;
   width: 380px;
 }
 .close-btn img {
@@ -167,7 +194,7 @@ body {
   padding: 12px;
   border: none;
   border-radius: 8px;
-  background: #d35400;
+  background: #FF6B35;
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -176,7 +203,7 @@ body {
 }
 
 .btn:hover {
-  background: #e67e22;
+  background: #BE4E25
 }
 
 .social-login {
@@ -223,10 +250,12 @@ body {
   font-size: 14px;
   width: 380px;
   margin: 0 auto;
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
 }
 
 .login-text a {
-  color: #ff5722;
   text-decoration: none;
   font-weight: bold;
 }
@@ -262,4 +291,24 @@ body {
   margin: 0 10px;
   font-family: sans-serif;
   font-weight: bold;
+}
+
+#btn_registrarse {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
+}
+
+#btn_login {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
+}
+
+#btnRegistro {
+  color: #FF6B35;
+}
+
+#btnLogin {
+  color: #FF6B35;
 }
