@@ -58,31 +58,55 @@ ul {
     left: 0;
     height: 100vh;
     z-index: 1100;
+    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.4s cubic-bezier(0.4,0,0.2,1); /*animacion menu hamburgueda*/
 }
-/*Ajustar tamaño de los íconos de la barra lateral*/
-.sidebar-nav img {
-    width: 44px;
-    height: 44px;
+
+.sidebar.expanded {
+    width: 200px; 
+    align-items: flex-start;
+    padding-left: 10px;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 .sidebar-nav ul li {
-    margin: 30px 0;
-    text-align: center;
+    margin: 20px 0;
 }
 
-.sidebar-logo img{
+.sidebar-nav a {
+    display: flex;
+    align-items: center;  
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: 5px 8px;
+    line-height: 1; 
+}
+
+.sidebar-nav a img {
     width: 44px;
     height: 44px;
-    object-fit: contain;
+    flex-shrink: 0;
 }
-.sidebar-nav li a img {
-    cursor: pointer;
-    transition: filter 0.2s, transform 0.2s;
+
+/* Texto oculto por defecto */
+.sidebar-nav a span {
+    display: none;
+    margin-left: 12px;
+    font-size: 1rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    line-height: 1;
 }
-.sidebar-nav li a:hover img {
-    filter: brightness(1.2) drop-shadow(0 0 4px #f3732f);
-    transform: scale(1.08);
+
+.sidebar.expanded .sidebar-nav a span {
+    display: inline-block;
 }
+
 #menuHamburguesaBtn {
    background: none;
    border: none;
@@ -90,6 +114,24 @@ ul {
    margin-top: 8px;
    cursor: pointer;
 }
+
+.sidebar-logo img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.sidebar-nav li a img {
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+}
+
+.sidebar-nav li a:hover img {
+    filter: brightness(1.2) drop-shadow(0 0 4px #f3732f);
+    transform: scale(1.08);
+}
+
+
 
 
 /* ==================== HEADER ==================== */
@@ -150,6 +192,62 @@ ul {
     object-fit: cover;
     cursor: pointer;
 }
+
+/* Menú desplegable */
+.dropdown {
+    position: absolute;
+    top: 56px; /* justo debajo del header */
+    right: 0; /* se pega al borde derecho */
+    background: var(--background-light);
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    min-width: 220px; /* ancho fijo (puedes ajustarlo) */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: slideDown 0.4s ease;
+    z-index: 2000;
+}
+
+/* Botones */
+.dropdown button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    text-align: left;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.dropdown button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Íconos como imágenes */
+.dropdown button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Ocultar por defecto */
+.hidden {
+    display: none;
+}
+
+/* Animación */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 
 
 /* ==================== SLIDER PRINCIPAL ==================== */
@@ -227,14 +325,12 @@ ul {
     position: absolute; 
     top: 0;
     left: 50%;
-    
-    transform: translateX(-50%) scale(0.6);
+    transform: translateX(-50%) scale(0.7);
     opacity: 0;
-
     text-align: center;
     background-color: var(--background-dark); 
     border-radius: 15px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55), opacity 0.5s ease, box-shadow 0.5s ease; /*animacion carrusrl*/
 }
 
 .slide img {

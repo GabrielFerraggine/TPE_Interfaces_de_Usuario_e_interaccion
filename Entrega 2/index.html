@@ -1,47 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/home.css">
     <title>Valhalla Games</title>
 </head>
+
 <body>
     <div class="main-container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
                 <button id="menuHamburguesaBtn">
-                    <img src="img/Menu Hamburguesa.png" alt="Logo Valhalla Games">
+                    <img id="menuIcon" src="img/Menu Hamburguesa.png" alt="Abrir menú">
                 </button>
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#"><img src="img/Accion.png" alt="Acción"></a></li>
-                    <li><a href="#"><img src="img/aventura.png" alt="Aventura"></a></li>
-                    <li><a href="#"><img src="img/Terror.png" alt="Terror"></a></li>
-                    <li><a href="#"><img src="img/Deportes.png" alt="Deportes"></a></li>
-                    <li><a href="#"><img src="img/rompecabezas.png" alt="Puzzle"></a></li>
-                    <li><a href="#"><img src="img/Barcos.png" alt="Barcos"></a></li>
-                    <li><a href="#"><img src="img/Musica.png" alt="Música"></a></li>
-                    <li><a href="#"><img src="img/Tower Defense.png" alt="Tower-defense"></a></li>
-                    <li><a href="#"><img src="img/Vestir.png" alt="Vestir"></a></li>
+                    <li><a href="#"><img src="img/Accion.png" alt="Acción"><span>Acción</span></a></li>
+                    <li><a href="#"><img src="img/aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="img/Terror.png" alt="Terror"><span>Terror</span></a></li>
+                    <li><a href="#"><img src="img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
+                    <li><a href="#"><img src="img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
+                    <li><a href="#"><img src="img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
+                    <li><a href="#"><img src="img/Musica.png" alt="Música"><span>Música</span></a></li>
+                    <li><a href="#"><img src="img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a>
+                    </li>
+                    <li><a href="#"><img src="img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
         </aside>
+
         <div class="content-wrapper">
             <header class="main-header">
                 <div class="logo-header">
                     <h1>Valhalla Games</h1>
                     <img src="img/imgPag.png" alt="Valhalla Games Logo">
                 </div>
+
                 <div class="search-bar">
                     <input type="text" placeholder="¿Qué vas a jugar hoy?">
                 </div>
+
                 <div class="user-profile">
                     <span>Player777</span>
-                    <img src="img/player.png" alt="Avatar del jugador">
+                    <img id="userAvatar" src="img/player.png" alt="Avatar del jugador">
+
+                    <!-- Menú desplegable -->
+                    <div id="dropdownMenu" class="dropdown hidden">
+                        <button class="close-btn">
+                            <img src="img/closeUser.png" alt="Volver icono"> Volver
+                        </button>
+                        <button>
+                            <img src="img/icon-user.png" alt="Perfil icono"> Perfil
+                        </button>
+                        <button>
+                            <img src="img/settings.png" alt="Configuración icono"> Configuración
+                        </button>
+                        <button>
+                            <img src="img/logout.png" alt="Cerrar sesión icono"> Cerrar sesión
+                        </button>
+                    </div>
                 </div>
+
             </header>
+
             <main class="main-content">
                 <div class="trending-header">
                     <img src="img/tendencia.png" alt="Icono Juegos en tendencia">
@@ -192,4 +216,5 @@
     </div>
     <script src="js/home.js"></script>
 </body>
+
 </html>
