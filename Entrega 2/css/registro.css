@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
 :root {
   --font-family-inter: 'Inter', sans-serif;
 
@@ -47,6 +48,8 @@ body {
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  font-family: var(--font-family-inter);
+
 }
 
 body::before {
@@ -68,9 +71,9 @@ p {
 }
 
 h2 {
-    font-family: var(--font-family-inter);
-    font-weight: var(--font-extrabold);
-    font-size: var(--font-size-xxlarge);
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-extrabold);
+  font-size: var(--font-size-xxlarge);
 }
 
 .container {
@@ -94,9 +97,10 @@ h2 {
   align-items: center;
 }
 
-input .colorInput{
+input .colorInput {
   color: #d9d9d9;
 }
+
 .form-box {
   background: #13252E;
   color: #ffffff;
@@ -113,6 +117,7 @@ input .colorInput{
   text-align: center;
   width: 380px;
 }
+
 .close-btn img {
   width: 50px;
   height: 75px;
@@ -143,6 +148,7 @@ input .colorInput{
   text-align: left;
   width: 100%;
 }
+
 .input-box input {
   width: 380px;
   padding: 10px 40px 10px 10px;
@@ -229,8 +235,15 @@ input .colorInput{
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .btn:hover {
@@ -256,11 +269,13 @@ input .colorInput{
   align-items: center;
   justify-content: center;
 }
+
 .facebook {
   width: 0px;
   height: 0px;
 }
-.social-login .facebook img{
+
+.social-login .facebook img {
   width: 120px;
   height: 120px;
   margin-left: 30px;
@@ -270,10 +285,11 @@ input .colorInput{
   width: 0px;
   height: 0px;
 }
-.social-login .google img{
+
+.social-login .google img {
   width: 60px;
   height: 60px;
-  margin-right: 30px ;
+  margin-right: 30px;
 }
 
 .login-text {

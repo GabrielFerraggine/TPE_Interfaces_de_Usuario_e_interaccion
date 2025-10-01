@@ -50,7 +50,6 @@
 body {
     background-color: var(--background-light);
     color: var(--text-primary);
-    font-family: var(--font-family-inter);
 }
 
 a {
@@ -281,247 +280,245 @@ ul {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ==================== BREADCRUMB ==================== */
+.breadcrumb {
+    margin: 80px 440px 20px auto;
+    max-width: 1200px;  
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-inter);
+    border-radius: 8px;
+    display: relative;
+}
 
+.breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
 
-/* ==================== SLIDER PRINCIPAL ==================== */
+.breadcrumb a:hover {
+    color: var(--primary-color);
+}
 
-.trending-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 145px;
+.breadcrumb .separator {
+    margin: 0 8px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.breadcrumb-icon {
+    width: 32px;
+    height: 41px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* ==================== CARD PRINCIPAL ==================== */
+.main-card {
+    width: 1440px;
+    margin: 30px auto;
+    background: var(--card-background);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     position: relative;
-    top: 70px;
 }
-
-.trending-header img{
-    width: 80px;
-    height: 80px;
-    margin-top: 10px;
+.main-card img {
+    width: 100%;
+    height: 790px;
+    object-fit: cover;
+    display: block;
 }
-
-.trending-header h2{
-    font-size: 32px;
-    margin-top: 20px;
-}
-
-.game-slider {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 90px 0 10px;
-    gap: 20px;
+.share-btn {
+    background: var(--primary-color);
+    border: none;
+    padding: 12px 25px;
+    font-weight: var(--font-bold);
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 15px;
     
 }
-
-
-.active-slide:hover {
-    transform: scale(1.15) translateX(-50%);
-    box-shadow: 0 0px 85px rgba(0, 102, 255, 0.6);
-    z-index: 20;
+.share-btn:hover {
+    background: #e65d2d;
 }
 
-.slide {
-    position: relative;
+/* ==================== DESCRIPCIÓN ==================== */
+.game-description {
+    max-width: 1440px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--card-background);
+    border-radius: 16px;
+    font-family: var(--font-family-inter);
 }
-
-.play-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0; /*se oculta por defecto*/
-    transition: opacity 0.3s ease;
-    z-index: 5;
-}
-
-.play-btn img {
-    width: 120px;
-    height: auto;
-}
-
-.active-slide:hover .play-btn {
-    opacity: 1;
-}
-
-.carousel-container {
-    position: relative;
-    width: 1000px; 
-    height: 380px; 
-    perspective: 1000px;
-    transform-style: preserve-3d;
-}
-
-
-.slide {
-    width: 560px;
-    position: absolute; 
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) scale(0.7);
-    opacity: 0;
+.game-description h2 {
     text-align: center;
-    background-color: var(--background-dark); 
-    border-radius: 15px;
-    transition: transform 0.5s cubic-bezier(0.68,-0.55,0.27,1.55), opacity 0.5s ease, box-shadow 0.5s ease; /*animacion carrusrl*/
+    font-size: var(--font-size-xlarge);
+    font-weight: var(--font-extrabold);
+    margin-bottom: 25px;
 }
-
-.slide img {
+.desc-content {
+    display: flex;
+    gap: 30px;
+}
+.desc-content .text {
+    flex: 2;
+    font-size: var(--font-size-medium);
+    line-height: 1.7;
+}
+.desc-content ul {
+    margin-top: 15px;
+}
+.desc-content ul li {
+    margin-bottom: 12px;
+}
+.desc-content .images {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.desc-content img {
+    border-radius: 12px;
     width: 100%;
-    border-radius: 15px;
-    margin-bottom: 10px;
+    object-fit: cover;
 }
 
-.slide h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    padding: 0 10px 15px;
-}
-
-.carousel-arrow {
-    position: absolute;      
-    top: 50%;                 
-    transform: translateY(-50%); 
-    background: none;
-    color: #FFBFA7;
-    border: none;
-    cursor: pointer;
-    font-size: 2.5rem;
-    z-index: 20;
-}
-
-.carousel-arrow svg {
-    width: 54px;
-    height: 94px;
+.desc-content .images img {
+    border-radius: 12px;
+    width: 100%;
+    height: 280px;   /* altura fija */
+    object-fit: cover; /* recorta la imagen sin deformarla */
 }
 
 
-.carousel-arrow.left {
-    left: 80px; 
-    top: 180px;
+/* ==================== CÓMO SE JUEGA ==================== */
+.how-to-play {
+    max-width: 1440px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--card-background);
+    border-radius: 16px;
+    font-family: var(--font-family-inter);
+}
+.how-to-play h3 {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-extrabold);
+    text-align: center;
+    margin-bottom: 20px;
+}
+.how-to-play ol {
+    margin: 15px 0 20px 25px;
+    line-height: 1.8;
+}
+.how-to-play p {
+    text-align: center;
 }
 
-.carousel-arrow.right {
-    right: 80px; 
-    top: 180px;
+#link-ayuda {
+    color: #3366BB;
 }
 
-.game-slider {
-    position: relative;
+/* ==================== COMENTARIOS ==================== */
+.comments {
+    max-width: 1440px;
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--card-background);
+    border-radius: 16px;
+    font-family: var(--font-family-inter);
 }
-
-
-
-
-
-/* ==================== CATEGORÍAS DE JUEGOS ==================== */
-.game-category {
-    margin-bottom: 55px;
+.comments h3 {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-extrabold);
+    text-align: center;
+    margin-bottom: 20px;
 }
-
-.game-category h2 {
-    font-size: 32px;
+.comment-box {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-left: 105px;
-    margin-bottom: 2px;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+.comment-box input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: var(--font-size-medium);
+}
+.send-btn {
+    background: var(--primary-color);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-primary);
+}
+.send-btn:hover {
+    background: #e65d2d;
+}
+.comments h4 {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-bold);
+    margin-bottom: 15px;
+}
+.comment {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.comment:last-child {
+    border-bottom: none;
+}
+.comment img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 5px; 
+    background: #2c3e50; 
+    object-fit: cover;
 }
 
-.game-category img{
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
+.avatar{
+    width: 50px;
+    height: 50px;
 }
 
-.game-category img.puzzle {
-    width: 65px; 
-    height: 65px;
+.comment-body .username {
+    font-weight: bold;
+    margin-bottom: 4px;
 }
 
-
-.game-category h2 span {
-    position: relative;
-    top: -7px;   
+.comment-body .text {
+    font-size: var(--font-size-medium);
+    margin-bottom: 8px;
 }
 
-.game-carousel {
+.comment-actions {
     display: flex;
     gap: 20px;
-    justify-content: center;
+    font-size: 14px;
 }
-
-.game-carousel::-webkit-scrollbar-track {
-    background: var(--background-light);
-    border-radius: 4px;
-}
-.game-carousel::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-.game-carousel::-webkit-scrollbar-thumb:hover {
-    background: #d15c1f;
-}
-
-.game-card {
-    position: relative;
-    width: 257px;
-    cursor: pointer;
-    background-color: #172a3a;
-    border-radius: 10px;
-}
-
-.game-card img {
-    width: 257px;
-    height: 247px;
-    object-fit: cover; /*mantiene la imagen en su proporsion y la recorta si es necesario*/
-    border-radius: 10px;
-    display: block; /*Elimina espacios debajo de la imagen*/
-    transition: transform 0.3s ease;
-}
-
-.game-title {
-    font-weight: bold;
-    margin-top: 8px;
-    padding-left: 4px;
-    position: relative;
-    top: 10px;
-    max-width: 150px; /* Ajusta según el espacio disponible */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.game-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.game-card:hover {
-  transform: scale(1.05); 
-  box-shadow: 0 0px 25px rgba(0, 102, 255, 0.6);
-}
-
-
-
-.play-button {
-    position: relative;
-    bottom: 10px;
-    left: 80%;
-    transform: translateX(-50%);
-    background-color: var(--primary-color);
-    color: var(--text-primary);
+.comment-actions button {
+    background: none;
     border: none;
-    border-radius: 20px;
-    padding: 8px 30px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: 0.2s;
+    min-width: 30px;
 }
-
-.play-button:hover {
-    background-color: #d15c1f;
+.comment-actions button:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
 }
-
+.comment-actions span {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
 
 
 /* ==================== FOOTER ==================== */

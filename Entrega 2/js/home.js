@@ -290,7 +290,6 @@ menuBtn.addEventListener("click", () => {
     menuIcon.src = "img/close.png"; // icono de cerrar
   } else {
     menuIcon.src = "img/Menu Hamburguesa.png"; // icono hamburguesa
-    menuIcon.alt = "Abrir menú";
   }
 });
 
