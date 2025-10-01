@@ -240,9 +240,8 @@ async function init() {
     //recomendados usa la funcion de aleatorios
     const randomGames = getRandomGames(juegos, 6);
     showGames(randomGames, 'gameListRecommended', 6);
-
     showGames(filterGames(juegos, 'Adventure'), 'gameListAdventure', 6);
-    showGames(filterGames(juegos, 'Puzzle'), 'gameListPuzzle', 6);
+    showGames(filterGames(juegos, 'Shooter'), 'gameListPuzzle', 6);
 
 }
 

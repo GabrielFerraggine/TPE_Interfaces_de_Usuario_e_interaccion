@@ -227,17 +227,37 @@ ul {
     cursor: pointer;
 }
 
+/* Icono de búsqueda */
+.search-bar {
+  position: relative;
+  width: 436px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 35px 10px 10px;
+}
+
+.search-bar .icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+
 /* Menú desplegable */
 .dropdown {
     position: absolute;
-    top: 56px; /* justo debajo del header */
-    right: 0; /* se pega al borde derecho */
+    top: 56px;
+    right: 0;
     background: var(--background-dark);
     border-radius: 8px 0 0 8px;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    min-width: 220px; /* ancho fijo (puedes ajustarlo) */
+    min-width: 220px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     animation: slideDown 0.4s ease;
     z-index: 2000;
@@ -270,7 +290,6 @@ ul {
     object-fit: contain;
 }
 
-/* Ocultar por defecto */
 .hidden {
     display: none;
 }
