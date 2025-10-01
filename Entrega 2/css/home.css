@@ -231,7 +231,7 @@ ul {
     position: absolute;
     top: 56px; /* justo debajo del header */
     right: 0; /* se pega al borde derecho */
-    background: var(--background-light);
+    background: var(--background-dark);
     border-radius: 8px 0 0 8px;
     display: flex;
     flex-direction: column;
@@ -279,7 +279,6 @@ ul {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 
 
 

@@ -96,7 +96,16 @@ document.getElementById("formLoginCampos").addEventListener("submit", function (
   }
 
   if (valido) {
-    window.location.href = "../index.html";
+    const btn = document.getElementById("btn_login");
+    btn.classList.add("loading");
+    setTimeout(() => {
+      btn.classList.remove("loading");
+      btn.classList.add("success");
+      btn.textContent = "";
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 500);
+    }, 1200);
   }
 });
 
@@ -226,8 +235,17 @@ document.getElementById("formRegistroCampos").addEventListener("submit", functio
     captchaError.textContent = 'Debes marcar el captcha para continuar.';
     valido = false;
   }
-
+  //si es valido anima un boton de exito y redirige a la pagina principal
   if (valido) {
-    window.location.href = "../index.html";
+    const btn = document.getElementById("btn_registrarse");
+    btn.classList.add("loading");
+    setTimeout(() => {
+      btn.classList.remove("loading");
+      btn.classList.add("success");
+      btn.textContent = "";
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 500);
+    }, 1200);
   }
 });

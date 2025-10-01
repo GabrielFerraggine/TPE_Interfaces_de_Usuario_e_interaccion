@@ -294,6 +294,13 @@ menuBtn.addEventListener("click", () => {
   }
 });
 
+//Lleva al registro al cerrar sesion
+document.querySelectorAll("#logoutBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    window.location.href = "html/registro.html";
+  });
+});
+
 
 
 

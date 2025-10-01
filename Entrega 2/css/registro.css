@@ -102,7 +102,7 @@ input .colorInput{
   color: #ffffff;
   border-radius: 15px;
   width: 700px;
-  height: 1000px;
+  height: 930px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,7 +129,7 @@ input .colorInput{
 
 .input-box {
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   width: 380px;
   display: flex;
   flex-direction: column;
@@ -200,6 +200,37 @@ input .colorInput{
   cursor: pointer;
   display: block;
   margin: 0 auto 0 auto;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.btn.loading {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 0;
+  color: transparent;
+}
+
+.btn.success {
+  background: #28a745;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn.success::after {
+  content: "→";
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .btn:hover {
@@ -267,7 +298,7 @@ input .colorInput{
 .line-container {
   display: flex;
   align-items: center;
-  padding-top: 15px;
+  padding-top: 10px;
   width: 80%;
   max-width: 600px;
 }
