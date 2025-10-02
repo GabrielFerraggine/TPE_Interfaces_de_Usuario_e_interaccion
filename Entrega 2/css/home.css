@@ -227,6 +227,10 @@ ul {
     cursor: pointer;
 }
 
+#userAvatar {
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-large);
+}
 /* Icono de búsqueda */
 .search-bar {
   position: relative;
@@ -245,7 +249,10 @@ ul {
   transform: translateY(-50%);
   font-size: 18px;
 }
-
+#dropdownMenu {
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-large);
+}
 
 /* Menú desplegable */
 .dropdown {
@@ -392,9 +399,11 @@ ul {
 }
 
 .slide h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
     padding: 0 10px 15px;
+    font-family: var(--font-family-inter);
+    font-weight: var(--font-regular);
+    font-size: var(--font-size-medium);
+        
 }
 
 .carousel-arrow {
@@ -468,6 +477,9 @@ ul {
     display: flex;
     gap: 20px;
     justify-content: center;
+    font-weight: var(--font-regular);
+    font-size: var(--font-size-large);
+    
 }
 
 .game-carousel::-webkit-scrollbar-track {
@@ -479,14 +491,14 @@ ul {
     border-radius: 4px;
 }
 .game-carousel::-webkit-scrollbar-thumb:hover {
-    background: #d15c1f;
+    background: var(--primary-color);
 }
 
 .game-card {
     position: relative;
     width: 257px;
     cursor: pointer;
-    background-color: #172a3a;
+    background-color:var(--background-dark);
     border-radius: 10px;
 }
 
@@ -531,15 +543,65 @@ ul {
     border: none;
     border-radius: 20px;
     padding: 8px 30px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    overflow: hidden;
+    transition: background-color 0.3s, width 0.3s, border-radius 0.3s;
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-medium);
 }
 
 .play-button:hover {
-    background-color: #d15c1f;
+    background-color:var(--primary-color);
 }
+
+.play-button.loading {
+    width: 48px;
+    padding: 8px 0;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: transparent;
+    position: relative;
+}
+
+.play-button.success {
+    width: 48px;
+    padding: 8px 0;
+    border-radius: 50%;
+    background-color: #2ecc40;
+    color: transparent ;
+    position: relative;
+}
+
+.play-button.success::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    background: none;
+    border: none;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+.play-button.success::after {
+    content: '';
+    border: solid white;
+    border-width: 0 4px 4px 0;
+    display: inline-block;
+    padding: 4px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 24px;
+}
+
 
 
 
@@ -579,7 +641,7 @@ ul {
     border: none;
     padding: 10px;
     border-radius: 5px 0 0 5px;
-    background-color: #2c3e50;
+    background-color:var(--background-light);
     color: var(--text-primary);
 }
 

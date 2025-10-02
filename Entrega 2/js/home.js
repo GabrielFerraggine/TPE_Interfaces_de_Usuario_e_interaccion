@@ -1,3 +1,21 @@
+// Animación de éxito para el botón de jugar los carruseles (debe ser refinada)
+function addPlayButtonAnimation() {
+    document.querySelectorAll('.play-button').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            btn.classList.add('loading');
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                btn.classList.add('success');
+                btn.textContent = '';
+                setTimeout(() => {
+                    btn.classList.remove('success');
+                    btn.textContent = 'Jugar';
+                }, 500);
+            }, 1200);
+        });
+    });
+}
 // Muestra los juegos recibidos en un array en el HTML
 function showGames(juegosArray) {
     const gameList = document.getElementById('gameList');
@@ -82,6 +100,7 @@ function showGames(juegosArray, seccionMostrar, limite) {
         card.innerHTML = content;
         gameList.appendChild(card);
     });
+    addPlayButtonAnimation();
 }
 
 //filtra los juegos, es tan largo ya que toma el juego escrito en minuscula o mayuscula y si el genero es un array o un objeto
@@ -246,7 +265,10 @@ async function init() {
 }
 
 // Inicializa el carrusel una vez que el DOM esté completamente cargado
-document.addEventListener('DOMContentLoaded', initCarousel);
+document.addEventListener('DOMContentLoaded', () => {
+    initCarousel();
+    addPlayButtonAnimation();
+});
 
 //Inicio de la aplicación
 init();
