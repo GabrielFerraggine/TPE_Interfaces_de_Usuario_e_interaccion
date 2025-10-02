@@ -84,7 +84,19 @@
             <!-- Card principal -->
             <section class="main-card">
                 <img src="../img/peg-img.jpg" alt="Juego Viking" class="main-img">
-                <button class="share-btn">Compartir</button>
+                <div class="share-container">
+                    <button class="share-btn" id="toggleShare">
+                        Compartir <span class="arrow">➜</span>
+                    </button>
+                    <div class="social-icons-share" id="socialIcons">
+                        <img src="../img/wpp.png" alt="Whattsapp">
+                        <img src="../img/ig.png" alt="Instagram">
+                        <img src="../img/tiktok.png" alt="Tik Tok">
+                        <img src="../img/email.png" alt="Email">
+                        <img src="../img/mensaje.png" alt="SMS">
+
+                    </div>
+                </div>
             </section>
 
             <!-- Descripción -->
@@ -97,10 +109,20 @@
                             forjada en la estrategia y el ingenio de un solo jugador.
                         </p>
                         <ul>
-                            <li>🛡 <b>Tablero:</b> Adopta la forma de una cruz sagrada de batalla...</li>
-                            <li>⚔️ <b>Guerreros:</b> Al inicio, todos los campos están ocupados...</li>
-                            <li>✖️ <b>Movimientos:</b> Un guerrero puede lanzarse por encima...</li>
-                            <li>🔮 <b>Destino:</b> La odisea exige que los guerreros se enfrenten...</li>
+                            <li>🛡 <b>Tablero:</b>Adopta la forma de una cruz sagrada de batalla (un cuadrado de 7x7 con
+                                las esquinas devoradas por el destino), que ofrece exactamente 33 campos de combate.
+                            </li>
+                            <li>⚔️ <b>Guerreros:</b> Al inicio, todos los campos están ocupados por fieros vikingos,
+                                salvo el trono central, que permanece vacío aguardando al héroe digno.</li>
+                            <li>✖️ <b>Movimientos:</b></li>
+                            <ul id="movimientos">
+                                <li>Un guerrero puede lanzarse por encima de un hermano adyacente (en línea recta, nunca
+                                    en diagonal) hacia un campo vacío inmediato.</li>
+                                <li>El guerrero que ha sido saltado cae en combate y es retirado del campo.</li>
+                            </ul>
+                            <li>🔮 <b>Destino:</b>La odisea exige que los guerreros se enfrenten hasta que quede solo
+                                uno en pie, el campeón, que ha de ocupar el trono central y ser recordado como el último
+                                vikingo en la saga.</li>
                         </ul>
                     </div>
                     <div class="images">
@@ -113,15 +135,32 @@
             <!-- Cómo se juega -->
             <section class="how-to-play">
                 <h3>¿Cómo se Juega?</h3>
-                <ol>
-                    <li>Solo se utiliza el mouse.</li>
-                    <li>Al seleccionar un guerrero, se iluminará y mostrará sus movimientos.</li>
-                    <li>Haz clic en el lugar a donde quieras moverlo.</li>
-                    <li>El guerrero salta sobre otro y se retira del tablero.</li>
-                    <li>Solo se puede saltar en línea recta (arriba, abajo, izquierda o derecha).</li>
-                </ol>
-                <p><a href="https://www.youtube.com/watch?v=qTOhdAHP05s"><span id="link-ayuda">¿Necesitas ayuda?</span></a> Descubre paso a paso cómo jugar al Peg Solitaire Viking Odyssey y conviértete en un verdadero estratega vikingo.  </p>
+                <div class="steps">
+                    <div class="step">
+                        <img src="../img/mouse.png" alt="Mouse">
+                        <p>Haz clic en un guerrero</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/flechas.png" alt="Flechas">
+                        <p>Muévete solo en línea recta</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/flecha-derecha.png" alt="Salto">
+                        <p>Salta sobre otro guerrero</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/x.png" alt="Eliminar">
+                        <p>Elimina al que saltaste</p>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="https://www.youtube.com/watch?v=qTOhdAHP05s">
+                        <span id="link-ayuda">¿Necesitas ayuda?</span>
+                    </a> Descubre paso a paso cómo jugar al Peg Solitaire Viking Odyssey.
+                </p>
             </section>
+
 
             <!-- Comentarios -->
             <section class="comments">
@@ -177,7 +216,8 @@
                     <img src="../img/user2.png">
                     <div class="comment-body">
                         <p class="username">DrakarForce</p>
-                        <p class="text">Lo jugaba cuando era chico, ahora lo instale pero no recordaba como jugarlo o cual era la meta.</p>
+                        <p class="text">Lo jugaba cuando era chico, ahora lo instale pero no recordaba como jugarlo o
+                            cual era la meta.</p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>1</span></button>
                             <button class="dislike">👎 <span>0</span></button>
@@ -190,57 +230,60 @@
 
             <!-- Footer -->
             <footer class="main-footer">
-                <div class="footer-section">
-                    <h4>Sobre Valhala Games</h4>
-                    <ul>
-                        <li><a href="#">Quiénes Somos</a></li>
-                        <li><a href="#">Contáctanos</a></li>
-                        <li><a href="#">Enviar Feedback</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Categorías</h4>
-                    <ul>
-                        <li><a href="#">Acción</a></li>
-                        <li><a href="#">Aventura</a></li>
-                        <li><a href="#">Terror</a></li>
-                        <li><a href="#">Deportes</a></li>
-                        <li><a href="#">Puzzle</a></li>
-                        <li><a href="#">Música</a></li>
-                        <li><a href="#">Otros</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Soporte</h4>
-                    <ul>
-                        <li><a href="#">Centro de Ayuda</a></li>
-                        <li><a href="#">Reportar un problema</a></li>
-                        <li><a href="#">Términos de Servicios</a></li>
-                        <li><a href="#">Política de Cookies</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Recibí Información</h4>
-                    <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Email">
-                        <button type="submit">→</button>
-                    </form>
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Sobre Valhala Games</h4>
+                        <ul>
+                            <li><a href="#">Quiénes Somos</a></li>
+                            <li><a href="#">Contáctanos</a></li>
+                            <li><a href="#">Enviar Feedback</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Puzzle</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Otros</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Reportar un problema</a></li>
+                            <li><a href="#">Términos de Servicios</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Recibí Información</h4>
+                        <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email">
+                            <button type="submit">→</button>
+                        </form>
+                    </div>
                 </div>
             </footer>
             <div class="footer-bottom">
-                <a href="../index.html">
-                    <div class="footer-logo">
-                        <img src="../img/imgPag.png" alt="Logo Valhalla Games">
-                        <span>Valhalla Games</span>
+                <div class="footer-bottom-container"> <a href="../index.html">
+                        <div class="footer-logo">
+                            <img src="../img/imgPag.png" alt="Logo Valhalla Games">
+                            <span>Valhalla Games</span>
+                        </div>
+                    </a>
+                    <p class="copyright">© 2025 Valhala Games. Todos los derechos reservados.</p>
+                    <div class="social-icons">
+                        <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
+                        <a href="#"><img src="../img/twitter.png" alt="X"></a>
+                        <a href="#"><img src="../img/yt.png" alt="Youtube"></a>
+                        <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
                     </div>
-                </a>
-                <p class="copyright">© 2025 Valhala Games. Todos los derechos reservados.</p>
-                <div class="social-icons">
-                    <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
-                    <a href="#"><img src="../img/twitter.png" alt="X"></a>
-                    <a href="#"><img src="../img/yt.png" alt="Youtube"></a>
-                    <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
                 </div>
             </div>
         </div>

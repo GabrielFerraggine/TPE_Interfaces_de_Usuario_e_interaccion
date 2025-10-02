@@ -44,3 +44,15 @@ document.querySelectorAll("#logoutBtn").forEach(btn => {
     window.location.href = "../html/registro.html";
   });
 });
+
+
+// Botón compartir
+document.addEventListener('DOMContentLoaded', (event) => {
+    const toggleButton = document.getElementById('toggleShare');
+    const socialIcons = document.getElementById('socialIcons');
+
+    toggleButton.addEventListener('click', () => {
+        // Toggles the 'visible' class on the social-icons container
+        socialIcons.classList.toggle('visible');
+    });
+});

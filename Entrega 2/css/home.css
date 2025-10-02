@@ -227,10 +227,6 @@ ul {
     cursor: pointer;
 }
 
-#userAvatar {
-    font-weight: var(--font-bold);
-    font-size: var(--font-size-large);
-}
 /* Icono de búsqueda */
 .search-bar {
   position: relative;
@@ -249,10 +245,7 @@ ul {
   transform: translateY(-50%);
   font-size: 18px;
 }
-#dropdownMenu {
-    font-weight: var(--font-bold);
-    font-size: var(--font-size-large);
-}
+
 
 /* Menú desplegable */
 .dropdown {
@@ -340,7 +333,6 @@ ul {
     
 }
 
-
 .active-slide:hover {
     transform: scale(1.15) translateX(-50%);
     box-shadow: 0 0px 85px rgba(0, 102, 255, 0.6);
@@ -355,15 +347,23 @@ ul {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0; /*se oculta por defecto*/
-    transition: opacity 0.3s ease;
-    z-index: 5;
-}
+    transform: translate(-50%, -50%); 
+    opacity: 0;
+    z-index: 25;
+    width: 140px;
+    height: 50px;
 
-.play-btn img {
-    width: 120px;
-    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    padding: 8px 30px;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.4s ease;
 }
 
 .active-slide:hover .play-btn {
@@ -399,11 +399,9 @@ ul {
 }
 
 .slide h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
     padding: 0 10px 15px;
-    font-family: var(--font-family-inter);
-    font-weight: var(--font-regular);
-    font-size: var(--font-size-medium);
-        
 }
 
 .carousel-arrow {
@@ -438,8 +436,46 @@ ul {
     position: relative;
 }
 
+.slide a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
 
+.slide a:hover {
+    color: white;
+}
 
+.play-btn:hover {
+    color: #ffffff;
+    background-color: var(--primary-color);
+    transform: translate(-50%, -50%) scale(1.08); 
+    animation: elasticShakeSlow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; 
+
+}
+
+@keyframes elasticShakeSlow {
+    0% {
+        transform: translate(-50%, -50%) scale(1.08) rotate(0deg) skew(0deg);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+    }
+    
+    15% {
+        transform: translate(-50%, -50%) scale(1.18) rotate(-5deg) skewX(4deg);
+    }
+    
+    40% {
+        transform: translate(-50%, -50%) scale(1.10) rotate(5deg) skewX(-2deg);
+    }
+    
+    65% {
+        transform: translate(-50%, -50%) scale(1.15) rotate(-2deg) skewX(1deg);
+    }
+    
+    85% {
+        transform: translate(-50%, -50%) scale(1.10) rotate(1deg) skew(0deg);
+    }
+}
 
 
 /* ==================== CATEGORÍAS DE JUEGOS ==================== */
@@ -477,9 +513,6 @@ ul {
     display: flex;
     gap: 20px;
     justify-content: center;
-    font-weight: var(--font-regular);
-    font-size: var(--font-size-large);
-    
 }
 
 .game-carousel::-webkit-scrollbar-track {
@@ -491,14 +524,14 @@ ul {
     border-radius: 4px;
 }
 .game-carousel::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
+    background: #d15c1f;
 }
 
 .game-card {
     position: relative;
     width: 257px;
     cursor: pointer;
-    background-color:var(--background-dark);
+    background-color: #172a3a;
     border-radius: 10px;
 }
 
@@ -543,77 +576,23 @@ ul {
     border: none;
     border-radius: 20px;
     padding: 8px 30px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    overflow: hidden;
-    transition: background-color 0.3s, width 0.3s, border-radius 0.3s;
-    font-weight: var(--font-bold);
-    font-size: var(--font-size-medium);
 }
 
 .play-button:hover {
-    background-color:var(--primary-color);
+    background-color: #d15c1f;
 }
-
-.play-button.loading {
-    width: 48px;
-    padding: 8px 0;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: transparent;
-    position: relative;
-}
-
-.play-button.success {
-    width: 48px;
-    padding: 8px 0;
-    border-radius: 50%;
-    background-color: #2ecc40;
-    color: transparent ;
-    position: relative;
-}
-
-.play-button.success::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    background: none;
-    border: none;
-    transform: translate(-50%, -50%);
-    border-radius: 2px;
-    box-shadow: none;
-}
-
-.play-button.success::after {
-    content: '';
-    border: solid white;
-    border-width: 0 4px 4px 0;
-    display: inline-block;
-    padding: 4px;
-    transform: translate(-50%, -50%) rotate(45deg);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 12px;
-    height: 24px;
-}
-
 
 
 
 /* ==================== FOOTER ==================== */
 .main-footer {
     background-color: var(--background-dark);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding: 40px;
-    max-width: 100%;
-    overflow-x: hidden;
+    padding: 40px 20px;
+    width: 100%;
 }
 
 .footer-section h4 {
@@ -641,7 +620,7 @@ ul {
     border: none;
     padding: 10px;
     border-radius: 5px 0 0 5px;
-    background-color:var(--background-light);
+    background-color: #2c3e50;
     color: var(--text-primary);
 }
 
@@ -656,14 +635,19 @@ ul {
 }
 
 .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
+    padding: 20px;
     font-size: 0.9rem;
     color: var(--text-secondary);
     background-color: var(--background-dark);
     border-top: 1px solid #2c3e50;
+}
+
+.footer-bottom-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1640px; 
+    margin: 0 auto;
 }
 
 .footer-logo {
@@ -685,4 +669,27 @@ ul {
     width: 40px;
     height: 40px;
     border-radius: 5px;
+}
+
+.social-icons img:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1640px; 
+    margin: 0 auto;
+}
+
+.footer-section h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
 }
