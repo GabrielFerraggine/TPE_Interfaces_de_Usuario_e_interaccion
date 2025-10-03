@@ -371,7 +371,7 @@ ul {
 
 .share-btn:hover {
     box-shadow: 0 0px 25px rgba(255, 107, 53, 0.7);
-    animation: share 0.4s ease-in-out 1;
+    animation: share 0.4s ease-in-out 3;
 }
 
 @keyframes share {

@@ -323,5 +323,24 @@ document.querySelectorAll("#logoutBtn").forEach(btn => {
 });
 
 
+// Loader
+
+let progress = 0;
+const progressEl = document.getElementById("progress");
+const loader = document.getElementById("loader");
+const content = document.getElementById("content");
+
+let interval = setInterval(() => {
+  progress++;
+  progressEl.textContent = progress + "%";
+
+  if (progress >= 100) {
+    clearInterval(interval);
+    loader.style.display = "none"; //oculta el loader
+    content.style.display = "block"; //muestra el home
+  }
+}, 50); 
+
+
 
 
