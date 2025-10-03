@@ -23,6 +23,21 @@ document.querySelectorAll(".close-btn").forEach(btn => {
   });
 });
 
+//Lleva a la pagina principal al presionar el boton de Google
+document.querySelectorAll(".google").forEach(btn => {
+  btn.addEventListener("click", () => {
+    window.location.href = "../index.html";
+  });
+});
+
+//Lleva a la pagina principal al presionar el boton de Facebook
+document.querySelectorAll(".facebook").forEach(btn => {
+  btn.addEventListener("click", () => {
+    window.location.href = "../index.html";
+  });
+});
+
+
 //Validacion del form de login y redirige si todo es correcto
 
 document.getElementById("formLoginCampos").addEventListener("submit", function (event) {

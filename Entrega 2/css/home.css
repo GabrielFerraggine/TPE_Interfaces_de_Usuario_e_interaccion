@@ -9,7 +9,7 @@
     --card-background: #13252E;
 
     /*Familia tipografica*/
-    --font-family-inter: 'Inter', sans-serif;
+    --font-family-inter: 'Inter', regular;
 
     --font-regular: 400;
     --font-bold: 700;
@@ -568,7 +568,6 @@ ul {
 
 .play-button {
     position: relative;
-    bottom: 10px;
     left: 80%;
     transform: translateX(-50%);
     background-color: var(--primary-color);
@@ -576,14 +575,17 @@ ul {
     border: none;
     border-radius: 20px;
     padding: 8px 30px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    /* Asegura que el botón esté siempre visible y centrado en la parte inferior */
+    z-index: 2;
 }
 
 .play-button:hover {
     background-color: #d15c1f;
+    color: #ffffff;
+    background-color: var(--primary-color);
+    transform: translate(-50%, -50%) scale(1.08); 
+    animation: elasticShakeSlow 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; 
 }
 
 
@@ -593,12 +595,7 @@ ul {
     background-color: var(--background-dark);
     padding: 40px 20px;
     width: 100%;
-}
 
-.footer-section h4 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    color: var(--text-primary);
 }
 
 .footer-section ul li {
@@ -648,6 +645,8 @@ ul {
     align-items: center;
     max-width: 1640px; 
     margin: 0 auto;
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-large);
 }
 
 .footer-logo {
@@ -688,6 +687,14 @@ ul {
     font-size: 1.1rem;
     margin-bottom: 15px;
     color: var(--text-primary);
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-xlarge);
+
+}
+
+.footer-section ul {
+    font-weight: var(--font-regular);
+    font-size: var(--font-size-large);
 }
 
 .footer-section ul li {

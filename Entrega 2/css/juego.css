@@ -10,7 +10,7 @@
     --card-background: #13252E;
 
     /*Familia tipografica*/
-    --font-family-inter: 'Inter', sans-serif;
+    --font-family-inter: 'Inter', regular;
 
     --font-regular: 400;
     --font-bold: 700;
@@ -679,12 +679,7 @@ ul#movimientos li {
     background-color: var(--background-dark);
     padding: 40px 20px;
     width: 100%;
-}
 
-.footer-section h4 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    color: var(--text-primary);
 }
 
 .footer-section ul li {
@@ -732,8 +727,10 @@ ul#movimientos li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1640px;
+    max-width: 1640px; 
     margin: 0 auto;
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-large);
 }
 
 .footer-logo {
@@ -742,7 +739,7 @@ ul#movimientos li {
     gap: 10px;
 }
 
-.footer-logo img {
+.footer-logo img{
     width: 48px;
     height: 68px;
 }
@@ -751,8 +748,7 @@ ul#movimientos li {
     display: flex;
     gap: 30px;
 }
-
-.social-icons img {
+.social-icons img{
     width: 40px;
     height: 40px;
     border-radius: 5px;
@@ -767,7 +763,7 @@ ul#movimientos li {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    max-width: 1640px;
+    max-width: 1640px; 
     margin: 0 auto;
 }
 
@@ -775,6 +771,14 @@ ul#movimientos li {
     font-size: 1.1rem;
     margin-bottom: 15px;
     color: var(--text-primary);
+    font-weight: var(--font-bold);
+    font-size: var(--font-size-xlarge);
+
+}
+
+.footer-section ul {
+    font-weight: var(--font-regular);
+    font-size: var(--font-size-large);
 }
 
 .footer-section ul li {

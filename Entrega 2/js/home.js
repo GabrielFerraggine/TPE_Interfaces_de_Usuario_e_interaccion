@@ -96,7 +96,7 @@ function showGames(juegosArray, seccionMostrar, limite) {
             content += `<img src="${imageUrl}" alt="${game.name || 'Juego'}">`;
         }
         content += `<p class="game-title">${game.name || 'Sin nombre'}</p>`;
-        content += `<button class="play-button">Jugar</button>`;
+        content += `<button class="play-button" class="play-btn">Jugar</button>`;
         card.innerHTML = content;
         gameList.appendChild(card);
     });

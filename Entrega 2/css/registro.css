@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
 :root {
-  --font-family-inter: 'Inter', sans-serif;
+  --font-family-inter: 'Inter', regular;
 
   /*Densidad/peso*/
   --font-regular: 400;
@@ -250,47 +250,47 @@ input .colorInput {
   background: #BE4E25
 }
 
-.social-login {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-  width: 380px;
-}
+    .social-login {
+      display: flex;
+      flex-direction: column; /* uno abajo del otro */
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+      width: 300px;
+    }
 
-.social-login button {
-  border: none;
-  border-radius: 50%;
-  padding: 30px;
-  cursor: pointer;
-  font-size: 18px;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .social-login button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      width: 100%;
+      height: 40px;
+      color: #fff;
+    }
 
-.facebook {
-  width: 0px;
-  height: 0px;
-}
+    .social-login button img {
+      background: #ffffff00;
+      border-radius: 3px;
+      margin-right: 3%;
+      width: 30px;
+      height: 30px;
+      padding: 2px;
+    }
 
-.social-login .facebook img {
-  width: 120px;
-  height: 120px;
-  margin-left: 30px;
-}
+    /* Botón Facebook */
+    .facebook {
+      background-color: #3b5998;
+    }
 
-.google {
-  width: 0px;
-  height: 0px;
-}
-
-.social-login .google img {
-  width: 60px;
-  height: 60px;
-  margin-right: 30px;
-}
+    /* Botón Google */
+    .google {
+      background-color: #db4437;
+    }
 
 .login-text {
   text-align: center;
