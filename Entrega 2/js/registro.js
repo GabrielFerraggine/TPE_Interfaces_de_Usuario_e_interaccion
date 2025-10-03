@@ -2,6 +2,13 @@
 const formRegistro = document.getElementById("formRegistro");
 const formLogin = document.getElementById("formLogin");
 
+const formContent = document.querySelector(".form-box");
+const checkmark = document.getElementById('checkmark');
+const formLoginBox = document.getElementById('formLogin');
+const formLoginCampos = document.getElementById('formLoginCampos');
+const formRegistroBox = document.getElementById('formRegistro');
+const formRegistroCampos = document.getElementById('formRegistroCampos');
+
 //Muestra el form del login y oculta el de registro
 document.getElementById("btnLogin").addEventListener("click", (e) => {
   e.preventDefault();
@@ -25,22 +32,29 @@ document.querySelectorAll(".close-btn").forEach(btn => {
 
 //Lleva a la pagina principal al presionar el boton de Google
 document.querySelectorAll(".google").forEach(btn => {
-  btn.addEventListener("click", () => {
-    window.location.href = "../index.html";
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    btn.classList.add("success");
+    setTimeout(() => {
+      window.location.href = "../index.html";
+    }, 700);
   });
 });
 
 //Lleva a la pagina principal al presionar el boton de Facebook
 document.querySelectorAll(".facebook").forEach(btn => {
-  btn.addEventListener("click", () => {
-    window.location.href = "../index.html";
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    btn.classList.add("success");
+    setTimeout(() => {
+      window.location.href = "../index.html";
+    }, 700);
   });
 });
 
 
 //Validacion del form de login y redirige si todo es correcto
-
-document.getElementById("formLoginCampos").addEventListener("submit", function (event) {
+formLoginCampos.addEventListener("submit", function (event) {
   event.preventDefault();
   // Limpiar mensajes de error
   document.getElementById("emailLoginError").textContent = "";
@@ -111,21 +125,17 @@ document.getElementById("formLoginCampos").addEventListener("submit", function (
   }
 
   if (valido) {
-    const btn = document.getElementById("btn_login");
-    btn.classList.add("loading");
+    //Oculta el formulario y muestra el check animado
+    formLoginBox.classList.add('hidden');
+    checkmark.classList.add('show');
     setTimeout(() => {
-      btn.classList.remove("loading");
-      btn.classList.add("success");
-      btn.textContent = "";
-      setTimeout(() => {
-        window.location.href = "../index.html";
-      }, 500);
+      window.location.href = "../index.html";
     }, 1200);
   }
 });
 
 //Validaciones del form de registro y redirige a la pagina principal si todo es correcto
-document.getElementById("formRegistroCampos").addEventListener("submit", function (event) {
+formRegistroCampos.addEventListener("submit", function (event) {
   event.preventDefault();
   // Limpiar mensajes de error
   document.getElementById("nombreCompletoRegistroError").textContent = "";
@@ -252,15 +262,11 @@ document.getElementById("formRegistroCampos").addEventListener("submit", functio
   }
   //si es valido anima un boton de exito y redirige a la pagina principal
   if (valido) {
-    const btn = document.getElementById("btn_registrarse");
-    btn.classList.add("loading");
+    // Oculta el formulario de registro y muestra el check animado
+    formRegistroBox.classList.add('hidden');
+    checkmark.classList.add('show');
     setTimeout(() => {
-      btn.classList.remove("loading");
-      btn.classList.add("success");
-      btn.textContent = "";
-      setTimeout(() => {
-        window.location.href = "../index.html";
-      }, 500);
+      window.location.href = "../index.html";
     }, 1200);
   }
 });

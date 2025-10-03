@@ -83,6 +83,7 @@ h2 {
   justify-content: flex-end;
   align-items: center;
   padding: 20px;
+  transition: all 0.6s ease; /*aplica a todas las transiciones un timepo de 0.6s con una transicion ease(casi logaritmica con un desvio inicial)*/
 }
 
 #formRegistroCampos {
@@ -221,9 +222,19 @@ input .colorInput {
 
 .btn.success {
   background: #28a745;
+  width: 95px; /* la mitad del ancho original */
+  height: 40px; /* la mitad de la altura original */
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0; /* oculta el texto */
+  overflow: hidden;
+  position: relative;
+}
+
+.btn.success img {
+  display: none; /* oculta el icono de Google/Facebook */
 }
 
 .btn.success::after {
@@ -232,6 +243,8 @@ input .colorInput {
   font-size: 24px;
   font-weight: bold;
   animation: fadeIn 0.4s ease forwards;
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes fadeIn {
@@ -246,51 +259,47 @@ input .colorInput {
   }
 }
 
-.btn:hover {
-  background: #BE4E25
+.social-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  width: 300px;
 }
 
-    .social-login {
-      display: flex;
-      flex-direction: column; /* uno abajo del otro */
-      align-items: center;
-      gap: 10px;
-      margin: 15px 0;
-      width: 300px;
-    }
+.social-login button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  height: 40px;
+  color: #fff;
+}
 
-    .social-login button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-      width: 100%;
-      height: 40px;
-      color: #fff;
-    }
+.social-login button img {
+  background: #ffffff00;
+  border-radius: 3px;
+  margin-right: 3%;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+}
 
-    .social-login button img {
-      background: #ffffff00;
-      border-radius: 3px;
-      margin-right: 3%;
-      width: 30px;
-      height: 30px;
-      padding: 2px;
-    }
+/* Botón Facebook */
+.facebook {
+  background-color: #3b5998;
+}
 
-    /* Botón Facebook */
-    .facebook {
-      background-color: #3b5998;
-    }
-
-    /* Botón Google */
-    .google {
-      background-color: #db4437;
-    }
+/* Botón Google */
+.google {
+  background-color: #db4437;
+}
 
 .login-text {
   text-align: center;
@@ -358,4 +367,82 @@ input .colorInput {
 
 #btnLogin {
   color: #FF6B35;
+}
+
+/* ==================== ANIMACION FORM CORRECTO ==================== */
+.container.success {
+    padding: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*Campo de la tilde por defecto oculto*/
+.checkmark {
+    display: none;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+/*Hace aparecer el campo check*/
+.checkmark.show {
+    display: block;
+    animation: scaleIn 0.5s ease-out;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+/*Anima la aparición del check, con efecto rebote al 50%.*/
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/*Animacion para que se dibuje el circulo del check aplicando stroke*/
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke: white;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+/*Animacion para que se dibuje el check aplicando stroke*/
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+/*Hace que se dibujen el círculo y el tick del check aplicando stroke-... en circle y check*/
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+/*Animacion para ocultar el form*/
+.form-content {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/*oculta el form*/
+.form-content.hide {
+    opacity: 0;
+    transform: scale(0.9);
 }

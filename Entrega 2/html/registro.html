@@ -60,18 +60,15 @@
 
         <button class="btn" id="btn_registrarse">Registrarse</button>
       </form>
-      
       <div class="line-container">
         <div class="line"></div>
         <div class="circle">O</div>
         <div class="line"></div>
       </div>
-
       <div class="social-login">
-        <button class="google"><img src="../img/Google.png" alt="Google">Ingresar con Google</button>
-        <button class="facebook"><img src="../img/FacebookLogin.png" alt="Facebook">Ingresar con Facebook</button>
+        <button class="google btn"><img src="../img/Google.png" alt="Google">Ingresar con Google</button>
+        <button class="facebook btn"><img src="../img/FacebookLogin.png" alt="Facebook">Ingresar con Facebook</button>
       </div>
-
       <p class="login-text">¿Ya tienes cuenta? <a href="#" id="btnLogin">Inicia Sesión</a></p>
     </div>
 
@@ -101,7 +98,7 @@
           </label>
           <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" class="captcha-logo">
         </div>
-
+        
         <button class="btn" id="btn_login">Iniciar Sesión</button>
       </form>
       <div class="line-container">
@@ -110,13 +107,18 @@
         <div class="line"></div>
       </div>
       <div class="social-login">
-  <button class="google"><img src="../img/Google.png" alt="Google"></button>
-  <button class="facebook"><img src="../img/FacebookLogin.png" alt="Facebook"></button>
+        <button class="google btn"><img src="../img/Google.png" alt="Google">Ingresar con Google</button>
+        <button class="facebook btn"><img src="../img/FacebookLogin.png" alt="Facebook">Ingresar con Facebook</button>
       </div>
       <p class="login-text">¿No tienes cuenta? <a href="#" id="btnRegistro">Registrarse</a></p>
     </div>
   </div>
 
+  <!--- SVG del check -->
+  <svg class="checkmark" id="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><!--cx y cy coordenads, r es radio-->
+      <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/><!-- coordenadas de inicio y fin de las 2 lineas del check-->
+  </svg>
   <script src="../js/registro.js"></script>
 </body>
 </html>
