@@ -46,10 +46,6 @@ async function getGames() {
     try {
         const response = await fetch('https://vj.interfaces.jima.com.ar/api');
         juegos = await response.json();
-
-        // Mostrar los géneros de los juegos para depuración
-        console.log('Genres de los juegos:', juegos.map(g => g.genres));
-        // si querés devolver todos
         return juegos;
     } catch (error) {
         console.error('Error:', error);
@@ -177,6 +173,11 @@ function getRandomGames(juegosArray, limite) {
 //     });
 // }
 
+//cada vez que cambia el tamaño de la ventana se reinicia el carrusel
+window.addEventListener('resize', () => {
+   initCarousel();
+});
+
 //Carrusel principal encapsulado en una función
 function initCarousel() {
     const slider = document.querySelector('.game-slider');
@@ -212,13 +213,23 @@ function initCarousel() {
                 opacity = '1';
                 zIndex = '3';
                 slide.classList.add("active-slide");
-            } else if (offset === 1) {
-                // Vecino derecho
+            } else if (offset === 1 && window.innerWidth <= 400) {
+                // Vecino derecho (movile)
+                transform = `translateX(calc(-50% + 250px)) scale(0.8)`;
+                opacity = '1';
+                zIndex = '2';
+            } else if (offset === 1 && window.innerWidth > 400){
+                // Vecino derecho(Desktop)
                 transform = `translateX(calc(-50% + 550px)) scale(0.8)`;
                 opacity = '1';
                 zIndex = '2';
-            } else if (offset === -1) {
-                // Vecino izquierdo
+            } else if (offset === -1 && window.innerWidth <= 400) {
+                // Vecino izquierdo (movile)
+                transform = `translateX(calc(-50% - 250px)) scale(0.8)`;
+                opacity = '1';
+                zIndex = '2';
+            } else if (offset === -1 && window.innerWidth > 400) {
+                // Vecino izquierdo (Desktop)
                 transform = `translateX(calc(-50% - 550px)) scale(0.8)`;
                 opacity = '1';
                 zIndex = '2';
@@ -341,6 +352,13 @@ let interval = setInterval(() => {
   }
 }, 50); 
 
-
+/*Se tiene un evento tipo ventana para si el width cambia los card se adapten*/
+/*window.addEventListener('resize', () => {
+  if (window.innerWidth <= 400) {
+    activarModoMovil();
+  } else {
+    activarModoDesktop();
+  }
+});*/
 
 
