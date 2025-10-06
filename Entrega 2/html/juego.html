@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/juego.css">
+    <title>Juego</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <button id="menuHamburguesaBtn">
+                    <img id="menuIcon" src="../img/Menu Hamburguesa.png" alt="Abrir menú">
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><img src="../img/Accion.png" alt="Acción"><span>Acción</span></a></li>
+                    <li><a href="#"><img src="../img/aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="../img/Terror.png" alt="Terror"><span>Terror</span></a></li>
+                    <li><a href="#"><img src="../img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
+                    <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
+                    <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
+                    <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content-wrapper">
+            <header class="main-header">
+                <a href="../index.html">
+                    <div class="logo-header">
+                        <h1>Valhalla Games</h1>
+                        <img src="../img/imgPag.png" alt="Valhalla Games Logo">
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="¿Qué vas a jugar hoy?">
+                </div>
+
+                <div class="user-profile">
+                    <span>Player777</span>
+                    <img id="userAvatar" src="../img/player.png" alt="Avatar del jugador">
+
+                    <!-- Menú desplegable -->
+                    <div id="dropdownMenu" class="dropdown hidden">
+                        <button class="close-btn">
+                            <img src="../img/closeUser.png" alt="Volver icono"> Volver
+                        </button>
+                        <button>
+                            <img src="../img/icon-user.png" alt="Perfil icono"> Perfil
+                        </button>
+                        <button>
+                            <img src="../img/settings.png" alt="Configuración icono"> Configuración
+                        </button>
+                        <button id="logoutBtn">
+                            <img src="../img/logout.png" alt="Cerrar sesión icono"> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">
+                    <img src="../img/viking.png" alt="Home" class="breadcrumb-icon">
+                    Home
+                </a>
+                <span class="separator">></span>
+                <a href="../index.html#puzzle">Puzzle</a>
+                <span class="separator">></span>
+                <span>Peg Solitaire</span>
+            </nav>
+
+
+
+            <!-- Card principal -->
+            <section class="main-card">
+                <img src="../img/peg-img.jpg" alt="Juego Viking" class="main-img">
+                <div class="share-container">
+                    <button class="share-btn" id="toggleShare">
+                        Compartir <span class="arrow">➜</span>
+                    </button>
+                    <div class="social-icons-share" id="socialIcons">
+                        <img src="../img/wpp.png" alt="Whattsapp">
+                        <img src="../img/ig.png" alt="Instagram">
+                        <img src="../img/tiktok.png" alt="Tik Tok">
+                        <img src="../img/email.png" alt="Email">
+                        <img src="../img/mensaje.png" alt="SMS">
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Descripción -->
+            <section class="game-description">
+                <h2>Peg Solitaire Viking Odyssey</h2>
+                <div class="desc-content">
+                    <div class="text">
+                        <p>
+                            El Peg Solitaire Viking Odyssey en su versión de 33 guerreros es una gesta de tablero,
+                            forjada en la estrategia y el ingenio de un solo jugador.
+                        </p>
+                        <ul>
+                            <li>🛡 <b>Tablero:</b>Adopta la forma de una cruz sagrada de batalla (un cuadrado de 7x7 con
+                                las esquinas devoradas por el destino), que ofrece exactamente 33 campos de combate.
+                            </li>
+                            <li>⚔️ <b>Guerreros:</b> Al inicio, todos los campos están ocupados por fieros vikingos,
+                                salvo el trono central, que permanece vacío aguardando al héroe digno.</li>
+                            <li>✖️ <b>Movimientos:</b></li>
+                            <ul id="movimientos">
+                                <li>Un guerrero puede lanzarse por encima de un hermano adyacente (en línea recta, nunca
+                                    en diagonal) hacia un campo vacío inmediato.</li>
+                                <li>El guerrero que ha sido saltado cae en combate y es retirado del campo.</li>
+                            </ul>
+                            <li>🔮 <b>Destino:</b>La odisea exige que los guerreros se enfrenten hasta que quede solo
+                                uno en pie, el campeón, que ha de ocupar el trono central y ser recordado como el último
+                                vikingo en la saga.</li>
+                        </ul>
+                    </div>
+                    <div class="images">
+                        <img src="../img/peg1.png" alt="Tablero 1">
+                        <img src="../img/peg2.png" alt="Tablero 2">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cómo se juega -->
+            <section class="how-to-play">
+                <h3>¿Cómo se Juega?</h3>
+                <div class="steps">
+                    <div class="step">
+                        <img src="../img/mouse.png" alt="Mouse">
+                        <p>Haz clic en un guerrero</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/flechas.png" alt="Flechas">
+                        <p>Muévete solo en línea recta</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/flecha-derecha.png" alt="Salto">
+                        <p>Salta sobre otro guerrero</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/x.png" alt="Eliminar">
+                        <p>Elimina al que saltaste</p>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="https://www.youtube.com/watch?v=qTOhdAHP05s">
+                        <span id="link-ayuda">¿Necesitas ayuda?</span>
+                    </a> Descubre paso a paso cómo jugar al Peg Solitaire Viking Odyssey.
+                </p>
+            </section>
+
+
+            <!-- Comentarios -->
+            <section class="comments">
+                <h3>¡Comenta qué te pareció el juego!</h3>
+                <div class="comment-box">
+                    <img src="../img/player.png" alt="Avatar" class="avatar">
+                    <input type="text" placeholder="Escribe tu comentario...">
+                    <button class="send-btn">➤</button>
+                </div>
+
+                <h4>Comentarios sobre el juego</h4>
+
+                <div class="comment">
+                    <img src="../img/user1.png">
+                    <div class="comment-body">
+                        <p class="username">FreeRaider</p>
+                        <p class="text">Gran juego, tenes que ponerte un buen tiempo para entenderlo.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>12</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user2.png">
+                    <div class="comment-body">
+                        <p class="username">OdinPlayer</p>
+                        <p class="text">Malísimo, no es divertido.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>45</span></button>
+                            <button class="dislike">👎 <span>1</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user1.png">
+                    <div class="comment-body">
+                        <p class="username">RuneSeeker</p>
+                        <p class="text">Sencillo pero entretenido, genial y sin molestos anuncios.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>3</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user2.png">
+                    <div class="comment-body">
+                        <p class="username">DrakarForce</p>
+                        <p class="text">Lo jugaba cuando era chico, ahora lo instale pero no recordaba como jugarlo o
+                            cual era la meta.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>1</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Sobre Valhala Games</h4>
+                        <ul>
+                            <li><a href="#">Quiénes Somos</a></li>
+                            <li><a href="#">Contáctanos</a></li>
+                            <li><a href="#">Enviar Feedback</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Puzzle</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Otros</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Reportar un problema</a></li>
+                            <li><a href="#">Términos de Servicios</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Recibí Información</h4>
+                        <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email">
+                            <button type="submit">→</button>
+                        </form>
+                    </div>
+                </div>
+            </footer>
+            <div class="footer-bottom">
+                <div class="footer-bottom-container"> <a href="../index.html">
+                        <div class="footer-logo">
+                            <img src="../img/imgPag.png" alt="Logo Valhalla Games">
+                            <span>Valhalla Games</span>
+                        </div>
+                    </a>
+                    <p class="copyright">© 2025 Valhala Games. Todos los derechos reservados.</p>
+                    <div class="social-icons">
+                        <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
+                        <a href="#"><img src="../img/twitter.png" alt="X"></a>
+                        <a href="#"><img src="../img/yt.png" alt="Youtube"></a>
+                        <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="../js/juego.js"></script>
+</body>
+
+</html>

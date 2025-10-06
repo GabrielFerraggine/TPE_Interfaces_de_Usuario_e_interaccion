@@ -1,0 +1,578 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+:root {
+  --font-family-inter: 'Inter', regular;
+
+  /*Densidad/peso*/
+  --font-regular: 400;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  /*Tamaños*/
+  --font-size-small: 12px;
+  --font-size-medium: 16px;
+  --font-size-large: 24px;
+  --font-size-xlarge: 32px;
+  --font-size-xxlarge: 48px;
+
+  /*Ejemplos de clases tipograficas
+
+    .text-small {
+      font-family: var(--font-family-inter);
+      font-weight: var(--font-regular);
+      font-size: var(--font-size-small);
+    }
+    .text-medium-bold {
+      font-family: var(--font-family-inter);
+      font-weight: var(--font-bold);
+      font-size: var(--font-size-medium);
+    }
+    .text-large-extrabold {
+      font-family: var(--font-family-inter);
+      font-weight: var(--font-extrabold);
+      font-size: var(--font-size-large);
+    }
+  */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --font-family-inter: 'Inter', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  font-family: var(--font-family-inter);
+
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url("../img/Fondo_registro_login.jpeg") no-repeat center center/cover;
+  opacity: 0.75;
+  z-index: -1;
+}
+
+p {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-medium);
+}
+
+h2 {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-extrabold);
+  font-size: var(--font-size-xxlarge);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+  transition: all 0.6s ease; /*aplica a todas las transiciones un timepo de 0.6s con una transicion ease(casi logaritmica con un desvio inicial)*/
+}
+
+#formRegistroCampos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#formLoginCampos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input .colorInput {
+  color: #d9d9d9;
+}
+
+.form-box {
+  background: #13252E;
+  color: #ffffff;
+  border-radius: 15px;
+  width: 700px;
+  height: 930px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-box h2 {
+  text-align: center;
+  width: 380px;
+}
+
+.close-btn img {
+  width: 50px;
+  height: 75px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.input-box {
+  position: relative;
+  margin-bottom: 15px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-box .placeholder {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+}
+
+.input-box input {
+  width: 380px;
+  padding: 10px 40px 10px 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.input-box i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+}
+
+.captcha-box {
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  width: 300px;
+  box-sizing: border-box;
+}
+
+.captcha-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.captcha-check {
+  width: 18px;
+  height: 18px;
+}
+
+.captcha-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.btn {
+  width: 190px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #FF6B35;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 0 auto;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.btn.loading {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 0;
+  color: transparent;
+}
+
+.btn.success {
+  background: #28a745;
+  width: 95px; /* la mitad del ancho original */
+  height: 40px; /* la mitad de la altura original */
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0; /* oculta el texto */
+  overflow: hidden;
+  position: relative;
+}
+
+.btn.success img {
+  display: none; /* oculta el icono de Google/Facebook */
+}
+
+.btn.success::after {
+  content: "→";
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  animation: fadeIn 0.4s ease forwards;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  width: 300px;
+}
+
+.social-login button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  height: 40px;
+  color: #fff;
+}
+
+.social-login button img {
+  background: #ffffff00;
+  border-radius: 3px;
+  margin-right: 3%;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+}
+
+/* Botón Facebook */
+.facebook {
+  background-color: #3b5998;
+}
+
+/* Botón Google */
+.google {
+  background-color: #db4437;
+}
+
+.login-text {
+  text-align: center;
+  font-size: 14px;
+  width: 380px;
+  margin: 0 auto;
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
+}
+
+.login-text a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.line-container {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.line {
+  flex: 1;
+  height: 2px;
+  background-color: #ccc;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #172a3a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+#btn_registrarse {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
+}
+
+#btn_login {
+  font-family: var(--font-family-inter);
+  font-weight: var(--font-regular);
+  font-size: var(--font-size-large);
+}
+
+#btnRegistro {
+  color: #FF6B35;
+}
+
+#btnLogin {
+  color: #FF6B35;
+}
+
+/* ==================== ANIMACION FORM CORRECTO ==================== */
+.container.success {
+    padding: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*Campo de la tilde por defecto oculto*/
+.checkmark {
+    display: none;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+
+/*Hace aparecer el campo check*/
+.checkmark.show {
+    display: block;
+    animation: scaleIn 0.5s ease-out;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+}
+/*Anima la aparición del check, con efecto rebote al 50%.*/
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/*Animacion para que se dibuje el circulo del check aplicando stroke*/
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke: white;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+/*Animacion para que se dibuje el check aplicando stroke*/
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+/*Hace que se dibujen el círculo y el tick del check aplicando stroke-... en circle y check*/
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+/*Animacion para ocultar el form*/
+.form-content {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/*oculta el form*/
+.form-content.hide {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+
+
+
+
+
+
+/* ==================== ANIMACION FORM CORRECTO V2 ==================== */
+/* .container.success {
+    padding: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+/*Campo de la tilde por defecto oculto*/
+/* .checkmark {
+    display: none;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+} */
+
+/*Hace aparecer el campo check*/
+/* .checkmark.show {
+    display: block;
+    animation: scaleIn 0.5s ease-out;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+} */
+/*Anima la aparición del check.*/
+/* @keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} */
+/*Animacion para que se dibuje el circulo del check aplicando stroke*/
+/* .checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke: white;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+} */
+/*Animacion para que se dibuje el check aplicando stroke*/
+/* .checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+} */
+/*Hace que se dibujen el círculo y el tick del check aplicando stroke-... en circle y check*/
+/* @keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+} */
+/*Animacion para ocultar el form*/
+/* .form-content {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+} */
+/*oculta el form*/
+/* .form-content.hide {
+    opacity: 0;
+    transform: scale(0.9);
+} */
+
+/*Animación círculo */
+/* .checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    fill: none;
+    animation: rainbowStroke 2s ease forwards;
+}
+@keyframes rainbowStroke {
+    0% { stroke-dashoffset: 166; stroke: #ff0080; }
+    30% { stroke: #ff8c00; }
+    60% { stroke: #00f0ff; }
+    100% { stroke-dashoffset: 0; stroke: #00ff80; }
+} */
+
+/*Animación del check */
+/* .checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    animation:
+        strokeCheck 1s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards,
+        glowCheck 1.2s ease-out 2.2s forwards;
+}
+@keyframes strokeCheck {
+    100% { stroke-dashoffset: 0; }
+}
+@keyframes glowCheck {
+    0% { filter: drop-shadow(0 0 0px #00ff80); }
+    50% { filter: drop-shadow(0 0 12px #00ff80); }
+    100% { filter: drop-shadow(0 0 4px #00ff80); }
+} */
+
+/* Animación para ocultar el form */
+/* .form-content {
+    transition: opacity 0.6s ease, transform 0.s ease;
+} */
+/*oculta el form*/
+/* .form-content.hide {
+    opacity: 0;
+    transform: scale(0.9);
+} 
