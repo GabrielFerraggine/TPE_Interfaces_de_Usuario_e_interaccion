@@ -1013,12 +1013,12 @@ body {
     }
 
     .carousel-arrow.left {
-        left: 25px;
+        left: 2%;
         top: 110px;
     }
 
     .carousel-arrow.right {
-        right: 25px;
+        right: 2%;
         top: 110px;
     }
 
