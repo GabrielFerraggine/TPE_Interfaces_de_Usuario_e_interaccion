@@ -350,18 +350,32 @@ input .colorInput {
   color: #FF6B35;
 }
 
+
 /* ==================== ANIMACION FORM CORRECTO ==================== */
 .container.success {
     padding: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    position: relative;
 }
-/*Campo de la tilde por defecto oculto*/
+
 .checkmark {
     display: none;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 10000;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.checkmark.show {
+    display: block;
+    animation: scaleInBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -369,191 +383,48 @@ input .colorInput {
     z-index: 10000;
 }
 
-/*Hace aparecer el campo check*/
-.checkmark.show {
-    display: block;
-    animation: scaleIn 0.5s ease-out;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-}
-/*Anima la aparición del check, con efecto rebote al 50%.*/
-@keyframes scaleIn {
+@keyframes scaleInBounce {
     0% {
-        transform: scale(0);
+        transform: translate(-50%, -50%) scale(0);
         opacity: 0;
     }
     50% {
-        transform: scale(1.1);
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 0.8;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(0.95);
     }
     100% {
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
         opacity: 1;
     }
 }
-/*Animacion para que se dibuje el circulo del check aplicando stroke*/
+
 .checkmark-circle {
     stroke-dasharray: 166;
     stroke-dashoffset: 166;
-    stroke-width: 3;
-    stroke: white;
+    stroke-width: 4;
+    stroke: #4CAF50;
     fill: none;
     animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
 }
-/*Animacion para que se dibuje el check aplicando stroke*/
+
 .checkmark-check {
     transform-origin: 50% 50%;
     stroke-dasharray: 48;
     stroke-dashoffset: 48;
-    stroke: white;
-    stroke-width: 3;
+    stroke: #4CAF50;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     fill: none;
-    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+    animation: stroke 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
 }
-/*Hace que se dibujen el círculo y el tick del check aplicando stroke-... en circle y check*/
+
 @keyframes stroke {
     100% {
         stroke-dashoffset: 0;
     }
 }
-/*Animacion para ocultar el form*/
-.form-content {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-/*oculta el form*/
-.form-content.hide {
-    opacity: 0;
-    transform: scale(0.9);
-}
-
-
-
-
-
-
-
-/* ==================== ANIMACION FORM CORRECTO V2 ==================== */
-/* .container.success {
-    padding: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-/*Campo de la tilde por defecto oculto*/
-/* .checkmark {
-    display: none;
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-} */
-
-/*Hace aparecer el campo check*/
-/* .checkmark.show {
-    display: block;
-    animation: scaleIn 0.5s ease-out;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-} */
-/*Anima la aparición del check.*/
-/* @keyframes scaleIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-} */
-/*Animacion para que se dibuje el circulo del check aplicando stroke*/
-/* .checkmark-circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 3;
-    stroke: white;
-    fill: none;
-    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-} */
-/*Animacion para que se dibuje el check aplicando stroke*/
-/* .checkmark-check {
-    transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    stroke: white;
-    stroke-width: 3;
-    fill: none;
-    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
-} */
-/*Hace que se dibujen el círculo y el tick del check aplicando stroke-... en circle y check*/
-/* @keyframes stroke {
-    100% {
-        stroke-dashoffset: 0;
-    }
-} */
-/*Animacion para ocultar el form*/
-/* .form-content {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-} */
-/*oculta el form*/
-/* .form-content.hide {
-    opacity: 0;
-    transform: scale(0.9);
-} */
-
-/*Animación círculo */
-/* .checkmark-circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 3;
-    fill: none;
-    animation: rainbowStroke 2s ease forwards;
-}
-@keyframes rainbowStroke {
-    0% { stroke-dashoffset: 166; stroke: #ff0080; }
-    30% { stroke: #ff8c00; }
-    60% { stroke: #00f0ff; }
-    100% { stroke-dashoffset: 0; stroke: #00ff80; }
-} */
-
-/*Animación del check */
-/* .checkmark-check {
-    transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    stroke: white;
-    stroke-width: 3;
-    fill: none;
-    animation:
-        strokeCheck 1s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards,
-        glowCheck 1.2s ease-out 2.2s forwards;
-}
-@keyframes strokeCheck {
-    100% { stroke-dashoffset: 0; }
-}
-@keyframes glowCheck {
-    0% { filter: drop-shadow(0 0 0px #00ff80); }
-    50% { filter: drop-shadow(0 0 12px #00ff80); }
-    100% { filter: drop-shadow(0 0 4px #00ff80); }
-} */
-
-/* Animación para ocultar el form */
-/* .form-content {
-    transition: opacity 0.6s ease, transform 0.s ease;
-} */
-/*oculta el form*/
-/* .form-content.hide {
-    opacity: 0;
-    transform: scale(0.9);
-} 
