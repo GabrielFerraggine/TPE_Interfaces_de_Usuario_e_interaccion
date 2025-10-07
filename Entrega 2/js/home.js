@@ -138,41 +138,6 @@ function getRandomGames(juegosArray, limite) {
     return shuffled.slice(0, limite);
 }
 
-// function showCarouselGames(juegosArray, seccionMostrar, limite) {
-//     const container = document.getElementById(seccionMostrar);
-//     container.innerHTML = '';
-
-//     if (!juegosArray || juegosArray.length === 0) {
-//         container.innerHTML = '<p>No se encontraron juegos.</p>';
-//         return;
-//     }
-
-//     const juegosMostrar = (typeof limite === 'number' && limite > 0) ? juegosArray.slice(0, limite) : juegosArray;
-
-//     juegosMostrar.forEach(game => {
-//         const slide = document.createElement('div');
-//         slide.className = 'slide';
-
-//         let imageUrl = '';
-//         for (const key in game) {
-//             if (key.toLowerCase().includes('image') && game[key]) {
-//                 imageUrl = game[key];
-//                 break;
-//             }
-//         }
-
-//         let content = '';
-//         if (imageUrl) {
-//             content += `<img src="${imageUrl}" alt="${game.name || 'Juego'}">`;
-//         }
-//         content += `<h3>${game.name || 'Sin nombre'}</h3>`;
-//         content += `<a href="html/juego.html" class="play-btn">Jugar</a>`;
-
-//         slide.innerHTML = content;
-//         container.appendChild(slide);
-//     });
-// }
-
 //cada vez que cambia el tamaño de la ventana se reinicia el carrusel
 window.addEventListener('resize', () => {
    initCarousel();

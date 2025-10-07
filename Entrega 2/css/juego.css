@@ -170,7 +170,6 @@ ul {
 
 
 
-
 /* ==================== HEADER ==================== */
 .main-header {
     display: flex;
@@ -296,7 +295,7 @@ ul {
 
 /* ==================== BREADCRUMB ==================== */
 .breadcrumb {
-    margin: 80px 440px 20px auto;
+    margin: 65px 440px -10px auto;
     max-width: 1200px;
     font-size: var(--font-size-small);
     font-family: var(--font-family-inter);
@@ -535,7 +534,7 @@ ul#movimientos li {
 }
 
 .step img {
-    width: 80px;
+    width: 110px;
     height: auto;
 }
 
@@ -558,6 +557,11 @@ ul#movimientos li {
 #link-ayuda {
     color: #3366BB;
     font-weight: bold;
+}
+
+#flecha-der{
+    width: 90px;
+    height: auto;
 }
 
 
@@ -730,7 +734,7 @@ ul#movimientos li {
     max-width: 1640px; 
     margin: 0 auto;
     font-weight: var(--font-bold);
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-medium);
 }
 
 .footer-logo {
@@ -772,13 +776,13 @@ ul#movimientos li {
     margin-bottom: 15px;
     color: var(--text-primary);
     font-weight: var(--font-bold);
-    font-size: var(--font-size-xlarge);
+    font-size: var(--font-size-large);
 
 }
 
 .footer-section ul {
     font-weight: var(--font-regular);
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-medium);
 }
 
 .footer-section ul li {

@@ -11,14 +11,20 @@
 <body>
     <!-- Loader -->
     <div id="loader">
-        <img src="img/Tower Defense.png" alt="Logo cargando" class="spinner-img">
-        <div id="progress">0%</div>
+        <div class="runes-container">
+            <div class="rune">ᚠ</div>
+            <div class="rune">ᚢ</div>
+            <div class="rune">ᚦ</div>
+            <div class="rune">ᚬ</div>
+            <div class="rune">ᚱ</div>
+        </div>
+        <div id="progress">0</div>
     </div>
 
     <!-- Main Container-->
     <div class="main-container">
         <!-- Botón hamburguesa -->
-        <button id="menuHamburguesaBtn"  class="sidebar-logo">
+        <button id="menuHamburguesaBtn" class="sidebar-logo">
             <img id="menuIcon" src="img/Menu Hamburguesa.png" alt="Abrir menú">
         </button>
         <!-- Sidebar -->
@@ -26,23 +32,26 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="#"><img src="img/Accion.png" alt="Acción"><span>Acción</span></a></li>
-                    <li><a href="#"><img src="img/aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="img/Aventura.png" alt="Aventura"><span>Aventura</span></a></li>
                     <li><a href="#"><img src="img/Terror.png" alt="Terror"><span>Terror</span></a></li>
                     <li><a href="#"><img src="img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
                     <li><a href="#"><img src="img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="img/Tower Defense.png" alt="Tower Defense"><span>Tower Defense</span></a></li>
+                    <li><a href="#"><img src="img/Tower Defense.png" alt="Tower Defense"><span>Tower Defense</span></a>
+                    </li>
                     <li><a href="#"><img src="img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
         </aside>
         <div class="content-wrapper">
             <header class="main-header">
-                <div class="logo-header"  <a href="index.html"></a>
-                    <h1>Valhalla Games</h1>
-                    <img src="img/imgPag.png" alt="Valhalla Games Logo">
-                </div>
+                <a href="index.html">
+                    <div class="logo-header">
+                        <h1>Valhalla Games</h1>
+                        <img src="img/imgPag.png" alt="Valhalla Games Logo">
+                    </div>
+                </a>
                 <div class="search-bar">
                     <input type="text" placeholder="¿Qué vas a jugar hoy?">
                     <button id="btn-search"></button>
@@ -151,8 +160,8 @@
                     <div class="game-carousel" id="gameListPuzzle">
                     </div>
                 </section>
+                
             </main>
-            <!-- Acomodar el display-->
             <footer class="main-footer">
                 <div class="footer-container">
                     <div class="footer-section">
