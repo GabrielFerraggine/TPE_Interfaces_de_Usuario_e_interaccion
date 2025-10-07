@@ -14,25 +14,6 @@
   --font-size-large: 24px;
   --font-size-xlarge: 32px;
   --font-size-xxlarge: 48px;
-
-  /*Ejemplos de clases tipograficas
-
-    .text-small {
-      font-family: var(--font-family-inter);
-      font-weight: var(--font-regular);
-      font-size: var(--font-size-small);
-    }
-    .text-medium-bold {
-      font-family: var(--font-family-inter);
-      font-weight: var(--font-bold);
-      font-size: var(--font-size-medium);
-    }
-    .text-large-extrabold {
-      font-family: var(--font-family-inter);
-      font-weight: var(--font-extrabold);
-      font-size: var(--font-size-large);
-    }
-  */
 }
 
 * {
