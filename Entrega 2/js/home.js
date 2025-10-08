@@ -1,4 +1,4 @@
-// Animación de éxito para el botón de jugar los carruseles (debe ser refinada)
+//Animación de éxito para el botón de jugar los carruseles
 function addPlayButtonAnimation() {
     document.querySelectorAll('.play-button').forEach(btn => {
         btn.addEventListener('click', function(e) {
@@ -11,11 +11,13 @@ function addPlayButtonAnimation() {
                 setTimeout(() => {
                     btn.classList.remove('success');
                     btn.textContent = 'Jugar';
+                    window.location.href = "index.html";
                 }, 500);
             }, 1200);
         });
     });
 }
+
 // Muestra los juegos recibidos en un array en el HTML
 function showGames(juegosArray) {
     const gameList = document.getElementById('gameList');
@@ -92,7 +94,7 @@ function showGames(juegosArray, seccionMostrar, limite) {
             content += `<img src="${imageUrl}" alt="${game.name || 'Juego'}">`;
         }
         content += `<p class="game-title">${game.name || 'Sin nombre'}</p>`;
-        content += `<button class="play-button" class="play-btn">Jugar</button>`;
+        content += `<button class="play-button">Jugar</button>`;
         card.innerHTML = content;
         gameList.appendChild(card);
     });
@@ -298,9 +300,16 @@ document.querySelectorAll("#logoutBtn").forEach(btn => {
   });
 });
 
+//Recarga la pagina al hacer click en los botones de jugar
+document.querySelectorAll(".play-button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+});
+
+
 
 // Loader
-
 let progress = 0;
 const progressEl = document.getElementById("progress");
 const loader = document.getElementById("loader");
@@ -316,14 +325,5 @@ let interval = setInterval(() => {
     content.style.display = "block"; //muestra el home
   }
 }, 50); 
-
-/*Se tiene un evento tipo ventana para si el width cambia los card se adapten*/
-/*window.addEventListener('resize', () => {
-  if (window.innerWidth <= 400) {
-    activarModoMovil();
-  } else {
-    activarModoDesktop();
-  }
-});*/
 
 

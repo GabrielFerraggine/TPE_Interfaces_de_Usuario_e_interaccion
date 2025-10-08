@@ -23,23 +23,6 @@
     --font-size-xlarge: 32px;
     --font-size-xxlarge: 48px;
 
-    /*Ejemplos de clases tipográficas (Se aplica en html como clase o se colocan estos 3 parametros en cada elemento en css)
-        .text-small {
-        font-family: var(--font-family-inter);
-        font-weight: var(--font-regular);
-        font-size: var(--font-size-small);
-        }
-        .text-medium-bold {
-            font-family: var(--font-family-inter);
-            font-weight: var(--font-bold);
-            font-size: var(--font-size-medium);
-        }
-        .text-large-extrabold {
-            font-family: var(--font-family-inter);
-            font-weight: var(--font-extrabold);
-            font-size: var(--font-size-large);
-        }
-    */
 }
 
 * {
@@ -78,7 +61,6 @@ ul {
 .content-wrapper {
     overflow-y: auto;
 }
-
 
 /* ==================== SIDEBAR ==================== */
 .sidebar {
@@ -144,14 +126,6 @@ ul {
     display: inline-block;
 }
 
-#menuHamburguesaBtn {
-    background: none;
-    border: none;
-    outline: none;
-    margin-top: 8px;
-    cursor: pointer;
-}
-
 .sidebar-logo img {
     width: 44px;
     height: 44px;
@@ -167,8 +141,13 @@ ul {
     filter: brightness(1.2) drop-shadow(0 0 4px #f3732f);
     transform: scale(1.08);
 }
-
-
+#menuHamburguesaBtn {
+    background: none;
+    border: none;
+    outline: none;
+    margin-top: 8px;
+    cursor: pointer;
+}
 
 /* ==================== HEADER ==================== */
 .main-header {
@@ -373,6 +352,11 @@ ul {
     animation: share 0.4s ease-in-out 3;
 }
 
+.share-btn .arrow {
+    font-size: 20px;
+}
+
+
 @keyframes share {
     0% {
         transform: translateX(0);
@@ -386,12 +370,6 @@ ul {
         transform: translateX(0);
     }
 }
-
-
-.share-btn .arrow {
-    font-size: 20px;
-}
-
 
 .social-icons-share {
     display: flex;
@@ -512,6 +490,10 @@ ul#movimientos li {
     font-family: var(--font-family-inter);
     text-align: center;
 }
+.how-to-play p {
+    text-align: center;
+    margin-top: 15px;
+}
 
 .how-to-play h3 {
     font-size: var(--font-size-large);
@@ -547,13 +529,6 @@ ul#movimientos li {
     word-wrap: break-word;
 }
 
-
-
-.how-to-play p {
-    text-align: center;
-    margin-top: 15px;
-}
-
 #link-ayuda {
     color: #3366BB;
     font-weight: bold;
@@ -563,8 +538,6 @@ ul#movimientos li {
     width: 90px;
     height: auto;
 }
-
-
 
 /* ==================== COMENTARIOS ==================== */
 .comments {
@@ -677,13 +650,11 @@ ul#movimientos li {
     color: var(--text-secondary);
 }
 
-
 /* ==================== FOOTER ==================== */
 .main-footer {
     background-color: var(--background-dark);
     padding: 40px 20px;
     width: 100%;
-
 }
 
 .footer-section ul li {
@@ -731,7 +702,7 @@ ul#movimientos li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1640px; 
+    max-width: 1440px; 
     margin: 0 auto;
     font-weight: var(--font-bold);
     font-size: var(--font-size-medium);
@@ -767,7 +738,7 @@ ul#movimientos li {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    max-width: 1640px; 
+    max-width: 1440px; 
     margin: 0 auto;
 }
 

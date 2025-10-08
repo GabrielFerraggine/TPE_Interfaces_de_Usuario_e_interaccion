@@ -612,10 +612,6 @@ body {
     z-index: 20;
 }
 
-.slide {
-    position: relative;
-}
-
 .play-btn {
     position: absolute;
     top: 50%;
@@ -1118,7 +1114,7 @@ body {
     /* ==================== HEADER ==================== */
     .main-header {
         display: flex;
-        justify-content: space-between;
+        justify-content:space-between; ;
         align-items: center;
         padding: 0 5px;
         background-color: var(--background-dark);
@@ -1127,7 +1123,7 @@ body {
     }
 
     div .logo-header {
-        width: 25%;
+        width: 75%;
     }
 
     .logo-header {
@@ -1136,7 +1132,7 @@ body {
     }
 
     .logo-header img {
-        margin-right: 3px;
+        margin-right: 10px;
     }
 
     .logo-header h1 {
@@ -1163,7 +1159,8 @@ body {
     /* Icono de búsqueda */
     .search-bar {
         position: relative;
-        width: 50%;
+        width: 70%;
+        margin-right: 30px;
     }
 
     .search-bar input {
@@ -1177,6 +1174,7 @@ body {
         transform: translateY(-50%);
         font-size: 18px;
     }
+
 
     /* ==================== SLIDER PRINCIPAL ==================== */
     .trending-header {
@@ -1444,7 +1442,6 @@ body {
 
     .footer-bottom-container {
         max-width: 400px;
-        /* igual que footer-container */
         margin: 0 auto;
         display: flex;
         flex-direction: column;
