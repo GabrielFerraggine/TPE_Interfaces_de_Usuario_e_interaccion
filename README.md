@@ -9,3 +9,4 @@ Sitio:
 
 Para ir al Login/Registro: 
   Boton Perfil de Usuario --> Cerrar Sesión
+  o usar el siguiente Link: https://gabrielferraggine.github.io/TPE_Interfaces_de_Usuario_e_interaccion/Entrega%202/html/registro.html
