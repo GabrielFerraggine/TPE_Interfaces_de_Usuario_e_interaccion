@@ -1,115 +1,357 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOCKA - Juego de Rompecabezas</title>
     <link rel="stylesheet" href="../css/blocka.css">
+    <title>Juego</title>
 </head>
+
 <body>
-    <!-- Pantalla de inicio -->
-    <div id="home-screen" class="screen active">
-        <div class="container">
-            <h1 class="game-title">BLOCKA</h1>
-            <p class="game-subtitle">Juego de Rompecabezas Basado en Imágenes</p>
-            
-            <div class="game-preview">
-                <img src="/placeholder.svg?height=200&width=200" alt="BLOCKA Preview">
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <button id="menuHamburguesaBtn">
+                    <img id="menuIcon" src="../img/Menu Hamburguesa.png" alt="Abrir menú">
+                </button>
             </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><img src="../img/Accion.png" alt="Acción"><span>Acción</span></a></li>
+                    <li><a href="#"><img src="../img/aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="../img/Terror.png" alt="Terror"><span>Terror</span></a></li>
+                    <li><a href="#"><img src="../img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
+                    <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
+                    <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
+                    <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
+                </ul>
+            </nav>
+        </aside>
 
-            <button class="btn btn-primary" onclick="showInstructions()">Instrucciones</button>
-            <button class="btn btn-primary" onclick="startGame()">Comenzar Juego</button>
+        <div class="content-wrapper">
+            <header class="main-header">
+                <a href="../index.html">
+                    <div class="logo-header">
+                        <h1>Valhalla Games</h1>
+                        <img src="../img/imgPag.png" alt="Valhalla Games Logo">
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="¿Qué vas a jugar hoy?">
+                </div>
+
+                <div class="user-profile">
+                    <span>Player777</span>
+                    <img id="userAvatar" src="../img/player.png" alt="Avatar del jugador">
+
+                    <!-- Menú desplegable -->
+                    <div id="dropdownMenu" class="dropdown hidden">
+                        <button class="close-btn">
+                            <img src="../img/closeUser.png" alt="Volver icono"> Volver
+                        </button>
+                        <button>
+                            <img src="../img/icon-user.png" alt="Perfil icono"> Perfil
+                        </button>
+                        <button>
+                            <img src="../img/settings.png" alt="Configuración icono"> Configuración
+                        </button>
+                        <button id="logoutBtn">
+                            <img src="../img/logout.png" alt="Cerrar sesión icono"> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../index.html">
+                    <img src="../img/viking.png" alt="Home" class="breadcrumb-icon">
+                    Home
+                </a>
+                <span class="separator">></span>
+                <a href="../index.html#puzzle">Puzzle</a>
+                <span class="separator">></span>
+                <span>BLOCKA</span>
+            </nav>
+
+            <!-- Card principal con el juego BLOCKA -->
+            <section class="main-card">
+                <div class="blocka-game-container">
+                    <!-- Pantalla de bienvenida -->
+                    <div id="welcome-screen" class="blocka-screen active">
+                        <div class="blocka-welcome-content">
+                            <h1 class="blocka-title">BLOCKA</h1>
+                            <p class="blocka-subtitle">Rompecabezas de Rotación</p>
+                            <div class="blocka-instructions">
+                                <h3>¿Cómo se juega?</h3>
+                                <ul>
+                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa
+                                    </li>
+                                    <li><strong>Click Izquierdo:</strong> Rotar pieza hacia la izquierda (90°)</li>
+                                    <li><strong>Click Derecho:</strong> Rotar pieza hacia la derecha (90°)</li>
+                                    <li><strong>Niveles:</strong> 3 niveles con diferentes filtros de dificultad</li>
+                                    <li><strong>Ayuda:</strong> Usa la ayuda para posicionar una pieza (+5 segundos)
+                                    </li>
+                                </ul>
+                            </div>
+                            <button id="start-game-btn" class="blocka-btn blocka-btn-primary">Comenzar Juego</button>
+                        </div>
+                    </div>
+
+                    <!-- Pantalla de preview de imagen -->
+                    <div id="image-preview" class="blocka-screen">
+                        <div class="blocka-preview-content">
+                            <h2>Imagen del Nivel <span id="preview-level">1</span></h2>
+                            <div id="preview-image" class="blocka-preview-image">
+                                <div class="preview-placeholder">Imagen Nivel <span id="preview-level-num">1</span>
+                                </div>
+                            </div>
+                            <p>Memoriza la imagen...</p>
+                        </div>
+                    </div>
+
+                    <!-- Pantalla de juego -->
+                    <div id="game-screen" class="blocka-screen">
+                        <div class="blocka-game-header">
+                            <div class="blocka-info">
+                                <span><strong>Nivel:</strong> <span id="current-level">1</span>/3</span>
+                                <span><strong>Filtro:</strong> <span id="current-filter">Escala de grises</span></span>
+                            </div>
+                            <div class="blocka-timer">
+                                <strong>Tiempo:</strong> <span id="timer-display">00:00</span>
+                            </div>
+                            <div class="blocka-progress">
+                                <span><strong>Piezas:</strong> <span id="correct-pieces">0/4</span></span>
+                                <span><strong>Progreso:</strong> <span id="progress">0%</span></span>
+                            </div>
+                        </div>
+
+                        <div class="blocka-game-content">
+                            <div id="blocka-container" class="blocka-container">
+                                <!-- Las piezas se generarán aquí -->
+                            </div>
+                        </div>
+
+                        <div class="blocka-controls">
+                            <button id="start-btn" class="blocka-btn blocka-btn-primary">Comenzar</button>
+                            <button id="help-btn" class="blocka-btn blocka-btn-secondary" disabled>Ayudita
+                                (+5s)</button>
+                            <button id="menu-btn" class="blocka-btn blocka-btn-secondary">Menú</button>
+                        </div>
+                    </div>
+
+                    <!-- Pantalla de nivel completado -->
+                    <div id="level-complete" class="blocka-screen">
+                        <div class="blocka-complete-content">
+                            <h2>¡Nivel Completado!</h2>
+                            <div class="blocka-stats">
+                                <p><strong>Tiempo:</strong> <span id="final-time">00:00</span></p>
+                                <p><strong>Nivel:</strong> <span id="completed-level">1</span>/3</p>
+                            </div>
+                            <div id="completed-image" class="blocka-completed-image">
+                                <div class="completed-placeholder">Imagen Completada</div>
+                            </div>
+                            <div class="blocka-complete-buttons">
+                                <button id="next-level-btn" class="blocka-btn blocka-btn-primary">Siguiente
+                                    Nivel</button>
+                                <button id="menu-btn-2" class="blocka-btn blocka-btn-secondary">Menú Principal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor para compartir (se mantiene igual) -->
+                <div class="share-container">
+                    <button class="share-btn" id="toggleShare">
+                        Compartir <span class="arrow">➜</span>
+                    </button>
+                    <div class="social-icons-share" id="socialIcons">
+                        <img src="../img/wpp.png" alt="Whattsapp">
+                        <img src="../img/ig.png" alt="Instagram">
+                        <img src="../img/tiktok.png" alt="Tik Tok">
+                        <img src="../img/email.png" alt="Email">
+                        <img src="../img/mensaje.png" alt="SMS">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Descripción -->
+            <section class="game-description">
+                <h2>BLOCKA - Rompecabezas de Rotación</h2>
+                <div class="desc-content">
+                    <div class="text">
+                        <p>
+                            BLOCKA es un innovador juego de rompecabezas donde deberás rotar piezas de una imagen hasta
+                            formar la composición correcta. Cada nivel presenta un nuevo desafío con diferentes filtros
+                            visuales que aumentan la dificultad.
+                        </p>
+                        <ul>
+                            <li>🎮 <b>Mecánica Simple:</b> Rota las piezas con clicks izquierdo y derecho hasta formar
+                                la imagen completa.</li>
+                            <li>🎨 <b>Filtros Visuales:</b> Cada nivel aplica filtros diferentes (escala de grises,
+                                brillo, negativo) para aumentar el desafío.</li>
+                            <li>⏱️ <b>Contra Reloj:</b> Completa cada nivel lo más rápido posible y supera tu propio
+                                récord.</li>
+                            <li>💡 <b>Sistema de Ayuda:</b> Si te quedas atascado, usa la "Ayudita" para posicionar
+                                automáticamente una pieza (agrega 5 segundos a tu tiempo).</li>
+                            <li>🏆 <b>3 Niveles:</b> Progresa a través de niveles con dificultad creciente y diferentes
+                                imágenes.</li>
+                        </ul>
+                    </div>
+                    <div class="images">
+                        <img src="../img/peg1.png" alt="BLOCKA Nivel 1">
+                        <img src="../img/peg2.png" alt="BLOCKA Nivel 2">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cómo se juega -->
+            <section class="how-to-play">
+                <h3>¿Cómo se Juega?</h3>
+                <div class="steps">
+                    <div class="step">
+                        <img id="mouse" src="../img/mouse.png" alt="Mouse">
+                        <p>Click izquierdo: rotar a la izquierda</p>
+                    </div>
+                    <div class="step">
+                        <img id="flechas" src="../img/flechas.png" alt="Flechas">
+                        <p>Click derecho: rotar a la derecha</p>
+                    </div>
+                    <div class="step">
+                        <img id="flecha-der" src="../img/flecha-der.png" alt="Completar">
+                        <p>Completa la imagen correctamente</p>
+                    </div>
+                    <div class="step">
+                        <img id="eliminar" src="../img/Xr-removebg-preview.png" alt="Ganar">
+                        <p>¡Supera los 3 niveles!</p>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="#">
+                        <span id="link-ayuda">¿Necesitas ayuda?</span>
+                    </a> Usa el botón "Ayudita" para posicionar automáticamente una pieza.
+                </p>
+            </section>
+
+            <!-- Comentarios -->
+            <section class="comments">
+                <h3>¡Comenta qué te pareció el juego!</h3>
+                <div class="comment-box">
+                    <img src="../img/player.png" alt="Avatar" class="avatar">
+                    <input type="text" placeholder="Escribe tu comentario...">
+                    <button class="send-btn">➤</button>
+                </div>
+
+                <h4>Comentarios sobre el juego</h4>
+
+                <div class="comment">
+                    <img src="../img/user1.png">
+                    <div class="comment-body">
+                        <p class="username">PuzzleMaster</p>
+                        <p class="text">¡Excelente juego! Los filtros hacen que sea un verdadero desafío.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>24</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user2.png">
+                    <div class="comment-body">
+                        <p class="username">GamerViking</p>
+                        <p class="text">Muy adictivo, perfecto para entrenar la mente.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>18</span></button>
+                            <button class="dislike">👎 <span>1</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user1.png">
+                    <div class="comment-body">
+                        <p class="username">NordicPlayer</p>
+                        <p class="text">Me encanta el sistema de ayuda, muy bien implementado.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>15</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Sobre Valhala Games</h4>
+                        <ul>
+                            <li><a href="#">Quiénes Somos</a></li>
+                            <li><a href="#">Contáctanos</a></li>
+                            <li><a href="#">Enviar Feedback</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Puzzle</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Otros</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Reportar un problema</a></li>
+                            <li><a href="#">Términos de Servicios</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Recibí Información</h4>
+                        <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email">
+                            <button type="submit">→</button>
+                        </form>
+                    </div>
+                </div>
+            </footer>
+            <div class="footer-bottom">
+                <div class="footer-bottom-container">
+                    <a href="../index.html">
+                        <div class="footer-logo">
+                            <img src="../img/imgPag.png" alt="Logo Valhalla Games">
+                            <span>Valhalla Games</span>
+                        </div>
+                    </a>
+                    <p class="copyright">© 2025 Valhala Games. Todos los derechos reservados.</p>
+                    <div class="social-icons">
+                        <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
+                        <a href="#"><img src="../img/twitter.png" alt="X"></a>
+                        <a href="#"><img src="../img/yt.png" alt="Youtube"></a>
+                        <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- Pantalla de instrucciones -->
-    <div id="instructions-screen" class="screen">
-        <div class="container">
-            <h2>Instrucciones del Juego</h2>
-            
-            <div class="instructions-content">
-                <div class="instruction-item">
-                    <h3>🎯 Objetivo</h3>
-                    <p>Rota las 4 partes de la imagen hasta formar la imagen completa correctamente.</p>
-                </div>
-
-                <div class="instruction-item">
-                    <h3>🖱️ Controles</h3>
-                    <p><strong>Click Izquierdo:</strong> Rota la pieza hacia la izquierda (90°)</p>
-                    <p><strong>Click Derecho:</strong> Rota la pieza hacia la derecha (90°)</p>
-                </div>
-
-                <div class="instruction-item">
-                    <h3>⏱️ Temporizador</h3>
-                    <p>El tiempo comienza al hacer click en "Comenzar". Intenta resolver el puzzle lo más rápido posible.</p>
-                </div>
-
-                <div class="instruction-item">
-                    <h3>🎨 Niveles y Filtros</h3>
-                    <p><strong>Nivel 1:</strong> Escala de grises</p>
-                    <p><strong>Nivel 2:</strong> Brillo reducido (30%)</p>
-                    <p><strong>Nivel 3:</strong> Negativo</p>
-                    <p>Los filtros desaparecen al completar el puzzle.</p>
-                </div>
-
-                <div class="instruction-examples">
-                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 1">
-                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 2">
-                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 3">
-                </div>
-            </div>
-
-            <button class="btn btn-secondary" onclick="showHome()">Volver</button>
-            <button class="btn btn-primary" onclick="startGame()">Comenzar Juego</button>
-        </div>
-    </div>
-
-    <!-- Pantalla de juego -->
-    <div id="game-screen" class="screen">
-        <div class="game-header">
-            <div class="level-info">
-                <span id="level-display">Nivel 1</span>
-                <span id="filter-display">Filtro: Escala de Grises</span>
-            </div>
-            <div class="timer-display">
-                <span>⏱️ Tiempo: </span>
-                <span id="timer">00:00</span>
-            </div>
-        </div>
-
-        <div class="game-container">
-            <div id="blocka-grid" class="blocka-grid">
-                <!-- Las piezas se generan dinámicamente -->
-            </div>
-        </div>
-
-        <div class="game-controls">
-            <button class="btn btn-secondary" onclick="showHome()">Menú Principal</button>
-            <button class="btn btn-info" onclick="showInstructions()">Instrucciones</button>
-        </div>
-    </div>
-
-    <!-- Pantalla de victoria -->
-    <div id="victory-screen" class="screen">
-        <div class="container">
-            <h2 class="victory-title">¡Nivel Completado! 🎉</h2>
-            
-            <div class="victory-stats">
-                <p class="victory-time">Tiempo: <span id="final-time">00:00</span></p>
-                <p class="victory-level">Nivel <span id="completed-level">1</span></p>
-            </div>
-
-            <div class="completed-image">
-                <canvas id="completed-canvas"></canvas>
-            </div>
-
-            <div class="victory-buttons">
-                <button class="btn btn-secondary" onclick="showHome()">Menú Principal</button>
-                <button class="btn btn-primary" id="next-level-btn" onclick="nextLevel()">Siguiente Nivel</button>
-            </div>
-        </div>
-    </div>
-
     <script src="../js/blocka.js"></script>
 </body>
+
 </html>
