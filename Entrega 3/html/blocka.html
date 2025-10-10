@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOCKA - Juego de Rompecabezas</title>
+    <link rel="stylesheet" href="../css/blocka.css">
+</head>
+<body>
+    <!-- Pantalla de inicio -->
+    <div id="home-screen" class="screen active">
+        <div class="container">
+            <h1 class="game-title">BLOCKA</h1>
+            <p class="game-subtitle">Juego de Rompecabezas Basado en Imágenes</p>
+            
+            <div class="game-preview">
+                <img src="/placeholder.svg?height=200&width=200" alt="BLOCKA Preview">
+            </div>
+
+            <button class="btn btn-primary" onclick="showInstructions()">Instrucciones</button>
+            <button class="btn btn-primary" onclick="startGame()">Comenzar Juego</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de instrucciones -->
+    <div id="instructions-screen" class="screen">
+        <div class="container">
+            <h2>Instrucciones del Juego</h2>
+            
+            <div class="instructions-content">
+                <div class="instruction-item">
+                    <h3>🎯 Objetivo</h3>
+                    <p>Rota las 4 partes de la imagen hasta formar la imagen completa correctamente.</p>
+                </div>
+
+                <div class="instruction-item">
+                    <h3>🖱️ Controles</h3>
+                    <p><strong>Click Izquierdo:</strong> Rota la pieza hacia la izquierda (90°)</p>
+                    <p><strong>Click Derecho:</strong> Rota la pieza hacia la derecha (90°)</p>
+                </div>
+
+                <div class="instruction-item">
+                    <h3>⏱️ Temporizador</h3>
+                    <p>El tiempo comienza al hacer click en "Comenzar". Intenta resolver el puzzle lo más rápido posible.</p>
+                </div>
+
+                <div class="instruction-item">
+                    <h3>🎨 Niveles y Filtros</h3>
+                    <p><strong>Nivel 1:</strong> Escala de grises</p>
+                    <p><strong>Nivel 2:</strong> Brillo reducido (30%)</p>
+                    <p><strong>Nivel 3:</strong> Negativo</p>
+                    <p>Los filtros desaparecen al completar el puzzle.</p>
+                </div>
+
+                <div class="instruction-examples">
+                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 1">
+                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 2">
+                    <img src="/placeholder.svg?height=150&width=150" alt="Ejemplo 3">
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showHome()">Volver</button>
+            <button class="btn btn-primary" onclick="startGame()">Comenzar Juego</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de juego -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <div class="level-info">
+                <span id="level-display">Nivel 1</span>
+                <span id="filter-display">Filtro: Escala de Grises</span>
+            </div>
+            <div class="timer-display">
+                <span>⏱️ Tiempo: </span>
+                <span id="timer">00:00</span>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <div id="blocka-grid" class="blocka-grid">
+                <!-- Las piezas se generan dinámicamente -->
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button class="btn btn-secondary" onclick="showHome()">Menú Principal</button>
+            <button class="btn btn-info" onclick="showInstructions()">Instrucciones</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de victoria -->
+    <div id="victory-screen" class="screen">
+        <div class="container">
+            <h2 class="victory-title">¡Nivel Completado! 🎉</h2>
+            
+            <div class="victory-stats">
+                <p class="victory-time">Tiempo: <span id="final-time">00:00</span></p>
+                <p class="victory-level">Nivel <span id="completed-level">1</span></p>
+            </div>
+
+            <div class="completed-image">
+                <canvas id="completed-canvas"></canvas>
+            </div>
+
+            <div class="victory-buttons">
+                <button class="btn btn-secondary" onclick="showHome()">Menú Principal</button>
+                <button class="btn btn-primary" id="next-level-btn" onclick="nextLevel()">Siguiente Nivel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/blocka.js"></script>
+</body>
+</html>

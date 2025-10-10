@@ -787,6 +787,54 @@ body {
     justify-content: center;
 }
 
+button.left.recomendados {
+  position: absolute;
+  top: 825px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.recomendados {
+  position: absolute;
+  top: 825px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.left.accion {
+  position: absolute;
+  top: 1250px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.accion {
+  position: absolute;
+  top: 1250px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.left.puzzle {
+  position: absolute;
+  top: 1675px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.puzzle {
+  position: absolute;
+  top: 1675px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
 .game-carousel::-webkit-scrollbar-track {
     background: var(--background-light);
     border-radius: 4px;

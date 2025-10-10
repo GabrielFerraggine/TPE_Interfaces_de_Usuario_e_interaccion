@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/home.css">
+    <title>Valhalla Games</title>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="runes-container">
+            <div class="rune">ᚠ</div>
+            <div class="rune">ᚢ</div>
+            <div class="rune">ᚦ</div>
+            <div class="rune">ᚬ</div>
+            <div class="rune">ᚱ</div>
+        </div>
+        <div id="progress">0</div>
+    </div>
+
+    <!-- Main Container-->
+    <div class="main-container">
+        <!-- Botón hamburguesa -->
+        <button id="menuHamburguesaBtn" class="sidebar-logo">
+            <img id="menuIcon" src="img/Menu Hamburguesa.png" alt="Abrir menú">
+        </button>
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><img src="img/Accion.png" alt="Acción"><span>Acción</span></a></li>
+                    <li><a href="#"><img src="img/Aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="img/Terror.png" alt="Terror"><span>Terror</span></a></li>
+                    <li><a href="#"><img src="img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
+                    <li><a href="#"><img src="img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
+                    <li><a href="#"><img src="img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
+                    <li><a href="#"><img src="img/Musica.png" alt="Música"><span>Música</span></a></li>
+                    <li><a href="#"><img src="img/Tower Defense.png" alt="Tower Defense"><span>Tower Defense</span></a>
+                    </li>
+                    <li><a href="#"><img src="img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Header -->
+        <div class="content-wrapper">
+            <header class="main-header">
+                <a href="index.html">
+                    <div class="logo-header">
+                        <h1>Valhalla Games</h1>
+                        <img src="img/imgPag.png" alt="Valhalla Games Logo">
+                    </div>
+                </a>
+                <div class="search-bar">
+                    <input type="text" placeholder="¿Qué vas a jugar hoy?">
+                    <button id="btn-search"></button>
+                </div>
+
+
+                <div class="user-profile">
+                    <span>Player777</span>
+                    <img id="userAvatar" src="img/player.png" alt="Avatar del jugador">
+
+                    <!-- Menú desplegable -->
+                    <div id="dropdownMenu" class="dropdown hidden">
+                        <button class="close-btn">
+                            <img src="img/closeUser.png" alt="Volver icono"> Volver
+                        </button>
+                        <button>
+                            <img src="img/icon-user.png" alt="Perfil icono"> Perfil
+                        </button>
+                        <button>
+                            <img src="img/settings.png" alt="Configuración icono"> Configuración
+                        </button>
+                        <button id="logoutBtn">
+                            <img src="img/logout.png" alt="Cerrar sesión icono"> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+
+            </header>
+
+            <main class="main-content">
+                <div class="trending-header">
+                    <img src="img/tendencia.png" alt="Icono Juegos en tendencia">
+                    <h2>Juegos en tendencia</h2>
+                </div>
+                <!-- Carrusel -->
+                <section class="game-slider">
+                    <button class="carousel-arrow left">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                        </svg>
+                    </button>
+                    <div class="carousel-container">
+                        <div class="slide">
+                            <img src="img/peg-img.jpg" alt="Peg solitaire Viking Odyssey">
+                            <h3>Peg solitaire Viking Odyssey</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                        <div class="slide">
+                            <img src="img/pixel-unchartedd.jpg" alt="Pixel Uncharted">
+                            <h3>Pixel Uncharted</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                        <div class="slide">
+                            <img src="img/zombie-survive.jpg" alt="Zombie Survive">
+                            <h3>Zombie Survive</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                        <div class="slide">
+                            <img src="img/assasin.jpg" alt="Assasin Creed Leyends">
+                            <h3>Assasin Creed Leyends</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                        <div class="slide">
+                            <img src="img/soccer-hero.jpg" alt="Soccer Hero 7">
+                            <h3>Soccer Hero 7</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                        <div class="slide">
+                            <img src="img/among-us.avif" alt="Among Us">
+                            <h3>Among Us</h3>
+                            <a href="html/juego.html" class="play-btn">Jugar</a>
+                        </div>
+                    </div>
+                    <button class="carousel-arrow right">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+                        </svg>
+                    </button>
+                </section>
+
+                <!-- Tus recomendados-->
+                <section id="recomendados" class="game-category">
+                    <!-- acomodar-->
+                    <h2 class="name-category">
+                        <img src="img/casco-hacha.png" alt="Icono Recomendados">
+                        <span>Tus recomendados</span>
+                    </h2>
+                    <button class="carousel-arrow left recomendados">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                        </svg>
+                    </button>
+                    <div class="game-carousel" id="gameListRecommended">
+                        <!-- aca se muestran los cards de juegos recomendados-->
+                    </div>
+                    <button class="carousel-arrow right recomendados">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+                        </svg>
+                    </button>
+                </section>
+                <!-- Accion-->
+                <section id="acccion" class="game-category">
+                    <h2 class="name-category">
+                        <img src="img/Accion.png" alt="Icono Recomendados">
+                        <span>Accion</span>
+                    </h2>
+                    <button class="carousel-arrow left accion">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                        </svg>
+                    </button>
+                    <div class="game-carousel" id="gameListAdventure">
+                        <!-- aca se muestran los cards de juegos accion-->
+                    </div>
+                    <button class="carousel-arrow right accion">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+                        </svg>
+                    </button>
+                </section>
+                <!-- Puzzle-->
+                <section id="puzzle" class="game-category">
+                    <h2 class="name-category">
+                        <img class="puzzle" src="img/rompecabezas.png" alt="Icono Recomendados">
+                        <span class="puzzlespan">Puzzle</span>
+                    </h2>
+                    <button class="carousel-arrow left puzzle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                        </svg>
+                    </button>
+                    <div class="game-carousel" id="gameListPuzzle">
+                        <!-- aca se muestran los cards de juegos accion-->
+                    </div>
+                    <button class="carousel-arrow right puzzle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+                        </svg>
+                    </button>
+                </section>
+
+            </main>
+            <footer class="main-footer">
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Sobre Valhala Games</h4>
+                        <ul>
+                            <li><a href="#">Quiénes Somos</a></li>
+                            <li><a href="#">Contáctanos</a></li>
+                            <li><a href="#">Enviar Feedback</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Puzzle</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Otros</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Reportar un problema</a></li>
+                            <li><a href="#">Términos de Servicios</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Recibí Información</h4>
+                        <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email">
+                            <button type="submit">→</button>
+                        </form>
+                    </div>
+                </div>
+            </footer>
+            <div class="footer-bottom">
+                <div class="footer-bottom-container"> <a href="index.html">
+                        <div class="footer-logo">
+                            <img src="img/imgPag.png" alt="Logo Valhalla Games">
+                            <span>Valhalla Games</span>
+                        </div>
+                    </a>
+                    <p class="copyright">© 2025 Valhala Games.<br>Todos los derechos reservados</p>
+                    <div class="social-icons">
+                        <a href="#"><img src="img/ig.png" alt="Instagram"></a>
+                        <a href="#"><img src="img/twitter.png" alt="X"></a>
+                        <a href="#"><img src="img/yt.png" alt="Youtube"></a>
+                        <a href="#"><img src="img/facebook.png" alt="Facebook"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/home.js"></script>
+</body>
+
+</html>
