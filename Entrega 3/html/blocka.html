@@ -10,6 +10,14 @@
 
 <body>
     <div class="main-container">
+
+
+
+        <!--test -->
+        <!--<canvas id="canvas" width="900" height="600"></canvas>-->
+
+
+
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-logo">
                 <button id="menuHamburguesaBtn">
@@ -69,10 +77,7 @@
 
             <!-- Breadcrumb -->
             <nav class="breadcrumb">
-                <a href="../index.html">
-                    <img src="../img/viking.png" alt="Home" class="breadcrumb-icon">
-                    Home
-                </a>
+                <a href="../index.html"><img src="../img/viking.png" alt="Home" class="breadcrumb-icon"> Home</a>
                 <span class="separator">></span>
                 <a href="../index.html#puzzle">Puzzle</a>
                 <span class="separator">></span>
@@ -81,91 +86,75 @@
 
             <!-- Card principal con el juego BLOCKA -->
             <section class="main-card">
-                <div class="blocka-game-container">
-                    <!-- Pantalla de bienvenida -->
-                    <div id="welcome-screen" class="blocka-screen active">
-                        <div class="blocka-welcome-content">
-                            <h1 class="blocka-title">BLOCKA</h1>
-                            <p class="blocka-subtitle">Rompecabezas de Rotación</p>
-                            <div class="blocka-instructions">
+                <div class="game-container">
+                    <div id="welcomeScreen" class="game-screen active">
+                        <div class="welcome-content">
+                            <h2>Rompecabezas de Rotación</h2>
+                            <div class="instructions">
                                 <h3>¿Cómo se juega?</h3>
                                 <ul>
-                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa
-                                    </li>
+                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa</li>
                                     <li><strong>Click Izquierdo:</strong> Rotar pieza hacia la izquierda (90°)</li>
                                     <li><strong>Click Derecho:</strong> Rotar pieza hacia la derecha (90°)</li>
                                     <li><strong>Niveles:</strong> 3 niveles con diferentes filtros de dificultad</li>
-                                    <li><strong>Ayuda:</strong> Usa la ayuda para posicionar una pieza (+5 segundos)
-                                    </li>
+                                    <li><strong>Ayuda:</strong> Usa la ayuda para posicionar una pieza (+5 segundos)</li>
                                 </ul>
                             </div>
-                            <button id="start-game-btn" class="blocka-btn blocka-btn-primary">Comenzar Juego</button>
+                            <button id="startGameBtn" class="btn btn-primary">Comenzar Juego</button>
                         </div>
-                    </div>
-
-                    <!-- Pantalla de preview de imagen -->
-                    <div id="image-preview" class="blocka-screen">
-                        <div class="blocka-preview-content">
-                            <h2>Imagen del Nivel <span id="preview-level">1</span></h2>
-                            <div id="preview-image" class="blocka-preview-image">
-                                <div class="preview-placeholder">Imagen Nivel <span id="preview-level-num">1</span>
-                                </div>
-                            </div>
+                    </div> 
+                    <div id="previewScreen" class="game-screen">
+                        <div class="preview-content">
+                            <h2>Imagen del Nivel <span id="previewLevel">1</span></h2>
+                            <canvas id="previewCanvas" width="400" height="400"></canvas>
                             <p>Memoriza la imagen...</p>
                         </div>
                     </div>
-
-                    <!-- Pantalla de juego -->
-                    <div id="game-screen" class="blocka-screen">
-                        <div class="blocka-game-header">
-                            <div class="blocka-info">
-                                <span><strong>Nivel:</strong> <span id="current-level">1</span>/3</span>
-                                <span><strong>Filtro:</strong> <span id="current-filter">Escala de grises</span></span>
+                    <div id="gameScreen" class="game-screen">
+                        <div class="game-header">
+                            <div class="game-level">
+                                <span><span>Nivel: </span><span id="currentLevel">1</span> / 3</span>
                             </div>
-                            <div class="blocka-timer">
-                                <strong>Tiempo:</strong> <span id="timer-display">00:00</span>
+                            <div class="game-filter">
+                                <span><strong>Filtro: <span id="currentFilter">Escala de grises</span></strong></span>
                             </div>
-                            <div class="blocka-progress">
-                                <span><strong>Piezas:</strong> <span id="correct-pieces">0/4</span></span>
-                                <span><strong>Progreso:</strong> <span id="progress">0%</span></span>
+                            <div class="game-info timer">
+                                <strong>Tiempo:</strong> <span id="timerDisplay">00:00</span>
                             </div>
-                        </div>
-
-                        <div class="blocka-game-content">
-                            <div id="blocka-container" class="blocka-container">
-                                <!-- Las piezas se generarán aquí -->
+                            <div class="game-pieces">
+                                <span><strong>Piezas: </strong> <span id="correctPieces">0 / 4</span></span>
+                            </div>
+                            <div class="game-progress">
+                                <span><strong>Progreso: </strong> <span id="progress">0%</span></span>
                             </div>
                         </div>
 
-                        <div class="blocka-controls">
-                            <button id="start-btn" class="blocka-btn blocka-btn-primary">Comenzar</button>
-                            <button id="help-btn" class="blocka-btn blocka-btn-secondary" disabled>Ayudita
-                                (+5s)</button>
-                            <button id="menu-btn" class="blocka-btn blocka-btn-secondary">Menú</button>
+                        <div class="canvas-container">
+                            <canvas id="gameCanvas" width="600" height="600"></canvas>
+                        </div>
+
+                        <div class="game-controls">
+                            <button id="startBtn" class="btn btn-primary">Comenzar</button>
+                            <button id="helpBtn" class="btn btn-secondary" disabled>Ayudita (+5s)</button>
+                            <button id="menuBtn" class="btn btn-secondary">Menú</button>
                         </div>
                     </div>
-
-                    <!-- Pantalla de nivel completado -->
-                    <div id="level-complete" class="blocka-screen">
-                        <div class="blocka-complete-content">
+                    <div id="completeScreen" class="game-screen">
+                        <div class="complete-content">
                             <h2>¡Nivel Completado!</h2>
-                            <div class="blocka-stats">
-                                <p><strong>Tiempo:</strong> <span id="final-time">00:00</span></p>
-                                <p><strong>Nivel:</strong> <span id="completed-level">1</span>/3</p>
+                            <div class="stats">
+                                <p><strong>Tiempo:</strong> <span id="finalTime">00:00</span></p>
+                                <p><strong>Nivel:</strong> <span id="completedLevel">1</span>/3</p>
                             </div>
-                            <div id="completed-image" class="blocka-completed-image">
-                                <div class="completed-placeholder">Imagen Completada</div>
-                            </div>
-                            <div class="blocka-complete-buttons">
-                                <button id="next-level-btn" class="blocka-btn blocka-btn-primary">Siguiente
-                                    Nivel</button>
-                                <button id="menu-btn-2" class="blocka-btn blocka-btn-secondary">Menú Principal</button>
+                            <canvas id="completeCanvas" width="400" height="400" style="border: 3px solid var(--primary-color); border-radius: 12px; margin: 20px auto; display: block;"></canvas>
+                            <div class="game-controls">
+                                <button id="nextLevelBtn" class="btn btn-primary">Siguiente Nivel</button>
+                                <button id="menuBtn2" class="btn btn-secondary">Menú Principal</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Contenedor para compartir (se mantiene igual) -->
+                <!--Contenedor para compartir (se mantiene igual)-->
                 <div class="share-container">
                     <button class="share-btn" id="toggleShare">
                         Compartir <span class="arrow">➜</span>

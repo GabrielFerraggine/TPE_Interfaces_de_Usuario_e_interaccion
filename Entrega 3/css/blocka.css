@@ -274,14 +274,13 @@ ul {
 
 /* ==================== BREADCRUMB ==================== */
 .breadcrumb {
-    margin: 65px 440px -10px auto;
+    margin: 65px 525px -10px auto;
     max-width: 1200px;
     font-size: var(--font-size-small);
     font-family: var(--font-family-inter);
     border-radius: 8px;
     display: relative;
 }
-
 .breadcrumb a {
     color: var(--text-secondary);
     text-decoration: none;
@@ -308,7 +307,8 @@ ul {
 
 /* ==================== CARD PRINCIPAL ==================== */
 .main-card {
-    width: 1440px;
+    width: 1650px;
+    max-height: 1080px;
     margin: 30px auto;
     background: var(--card-background);
     border-radius: 16px;
@@ -317,16 +317,225 @@ ul {
     position: relative;
 }
 
-.main-card img {
-    width: 100%;
-    height: 790px;
-    object-fit: cover;
+.game-screen {
+    display: none;
+}
+
+.game-screen.active {
     display: block;
 }
 
+/* Welcome Screen */
+.welcome-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.welcome-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+}
+
+.instructions {
+    background: var(--background-light);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: left;
+    border: 2px solid var(--primary-color);
+}
+
+.instructions h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.instructions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instructions li {
+    margin-bottom: 12px;
+    padding-left: 25px;
+    position: relative;
+    line-height: 1.4;
+}
+
+.instructions li:before {
+    content: "▶";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Buttons */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 8px;
+    min-width: 160px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #e65d2d);
+    color: var(--background-dark);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+}
+
+.btn-secondary {
+    background: var(--background-light);
+    color: var(--text-primary);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: var(--background-dark);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Game Screen */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--background-dark);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.game-level, .game-filter, .game-pieces, .game-progress  {
+    text-align: center;
+}
+
+.timer {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+/* Canvas Container */
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    background-color: var(--background-light);
+}
+
+#gameCanvas {
+    border: 3px solid var(--primary-color);
+    border-radius: 12px;
+    background: var(--background-light);
+    cursor: pointer;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Complete Screen */
+.complete-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.complete-content h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+}
+
+.stats {
+    background: var(--background-light);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+    border: 2px solid var(--primary-color);
+}
+
+.stats p {
+    margin: 12px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.preview-content {
+    text-align: center;
+    padding: 40px;
+}
+
+.preview-content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#previewCanvas {
+    border: 4px solid var(--primary-color);
+    border-radius: 12px;
+    margin: 25px auto;
+    display: block;
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+}
+
+/*===========================test====================*/
+/*
+  #canvasContainer {
+    margin: 40px auto;
+    border: 3px solid #ff6b35;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #222;
+    display: inline-block;
+  }
+
+  canvas {
+    display: block;
+    background-color: #000;
+  }
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .share-container {
-    width: 100%;
-    height: auto;
+    max-width: 1440px;
     display: flex;
     align-items: center;
     background-color: var(--background-dark);
@@ -411,10 +620,9 @@ ul {
     height: 63px;
 }
 
-
 /* ==================== DESCRIPCIÓN ==================== */
 .game-description {
-    max-width: 1440px;
+    max-width: 1650px;
     margin: 40px auto;
     padding: 30px;
     background: var(--card-background);
@@ -482,7 +690,7 @@ ul#movimientos li {
 
 /* ==================== CÓMO SE JUEGA ==================== */
 .how-to-play {
-    max-width: 1440px;
+    max-width: 1650px;
     margin: 40px auto;
     padding: 30px;
     background: var(--card-background);
@@ -541,7 +749,7 @@ ul#movimientos li {
 
 /* ==================== COMENTARIOS ==================== */
 .comments {
-    max-width: 1440px;
+    max-width: 1650px;
     margin: 40px auto;
     padding: 30px;
     background: var(--card-background);
@@ -702,7 +910,7 @@ ul#movimientos li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1440px; 
+    max-width: 1650px; 
     margin: 0 auto;
     font-weight: var(--font-bold);
     font-size: var(--font-size-medium);
@@ -738,7 +946,7 @@ ul#movimientos li {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    max-width: 1440px; 
+    max-width: 1650px; 
     margin: 0 auto;
 }
 
