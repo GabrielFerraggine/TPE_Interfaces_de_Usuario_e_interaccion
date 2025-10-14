@@ -391,10 +391,11 @@ ul {
     box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
-.btn-primary:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+#startGameBtn:hover {
+    transform: translateY(1px) scale(1.1);
 }
+
+
 
 .btn-secondary {
     background: var(--background-light);
@@ -504,6 +505,8 @@ ul {
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
 }
 
+
+
 /*===========================test====================*/
 /*
   #canvasContainer {
@@ -541,11 +544,13 @@ ul {
 
 
 .share-container {
-    max-width: 1440px;
+    width: 100%;
     display: flex;
     align-items: center;
     background-color: var(--background-dark);
     padding: 10px;
+    border-top: 2px solid rgba(255, 107, 53, 0.2);
+    margin-top: 20px;
 }
 
 .share-btn {
@@ -748,8 +753,13 @@ ul#movimientos li {
     font-weight: bold;
 }
 
-#flecha-der{
+#completa{
     width: 90px;
+    height: auto;
+}
+
+#superados{
+    width: 160px;
     height: auto;
 }
 
