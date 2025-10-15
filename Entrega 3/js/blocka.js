@@ -65,11 +65,16 @@ let correctRotations = [0, 0, 0, 0];
 let usedHelp = false;
 let currentImage = null;
 const images = [
-    "../img/imgBlocka/abstract.jpg",
-    "../img/imgBlocka/galaxia.jpg",
-    "../img/imgBlocka/montania.png",
-    "../img/imgBlocka/perrito.jpg",
-    "../img/imgBlocka/playa.png",
+    "../img/imgBlocka/bestia.jpg",
+    "../img/imgBlocka/cuatrobrazos.webp",
+    "../img/imgBlocka/diamante.jpg", 
+    "../img/imgBlocka/fantasmatico.webp",
+    "../img/imgBlocka/fuego.jpg",
+    "../img/imgBlocka/insectoide.jpg",
+    "../img/imgBlocka/mandibula.jpg",
+    "../img/imgBlocka/materiagris.jpg",
+    "../img/imgBlocka/upgrade.jpg",
+    "../img/imgBlocka/XLR8.jpg"
 ];
 
 //Elementos del 2D del canvas (par elemento y contexto)
