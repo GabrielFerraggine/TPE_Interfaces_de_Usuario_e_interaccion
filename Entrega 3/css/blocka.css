@@ -338,6 +338,18 @@ ul {
     margin-right: 4px;
 }
 
+.breadcrumb img:hover{
+    cursor: pointer;
+    animation: spin 2s linear 1;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-360deg); } 
+    100% { transform: rotate(0deg); } 
+}
+
+
 /* ==================== CARD PRINCIPAL ==================== */
 .main-card {
     width: 1650px;
