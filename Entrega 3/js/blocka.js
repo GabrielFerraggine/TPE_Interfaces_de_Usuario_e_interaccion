@@ -64,10 +64,12 @@ let pieceRotations = [0, 0, 0, 0];
 let correctRotations = [0, 0, 0, 0];
 let usedHelp = false;
 let currentImage = null;
+let maxTimePerLevel = [0, 25, 15]; // Tiempos máximos por nivel
+let timeLimitReached = false;
 const images = [
     "../img/imgBlocka/bestia.jpg",
     "../img/imgBlocka/cuatrobrazos.webp",
-    "../img/imgBlocka/diamante.jpg", 
+    "../img/imgBlocka/diamante.jpg",
     "../img/imgBlocka/fantasmatico.webp",
     "../img/imgBlocka/fuego.jpg",
     "../img/imgBlocka/insectoide.jpg",
@@ -98,7 +100,7 @@ const levelConfig = [
 const imagesThunb = [
     "../img/imgBlocka/bestia.jpg",
     "../img/imgBlocka/cuatrobrazos.webp",
-    "../img/imgBlocka/diamante.jpg", 
+    "../img/imgBlocka/diamante.jpg",
     "../img/imgBlocka/fantasmatico.webp",
     "../img/imgBlocka/fuego.jpg",
     "../img/imgBlocka/insectoide.jpg",
@@ -188,34 +190,39 @@ document.getElementById('startGameBtn').addEventListener('click', selectRandom);
 // Función para aplicar filtros usando ImageData
 function applyImageFilter(imageData, filterType) {
     const data = imageData.data;
+    const width = imageData.width;
+    const height = imageData.height;
     
-    for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        
-        switch(filterType) {
-            case 'grayscale':
-                // Escala de grises
-                const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-                data[i] = gray;     // R
-                data[i + 1] = gray; // G
-                data[i + 2] = gray; // B
-                break;
-                
-            case 'brightness':
-                // Brillo +30%
-                data[i] = Math.min(r * 1.9, 255);     // R
-                data[i + 1] = Math.min(g * 1.9, 255); // G
-                data[i + 2] = Math.min(b * 1.9, 255); // B
-                break;
-                
-            case 'invert':
-                // Negativo
-                data[i] = 255 - r;     // R
-                data[i + 1] = 255 - g; // G
-                data[i + 2] = 255 - b; // B
-                break;
+    // Doble for tradicional para recorrer filas y columnas
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            // Calcular índice en el array de datos
+            const index = (y * width + x) * 4;
+            
+            const r = data[index];
+            const g = data[index + 1];
+            const b = data[index + 2];
+            
+            switch(filterType) {
+                case 'grayscale':
+                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                    data[index] = gray;         // R
+                    data[index + 1] = gray;     // G
+                    data[index + 2] = gray;     // B
+                    break;
+                    
+                case 'brightness':
+                    data[index] = Math.min(r * 1.9, 255);     // R
+                    data[index + 1] = Math.min(g * 1.9, 255); // G
+                    data[index + 2] = Math.min(b * 1.9, 255); // B
+                    break;
+                    
+                case 'invert':
+                    data[index] = 255 - r;     // R
+                    data[index + 1] = 255 - g; // G
+                    data[index + 2] = 255 - b; // B
+                    break;
+            }
         }
     }
     return imageData;
@@ -227,16 +234,16 @@ function getFilteredImagePiece(image, pieceIndex, filterType) {
     const pieceRows = 2;
     const imgPieceWidth = image.width / pieceCols;
     const imgPieceHeight = image.height / pieceRows;
-    
+
     const row = Math.floor(pieceIndex / 2);
     const col = pieceIndex % 2;
-    
+
     // Crear canvas temporal para la pieza
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
     tempCanvas.width = imgPieceWidth;
     tempCanvas.height = imgPieceHeight;
-    
+
     // Dibujar la pieza en el canvas temporal
     tempCtx.drawImage(
         image,
@@ -245,56 +252,55 @@ function getFilteredImagePiece(image, pieceIndex, filterType) {
         0, 0,
         imgPieceWidth, imgPieceHeight
     );
-    
+
     // Obtener ImageData y aplicar filtro
     const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
     const filteredData = applyImageFilter(imageData, filterType);
-    
+
     // Devolver el canvas con el filtro aplicado
     tempCtx.putImageData(filteredData, 0, 0);
     return tempCanvas;
 }
 
-// Modificar la función drawPreview para mostrar la imagen completa con filtro
 function drawImagePreview(canvas, ctx, level) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const config = levelConfig[level - 1];
-    
+
     if (currentImage && currentImage.complete) {
         // Crear canvas temporal para aplicar filtro a toda la imagen
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
         tempCanvas.width = currentImage.width;
         tempCanvas.height = currentImage.height;
-        
+
         // Dibujar imagen original
         tempCtx.drawImage(currentImage, 0, 0);
-        
+
         // Aplicar filtro
         const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
         const filteredData = applyImageFilter(imageData, config.filter);
         tempCtx.putImageData(filteredData, 0, 0);
-        
+
         // Dibujar en el canvas de preview
         ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
     } else {
         // Fallback si no hay imagen
         drawPieceBackground(ctx, 0, 0, canvas.width, canvas.height, config.colors);
     }
-    
+
     // Dibujar cuadrícula de referencia
     ctx.filter = 'none';
     ctx.strokeStyle = '#FF6B35';
     ctx.lineWidth = 3;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    
+
     ctx.beginPath();
     ctx.moveTo(canvas.width / 2, 0);
     ctx.lineTo(canvas.width / 2, canvas.height);
     ctx.moveTo(0, canvas.height / 2);
     ctx.lineTo(canvas.width, canvas.height / 2);
     ctx.stroke();
-    
+
     // Texto del nivel
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 32px Inter';
@@ -329,7 +335,7 @@ function drawPiece(ctx, index, rotation, x, y, size, config, isCorrect) {
     if (currentImage) {
         // Obtener la pieza con filtro aplicado
         const filteredPiece = getFilteredImagePiece(currentImage, index, config.filter);
-        
+
         // Dibujar la pieza filtrada
         ctx.drawImage(filteredPiece, x, y, size, size);
     } else {
@@ -448,8 +454,25 @@ function updateTimerDisplay() {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     const timeStr = minutes.toString().padStart(2, '0') + ':' + remainingSeconds.toString().padStart(2, '0');
-    document.getElementById('timerDisplay').textContent = timeStr;
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    timerDisplay.textContent = timeStr;
     document.getElementById('finalTime').textContent = timeStr;
+
+    const maxTime = maxTimePerLevel[currentLevel - 1]; // Ajustar índice porque currentLevel empieza en 1
+    if (maxTime > 0) {
+        if (seconds >= maxTime - 10 && seconds < maxTime) {
+            timerDisplay.classList.add('warning');
+            timerDisplay.classList.remove('danger');
+        } else if (seconds >= maxTime) {
+            timerDisplay.classList.add('danger');
+            timerDisplay.classList.remove('warning');
+        } else {
+            timerDisplay.classList.remove('warning', 'danger');
+        }
+    } else {
+        timerDisplay.classList.remove('warning', 'danger');
+    }
 }
 
 // Check level complete
@@ -457,6 +480,47 @@ function checkLevelComplete() {
     if (correctPieces === totalPieces) {
         levelComplete();
     }
+
+    // Verificar si se excedió el tiempo límite
+    const maxTime = maxTimePerLevel[currentLevel - 1]; // Ajustar índice
+    if (maxTime > 0 && seconds >= maxTime && !timeLimitReached) {
+        timeLimitReached = true;
+        timeLimitExceeded();
+    }
+}
+
+// función para manejar cuando se excede el tiempo
+function timeLimitExceeded() {
+    isGameActive = false;
+    clearInterval(timerInterval);
+
+    // Mostrar mensaje de tiempo agotado
+    setTimeout(() => {
+        alert(`¡Tiempo agotado! No completaste el nivel ${currentLevel} en el tiempo límite. El nivel se reiniciará.`);
+        resetCurrentLevel();
+    }, 100);
+}
+
+//reiniciar el nivel actual
+function resetCurrentLevel() {
+    isGameActive = false;
+    clearInterval(timerInterval);
+    timeLimitReached = false;
+
+    // Mantener la misma imagen pero reiniciar rotaciones y timer
+    correctPieces = 0;
+    pieceRotations = [...Array(4)].map(() => Math.floor(Math.random() * 4));
+    seconds = 0;
+
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('helpBtn').disabled = true;
+
+    updateTimerDisplay();
+    updateDisplay();
+    drawGameBoard();
+
+    // Mostrar mensaje en la pantalla de juego
+    showScreen('gameScreen');
 }
 
 //Muestra el canvas que indica que se completo el nivel
@@ -481,27 +545,68 @@ function levelComplete() {
 
 //Carga el nivel configurando valores iniciales
 function loadLevel(level) {
-    currentLevel = level; // Asegurar que currentLevel se establece correctamente
+    currentLevel = level;
     document.getElementById('currentLevel').textContent = level;
     document.getElementById('completedLevel').textContent = level;
 
     const config = levelConfig[level - 1];
     document.getElementById('currentFilter').textContent = config.name;
 
-    // Reinicia valores del juego
+    // Reiniciar valores del juego
     correctPieces = 0;
     pieceRotations = [0, 0, 0, 0];
     correctRotations = [0, 0, 0, 0];
     usedHelp = false;
     seconds = 0;
+    timeLimitReached = false;
 
-    // No llamar resetGame() aquí porque interfiere con el flujo
     clearInterval(timerInterval);
     isGameActive = false;
     document.getElementById('startBtn').disabled = false;
     document.getElementById('helpBtn').disabled = true;
     updateTimerDisplay();
     updateDisplay();
+    updateTimerLimitDisplay(); // Actualizar display del límite de tiempo
+}
+
+function resetGame() {
+    isGameActive = false;
+    clearInterval(timerInterval);
+    correctPieces = 0;
+    pieceRotations = [0, 0, 0, 0];
+    seconds = 0;
+    timeLimitReached = false;
+    currentLevel = 1;
+
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('helpBtn').disabled = true;
+
+    updateTimerDisplay();
+    updateDisplay();
+    updateTimerLimitDisplay();
+
+    // Resetear clases del timer
+    const timerDisplay = document.getElementById('timerDisplay');
+    timerDisplay.classList.remove('warning', 'danger');
+}
+
+//mostrar el tiempo límite en la UI
+function updateTimerLimitDisplay() {
+    const timerLimitElement = document.getElementById('timerLimit');
+    if (!timerLimitElement) return;
+
+    const maxTime = maxTimePerLevel[currentLevel - 1];
+
+    if (maxTime > 0) {
+        const minutes = Math.floor(maxTime / 60);
+        const seconds = maxTime % 60;
+        const timeStr = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+        timerLimitElement.textContent = `Límite: ${timeStr}`;
+        timerLimitElement.style.display = 'block';
+    } else {
+        timerLimitElement.textContent = 'Sin límite';
+        timerLimitElement.style.display = 'block';
+    }
 }
 
 function showImagePreview() {
@@ -512,7 +617,7 @@ function showImagePreview() {
     const startPreview = () => {
         correctRotations = [0, 0, 0, 0];
         pieceRotations = [];
-        
+
         for (let i = 0; i < correctRotations.length; i++) {
             let randomRotation = Math.floor(Math.random() * 4);
             if (randomRotation === correctRotations[i]) {
@@ -621,14 +726,18 @@ gameCanvas.addEventListener('contextmenu', function (e) {
 document.getElementById('startBtn').addEventListener('click', function () {
     if (!isGameActive) {
         isGameActive = true;
+        timeLimitReached = false;
         document.getElementById('startBtn').disabled = true;
         document.getElementById('helpBtn').disabled = false;
 
         seconds = 0;
         updateTimerDisplay();
         timerInterval = setInterval(function () {
-            seconds++;
-            updateTimerDisplay();
+            if (isGameActive) {
+                seconds++;
+                updateTimerDisplay();
+                checkLevelComplete(); // Verificar tiempo en cada actualización
+            }
         }, 1000);
     }
 });

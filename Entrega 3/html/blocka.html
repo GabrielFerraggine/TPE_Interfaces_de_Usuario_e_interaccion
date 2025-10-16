@@ -25,7 +25,8 @@
                     <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
                     <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
@@ -84,22 +85,24 @@
                             <div class="instructions">
                                 <h3>¿Cómo se juega?</h3>
                                 <ul>
-                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa</li>
+                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa
+                                    </li>
                                     <li><strong>Click Izquierdo:</strong> Rotar pieza hacia la izquierda (90°)</li>
                                     <li><strong>Click Derecho:</strong> Rotar pieza hacia la derecha (90°)</li>
                                     <li><strong>Niveles:</strong> 3 niveles con diferentes filtros de dificultad</li>
-                                    <li><strong>Ayuda:</strong> Usa la ayuda para posicionar una pieza (+5 segundos)</li>
+                                    <li><strong>Ayuda:</strong> Usa la ayuda para posicionar una pieza (+5 segundos)
+                                    </li>
                                 </ul>
                             </div>
                             <button id="startGameBtn" class="btn btn-primary">Comenzar Juego</button>
                         </div>
-                    </div> 
+                    </div>
                     <div id="thumbScreen" class="game-screen">
                         <div class="thumbScreenDisplay">
-                            <h2>Seleccionando imagen</h2>
+                            <h2>Seleccionando imagen...</h2>
                             <canvas id="thumbCanvas" width="1600" height="470"></canvas>
                         </div>
-                    </div> 
+                    </div>
                     <div id="previewScreen" class="game-screen">
                         <div class="preview-content">
                             <h2>Imagen del Nivel <span id="previewLevel">1</span></h2>
@@ -115,8 +118,13 @@
                             <div class="game-filter">
                                 <span><strong>Filtro: <span id="currentFilter">Escala de grises</span></strong></span>
                             </div>
-                            <div class="game-info timer">
-                                <strong>Tiempo:</strong> <span id="timerDisplay">00:00</span>
+                            <!-- Reemplazar esta sección en el game-header -->
+                            <div class="timer-container">
+                                <div class="game-info timer">
+                                    <strong>Tiempo:</strong> <span id="timerDisplay">00:00</span>
+                                </div>
+                                <div class="game-timer-limit" id="timerLimit">
+                                </div>
                             </div>
                             <div class="game-pieces">
                                 <span><strong>Piezas: </strong> <span id="correctPieces">0 / 4</span></span>
@@ -143,7 +151,8 @@
                                 <p><strong>Tiempo:</strong> <span id="finalTime">00:00</span></p>
                                 <p><strong>Nivel:</strong> <span id="completedLevel">1</span>/3</p>
                             </div>
-                            <canvas id="completeCanvas" width="400" height="400" style="border: 3px solid var(--primary-color); border-radius: 12px; margin: 20px auto; display: block;"></canvas>
+                            <canvas id="completeCanvas" width="400" height="400"
+                                style="border: 3px solid var(--primary-color); border-radius: 12px; margin: 20px auto; display: block;"></canvas>
                             <div class="game-controls2">
                                 <button id="nextLevelBtn" class="btn btn-primary">Siguiente Nivel</button>
                                 <button id="menuBtn2" class="btn btn-secondary">Menú Principal</button>
@@ -167,23 +176,30 @@
                 </div>
             </section>
             <!-- Descripción -->
-            <section class="game-description"  id="helpSection">
+            <section class="game-description" id="helpSection">
                 <h2>BLOCKA - Rompecabezas de Rotación</h2>
                 <div class="desc-content">
                     <div class="text">
                         <p>
                             ¡El Omnitrix está fuera de control!
-                            El reloj de Ben 10 se ha roto y ahora las imágenes de sus aliens aparecen completamente desordenadas. 
-                            ¡Tu misión es ayudarlo a reconstruir el Omnitrix rotando las piezas hasta formar correctamente a cada héroe!
+                            El reloj de Ben 10 se ha roto y ahora las imágenes de sus aliens aparecen completamente
+                            desordenadas.
+                            ¡Tu misión es ayudarlo a reconstruir el Omnitrix rotando las piezas hasta formar
+                            correctamente a cada héroe!
                         </p>
                         <ul>
-                            <li>🎮 <b>Mecánica Simple:</b> Haz clic izquierdo o derecho sobre las piezas para rotarlas y revelar la imagen del alien correcto.</li>
-                            <li>🎨 <b>Filtros Visuales:</b> Los niveles incluyen efectos especiales (negativo, brillo cósmico, escala de grises) que aumentan la dificultad visual,
+                            <li>🎮 <b>Mecánica Simple:</b> Haz clic izquierdo o derecho sobre las piezas para rotarlas y
+                                revelar la imagen del alien correcto.</li>
+                            <li>🎨 <b>Filtros Visuales:</b> Los niveles incluyen efectos especiales (negativo, brillo
+                                cósmico, escala de grises) que aumentan la dificultad visual,
                                 ya que el Omnitrix estuviera fallando.</li>
-                            <li>⏱️ <b>Contra Reloj:</b> Restaura las imágenes del Omnitrix lo más rápido posible y bate tu propio récord de reparación.</li>
-                            <li>💡 <b>Sistema de Ayuda:</b> ¿Perdido? Usa la función "Reparar Parcial", que coloca una pieza correctamente... 
+                            <li>⏱️ <b>Contra Reloj:</b> Restaura las imágenes del Omnitrix lo más rápido posible y bate
+                                tu propio récord de reparación.</li>
+                            <li>💡 <b>Sistema de Ayuda:</b> ¿Perdido? Usa la función "Reparar Parcial", que coloca una
+                                pieza correctamente...
                                 pero ¡ojo! eso sumará +5 segundos a tu tiempo.</li>
-                            <li>🏆 <b>3 Niveles:</b> Avanza por tres fases del Omnitrix con dificultad creciente y diferentes aliens por reparar. 
+                            <li>🏆 <b>3 Niveles:</b> Avanza por tres fases del Omnitrix con dificultad creciente y
+                                diferentes aliens por reparar.
                                 ¿Podrás restaurarlo antes de que Ben pierda el control?</li>
                         </ul>
                     </div>
@@ -216,9 +232,8 @@
                 </div>
 
                 <p>
-                    <a href="#">
-                        <span id="link-ayuda">¿Necesitas ayuda?</span>
-                    </a> Usa el botón "Ayudita" para posicionar automáticamente una pieza.
+                    <span id="link-ayuda">¿Necesitas ayuda?</span>
+                    Usa el botón "Reparación parcial" para posicionar automáticamente una pieza.
                 </p>
             </section>
 
