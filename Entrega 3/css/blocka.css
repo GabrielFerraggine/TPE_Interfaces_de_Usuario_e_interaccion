@@ -208,23 +208,55 @@ ul {
     cursor: pointer;
 }
 
+/* Icono de búsqueda */
+.search-bar {
+    position: relative;
+    width: 436px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 35px 10px 10px;
+    background-color: white;
+    color: black;
+}
+
+.search-bar .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+}
+
+
 /* Menú desplegable */
 .dropdown {
     position: absolute;
     top: 56px;
-    /* justo debajo del header */
     right: 0;
-    /* se pega al borde derecho */
     background: var(--background-dark);
     border-radius: 8px 0 0 8px;
     display: flex;
     flex-direction: column;
     padding: 10px;
     min-width: 220px;
-    /* ancho fijo (puedes ajustarlo) */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     animation: slideDown 0.4s ease;
     z-index: 2000;
+}
+
+/* Animación */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Botones */
@@ -243,6 +275,8 @@ ul {
     width: 100%;
 }
 
+
+
 .dropdown button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
@@ -254,22 +288,21 @@ ul {
     object-fit: contain;
 }
 
-/* Ocultar por defecto */
 .hidden {
     display: none;
 }
 
-/* Animación */
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+#btn-search {
+    background: url('../img/Lupa.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    z-index: 10;
 }
 
 /* ==================== BREADCRUMB ==================== */
