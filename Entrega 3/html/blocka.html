@@ -25,8 +25,7 @@
                     <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
-                                Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a></li>
                     <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
@@ -95,6 +94,12 @@
                             <button id="startGameBtn" class="btn btn-primary">Comenzar Juego</button>
                         </div>
                     </div> 
+                    <div id="thumbScreen" class="game-screen">
+                        <div class="thumbScreenDisplay">
+                            <h2>Seleccionando imagen</h2>
+                            <canvas id="thumbCanvas" width="1600" height="470"></canvas>
+                        </div>
+                    </div> 
                     <div id="previewScreen" class="game-screen">
                         <div class="preview-content">
                             <h2>Imagen del Nivel <span id="previewLevel">1</span></h2>
@@ -158,12 +163,11 @@
                         <img src="../img/email.png" alt="Email">
                         <img src="../img/mensaje.png" alt="SMS">
                     </div>
-                    <button class="share-btn help" id="helpSection">¿Necesitas ayuda?</button>
+                    <button class="share-btn help" onclick="location.href='#helpSection'">¿Necesitas mas ayuda?</button>
                 </div>
             </section>
-
             <!-- Descripción -->
-            <section class="game-description">
+            <section class="game-description"  id="helpSection">
                 <h2>BLOCKA - Rompecabezas de Rotación</h2>
                 <div class="desc-content">
                     <div class="text">

@@ -84,13 +84,104 @@ const previewCanvas = document.getElementById('previewCanvas');
 const previewCtx = previewCanvas.getContext('2d');
 const completeCanvas = document.getElementById('completeCanvas');
 const completeCtx = completeCanvas.getContext('2d');
+const canvas = document.getElementById("thumbCanvas");
+const ctx = canvas.getContext("2d");
 
 //Filtros
 const levelConfig = [
-    { name: 'Escala de grises', filter: 'grayscale', colors: ['#FF6B35', '#FF8C5A'] },
-    { name: 'Brillo (30%)', filter: 'brightness', colors: ['#3366CC', '#5599FF'] },
-    { name: 'Negativo', filter: 'invert', colors: ['#33CC66', '#66FF99'] }
+    { name: 'Escala de grises', filter: 'grayscale', colors: [] },
+    { name: 'Brillo (30%)', filter: 'brightness', colors: [] },
+    { name: 'Negativo', filter: 'invert', colors: [] }
 ];
+
+// ==================== THUMBNAILS CANVAS ====================
+const imagesThunb = [
+    "../img/imgBlocka/bestia.jpg",
+    "../img/imgBlocka/cuatrobrazos.webp",
+    "../img/imgBlocka/diamante.jpg", 
+    "../img/imgBlocka/fantasmatico.webp",
+    "../img/imgBlocka/fuego.jpg",
+    "../img/imgBlocka/insectoide.jpg",
+    "../img/imgBlocka/mandibula.jpg",
+    "../img/imgBlocka/materiagris.jpg",
+    "../img/imgBlocka/upgrade.jpg",
+    "../img/imgBlocka/XLR8.jpg"
+];
+
+const loadedImages = imagesThunb.map(url => {
+    const img = new Image();
+    img.src = url;
+    return img;
+});
+
+const spacing = 20;
+const startX = 400;
+let y = 50;
+let selectedIndex = -1;
+
+function drawThumbnails(highlightIndex = -1) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const imagesPerRow = Math.ceil(imagesThunb.length / 2);//Mitad de imagenes por fila
+    let currentX = startX;
+    let currentY = y;
+
+    loadedImages.forEach((img, i) => {
+        // Cambiar a nueva fila cuando llegamos al límite
+        if (i > 0 && i % imagesPerRow === 0) {
+            currentX = startX;
+            currentY += 150 + spacing;//Altura de imagen + espaciado
+        }
+
+        ctx.drawImage(img, currentX, currentY, 150, 150);
+
+        if (i === highlightIndex) {
+            ctx.strokeStyle = '#FF6B35';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(currentX - 3, currentY - 3, 156, 152);
+        }
+
+        //Mover a la siguiente posición en X
+        currentX += 150 + spacing;
+    });
+}
+
+function selectRandom() {
+    showScreen('thumbScreen');
+    selectedIndex = Math.floor(Math.random() * images.length);
+    let vueltas = 0;
+    let velocidad = 100;
+    let current = 0;
+
+    const totalVueltas = loadedImages.length * 3;
+    const totalSteps = totalVueltas + selectedIndex + 2;
+
+    const animate = () => {
+        vueltas++;
+
+        if (vueltas < totalSteps) {
+            drawThumbnails(current);
+            if (vueltas > totalSteps * 0.7) velocidad += 30;
+            current = (current + 1) % loadedImages.length;
+            setTimeout(animate, velocidad);
+        } else {
+            drawThumbnails(selectedIndex);
+            currentImage = new Image();
+            currentImage.src = images[selectedIndex];
+
+            currentImage.onload = () => {
+                showImagePreview();
+            };
+        }
+    };
+
+    animate();
+}
+
+Promise.all(loadedImages.map(img => new Promise(res => img.onload = res)))
+    .then(() => drawThumbnails());
+
+document.getElementById('startGameBtn').addEventListener('click', selectRandom);
 
 // ==================== FILTROS CON IMAGEDATA ====================
 
@@ -388,67 +479,50 @@ function levelComplete() {
     showScreen('completeScreen');
 }
 
-//Carga el nivel configurando valores iniciales (rotacion de piezas)
+//Carga el nivel configurando valores iniciales
 function loadLevel(level) {
-    currentLevel = level;
+    currentLevel = level; // Asegurar que currentLevel se establece correctamente
     document.getElementById('currentLevel').textContent = level;
     document.getElementById('completedLevel').textContent = level;
 
     const config = levelConfig[level - 1];
     document.getElementById('currentFilter').textContent = config.name;
 
-    // Reinicia valores del juego (sin cargar imagen)
+    // Reinicia valores del juego
     correctPieces = 0;
     pieceRotations = [0, 0, 0, 0];
     correctRotations = [0, 0, 0, 0];
     usedHelp = false;
     seconds = 0;
 
-    resetGame();
-}
-
-//Resea valores al inicio de cada nivel
-function resetGame() {
+    // No llamar resetGame() aquí porque interfiere con el flujo
     clearInterval(timerInterval);
-    seconds = 0;
     isGameActive = false;
-    correctPieces = 0;
-    usedHelp = false;
     document.getElementById('startBtn').disabled = false;
     document.getElementById('helpBtn').disabled = true;
     updateTimerDisplay();
     updateDisplay();
 }
 
-//Muestra la vista previa del nivel
 function showImagePreview() {
+    // CORRECCIÓN: Cargar el nivel actual sin modificar currentLevel
     loadLevel(currentLevel);
     document.getElementById('previewLevel').textContent = currentLevel;
 
-    // Selecciona una imagen aleatoria
-    const randomIndex = Math.floor(Math.random() * images.length);
-    currentImage = new Image();
-    currentImage.src = images[randomIndex];
-
-    currentImage.onload = function () {
-        // Configura rotaciones correctas (todas en 0)
+    const startPreview = () => {
         correctRotations = [0, 0, 0, 0];
-
-        // Genera rotaciones iniciales distintas de 0 sin usar do...while
         pieceRotations = [];
+        
         for (let i = 0; i < correctRotations.length; i++) {
             let randomRotation = Math.floor(Math.random() * 4);
             if (randomRotation === correctRotations[i]) {
-                // Si salió igual a la correcta, sumar 1 (y ajustar si llega a 4)
                 randomRotation++;
                 if (randomRotation === 4) randomRotation = 0;
             }
             pieceRotations.push(randomRotation);
         }
 
-        // Dibuja la imagen previa CON FILTRO aplicado
         drawImagePreview(previewCanvas, previewCtx, currentLevel);
-
         showScreen('previewScreen');
 
         setTimeout(() => {
@@ -457,16 +531,23 @@ function showImagePreview() {
         }, 3000);
     };
 
-    currentImage.onerror = function () {
-        // Fallback si la imagen no carga
-        drawPreview(previewCanvas, previewCtx, currentLevel);
-        showScreen('previewScreen');
-        setTimeout(() => {
-            showScreen('gameScreen');
-            drawGameBoard();
-        }, 3000);
-    };
+    if (!currentImage) return;
+
+    if (currentImage.complete) {
+        startPreview();
+    } else {
+        currentImage.onload = startPreview;
+        currentImage.onerror = () => {
+            drawPreview(previewCanvas, previewCtx, currentLevel);
+            showScreen('previewScreen');
+            setTimeout(() => {
+                showScreen('gameScreen');
+                drawGameBoard();
+            }, 3000);
+        };
+    }
 }
+
 
 // Use help
 function useHelp() {
@@ -531,11 +612,11 @@ gameCanvas.addEventListener('contextmenu', function (e) {
 });
 
 //Abre el primer nivel con el boton de comenzar juego
-document.getElementById('startGameBtn').addEventListener('click', function () {
+/*document.getElementById('startGameBtn').addEventListener('click', function () {
     currentLevel = 1;
     showImagePreview();
 });
-
+*/
 //Inicia el nivel actual del boton comenzar nivel
 document.getElementById('startBtn').addEventListener('click', function () {
     if (!isGameActive) {
@@ -569,14 +650,15 @@ document.getElementById('menuBtn2').addEventListener('click', function () {
     resetGame();
 });
 
-//Te lleva al siguiente nivel si existe o muestra la pantalla de felicitaciones
 document.getElementById('nextLevelBtn').addEventListener('click', function () {
     if (currentLevel < 3) {
-        currentLevel++;
-        showImagePreview();
+        currentLevel++; // CORRECCIÓN: Incrementar currentLevel aquí
+        selectRandom();
     } else {
         alert('¡Felicidades! Completaste todos los niveles del juego BLOCKA.');
         showScreen('welcomeScreen');
+        // CORRECCIÓN: Reiniciar currentLevel al completar todos los niveles
+        currentLevel = 1;
         resetGame();
     }
 });

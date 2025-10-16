@@ -459,7 +459,10 @@ ul {
     margin-top: -10px;
 }
 
-
+.thumbScreenDisplay h2{
+    display: flex;
+    justify-content: center;
+}
 
 /* pantalla completa */
 .complete-content {
@@ -487,6 +490,9 @@ ul {
     font-weight: 700;
 }
 
+.thumbScreenDisplay h2{
+    font-size: x-large;
+}
 .preview-content {
     text-align: center;
     padding: 40px;
@@ -526,6 +532,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 5px;
+    height: 50px;
 }
 
 .share-btn:hover {
@@ -536,6 +543,7 @@ ul {
 .share-btn .arrow {
     font-size: 20px;
 }
+
 
 @keyframes share {
     0% {
@@ -660,6 +668,10 @@ ul#movimientos li {
 
 
 /* ==================== CÓMO SE JUEGA ==================== */
+#helpSection {
+    scroll-margin-top: 100px; /*Deja un espacio al deplazarse*/
+}
+
 .how-to-play {
     max-width: 1650px;
     margin: 40px auto;
