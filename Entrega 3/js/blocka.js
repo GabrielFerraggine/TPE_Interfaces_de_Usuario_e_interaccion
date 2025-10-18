@@ -59,13 +59,22 @@ let timerInterval;
 let seconds = 0;
 let isGameActive = false;
 let correctPieces = 0;
-const totalPieces = 4;
+let totalPieces = 4;
 let pieceRotations = [0, 0, 0, 0];
 let correctRotations = [0, 0, 0, 0];
 let usedHelp = false;
 let currentImage = null;
-let maxTimePerLevel = [0, 25, 15]; // Tiempos máximos por nivel
+let maxTimePerLevel = [0, 25, 15];//Tiempos máximos por nivel
 let timeLimitReached = false;
+let cantPieces = 4;
+let gridConfig = { cols: 2, rows: 2 };
+
+const gridConfigs = {
+    4: { cols: 2, rows: 2, pieceSize: 280 },
+    6: { cols: 3, rows: 2, pieceSize: 186 },
+    8: { cols: 4, rows: 2, pieceSize: 140 }
+};
+
 const images = [
     "../img/imgBlocka/bestia.jpg",
     "../img/imgBlocka/cuatrobrazos.webp",
@@ -183,8 +192,6 @@ function selectRandom() {
 Promise.all(loadedImages.map(img => new Promise(res => img.onload = res)))
     .then(() => drawThumbnails());
 
-document.getElementById('startGameBtn').addEventListener('click', selectRandom);
-
 // ==================== FILTROS CON IMAGEDATA ====================
 
 // Función para aplicar filtros usando ImageData
@@ -228,15 +235,44 @@ function applyImageFilter(imageData, filterType) {
     return imageData;
 }
 
-// Función para obtener una pieza de la imagen con filtro aplicado
+//=============================Grilla dinamica====================
+// Función para actualizar la configuración del grid
+function updateGridConfig(piecesCount) {
+    cantPieces = piecesCount;
+    totalPieces = piecesCount;
+    gridConfig = gridConfigs[piecesCount];
+    
+    // Reinicializar arrays de rotaciones
+    pieceRotations = Array(piecesCount).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(piecesCount).fill(0);
+    
+    // Ajustar tamaño del canvas si es necesario
+    adjustCanvasSize();
+}
+
+// Función para ajustar el tamaño del canvas según la configuración
+function adjustCanvasSize() {
+    const gap = 20;
+    const startX = 10;
+    const startY = 10;
+    
+    const width = startX * 2 + gridConfig.cols * gridConfig.pieceSize + (gridConfig.cols - 1) * gap;
+    const height = startY * 2 + gridConfig.rows * gridConfig.pieceSize + (gridConfig.rows - 1) * gap;
+    
+    gameCanvas.width = width;
+    gameCanvas.height = height;
+}
+
+
+//Función para obtener una pieza de la imagen con filtro aplicado
 function getFilteredImagePiece(image, pieceIndex, filterType) {
-    const pieceCols = 2;
-    const pieceRows = 2;
+    const pieceCols = gridConfig.cols;
+    const pieceRows = gridConfig.rows;
     const imgPieceWidth = image.width / pieceCols;
     const imgPieceHeight = image.height / pieceRows;
 
-    const row = Math.floor(pieceIndex / 2);
-    const col = pieceIndex % 2;
+    const row = Math.floor(pieceIndex / pieceCols);
+    const col = pieceIndex % pieceCols;
 
     // Crear canvas temporal para la pieza
     const tempCanvas = document.createElement('canvas');
@@ -267,7 +303,7 @@ function drawImagePreview(canvas, ctx, level) {
     const config = levelConfig[level - 1];
 
     if (currentImage && currentImage.complete) {
-        // Crear canvas temporal para aplicar filtro a toda la imagen
+        //Crear canvas temporal para aplicar filtro a toda la imagen
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
         tempCanvas.width = currentImage.width;
@@ -294,12 +330,24 @@ function drawImagePreview(canvas, ctx, level) {
     ctx.lineWidth = 3;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.moveTo(0, canvas.height / 2);
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
+
+    // Líneas verticales
+    for (let col = 1; col < gridConfig.cols; col++) {
+        const x = (canvas.width / gridConfig.cols) * col;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+
+    // Líneas horizontales
+    for (let row = 1; row < gridConfig.rows; row++) {
+        const y = (canvas.height / gridConfig.rows) * row;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
 
     // Texto del nivel
     ctx.fillStyle = '#ffffff';
@@ -351,16 +399,16 @@ function drawGameBoard() {
     gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);//limpia el tablero al rotar una pieza
 
     const config = levelConfig[currentLevel - 1];//aplica filtro segun nivel (tomando el array de filtros como referencia)
-    const pieceSize = 280;
+    const pieceSize = gridConfig.pieceSize;
     const gap = 20;
     const startX = 10;
     const startY = 10;
 
     //recorre las 4 piezas del puzzle
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < totalPieces; i++) {
         //Define la posicion de cada pieza
-        const row = Math.floor(i / 2);
-        const col = i % 2;
+        const row = Math.floor(i / gridConfig.cols);
+        const col = i % gridConfig.cols;
         //define coordenadas de dibujo
         const x = startX + col * (pieceSize + gap);
         const y = startY + row * (pieceSize + gap);
@@ -403,14 +451,14 @@ function drawPreview(canvas, ctx, level) {
 
 //Obtiene los calculos para saber que pieza fue clickeada
 function getPieceAtPosition(x, y) {
-    const pieceSize = 280;
+    const pieceSize = gridConfig.pieceSize;
     const gap = 20;
     const startX = 10;
     const startY = 10;
 
-    for (let i = 0; i < 4; i++) {
-        const row = Math.floor(i / 2);
-        const col = i % 2;
+    for (let i = 0; i < totalPieces; i++) {
+        const row = Math.floor(i / gridConfig.cols);
+        const col = i % gridConfig.cols;
         const px = startX + col * (pieceSize + gap);
         const py = startY + row * (pieceSize + gap);
 
@@ -421,7 +469,7 @@ function getPieceAtPosition(x, y) {
     return -1;//Caso el click esta fuera del canvas 
 }
 
-// Rotate piece
+//Rota una pieza a una posicion diferente a la correcta
 function rotatePiece(index, direction) {
     if (!isGameActive) return;
 
@@ -573,7 +621,7 @@ function resetGame() {
     isGameActive = false;
     clearInterval(timerInterval);
     correctPieces = 0;
-    pieceRotations = [0, 0, 0, 0];
+    pieceRotations = Array(totalPieces).fill(0).map(() => Math.floor(Math.random() * 4));
     seconds = 0;
     timeLimitReached = false;
     currentLevel = 1;
@@ -610,15 +658,14 @@ function updateTimerLimitDisplay() {
 }
 
 function showImagePreview() {
-    // CORRECCIÓN: Cargar el nivel actual sin modificar currentLevel
     loadLevel(currentLevel);
     document.getElementById('previewLevel').textContent = currentLevel;
 
     const startPreview = () => {
-        correctRotations = [0, 0, 0, 0];
+        correctRotations = Array(totalPieces).fill(0);
         pieceRotations = [];
 
-        for (let i = 0; i < correctRotations.length; i++) {
+        for (let i = 0; i < totalPieces; i++) {
             let randomRotation = Math.floor(Math.random() * 4);
             if (randomRotation === correctRotations[i]) {
                 randomRotation++;
@@ -716,12 +763,6 @@ gameCanvas.addEventListener('contextmenu', function (e) {
     return false;
 });
 
-//Abre el primer nivel con el boton de comenzar juego
-/*document.getElementById('startGameBtn').addEventListener('click', function () {
-    currentLevel = 1;
-    showImagePreview();
-});
-*/
 //Inicia el nivel actual del boton comenzar nivel
 document.getElementById('startBtn').addEventListener('click', function () {
     if (!isGameActive) {
@@ -740,6 +781,26 @@ document.getElementById('startBtn').addEventListener('click', function () {
             }
         }, 1000);
     }
+});
+//Selectores de cantidad de piezas
+document.getElementById('btn4').addEventListener('click', function() {
+    updateGridConfig(4);
+    selectRandom();
+});
+
+document.getElementById('btn6').addEventListener('click', function() {
+    updateGridConfig(6);
+    selectRandom();
+});
+
+document.getElementById('btn8').addEventListener('click', function() {
+    updateGridConfig(8);
+    selectRandom();
+});
+
+//Inicia de una imagen aleatoria
+document.getElementById('startGameBtn').addEventListener('click', function() {
+    showScreen('complexityLevel');
 });
 
 //Boton de ayuda
@@ -761,16 +822,16 @@ document.getElementById('menuBtn2').addEventListener('click', function () {
 
 document.getElementById('nextLevelBtn').addEventListener('click', function () {
     if (currentLevel < 3) {
-        currentLevel++; // CORRECCIÓN: Incrementar currentLevel aquí
+        currentLevel++;
         selectRandom();
     } else {
         alert('¡Felicidades! Completaste todos los niveles del juego BLOCKA.');
         showScreen('welcomeScreen');
-        // CORRECCIÓN: Reiniciar currentLevel al completar todos los niveles
         currentLevel = 1;
         resetGame();
     }
 });
 
-//Inicializacion
+//Inicializacion por defecto
+updateGridConfig(4);
 showScreen('welcomeScreen');

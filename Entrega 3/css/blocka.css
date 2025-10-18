@@ -457,15 +457,77 @@ ul {
     cursor: not-allowed;
 }
 
+.complexityBtn-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.complexityBtn-content .btn {
+    min-width: 120px;
+    padding: 20px 30px;
+    font-size: 1.2rem;
+    margin: 10px;
+}
+
+.complexityLevel-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+}
+
+/* Ajustes responsivos para el canvas del juego */
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    background-image: url("../img/imgBlocka/fondo_blocka.png");
+    min-height: 650px;
+    align-items: center;
+}
+
+/* Estilos para diferentes configuraciones de grid */
+.grid-2x2 #gameCanvas {
+    width: 600px;
+    height: 600px;
+}
+
+.grid-3x2 #gameCanvas {
+    width: 800px;
+    height: 500px;
+}
+
+.grid-4x2 #gameCanvas {
+    width: 900px;
+    height: 400px;
+}
+
+/* Ajustes para el preview con diferentes grids */
+.preview-grid-2x2 #previewCanvas {
+    border-width: 4px;
+}
+
+.preview-grid-3x2 #previewCanvas {
+    border-width: 3px;
+}
+
+.preview-grid-4x2 #previewCanvas {
+    border-width: 2px;
+}
+
+
 /* Game Screen */
 .game-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     background: var(--background-dark);
-    border-radius: 12px;
-    margin-bottom: 20px;
+    border-radius: 10px;
+    margin-bottom: 5px;
 }
 
 .game-level, .game-filter, .game-pieces, .game-progress  {
@@ -503,7 +565,7 @@ ul {
     margin-top: -10px;
 }
 
-.thumbScreenDisplay h2{
+.thumb-content h2{
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -555,14 +617,20 @@ ul {
     display: block;
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
 }
+#completeCanvas {
+    border: 3px solid var(--primary-color); 
+    border-radius: 12px; margin: 
+    20px auto; 
+    display: block;
+}
 .share-container {
     width: 100%;
     display: flex;
     align-items: center;
     background-color: var(--background-dark);
-    padding: 10px;
+    padding: 5px;
     border-top: 2px solid rgba(255, 107, 53, 0.2);
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .share-btn, .share-btn.help {
@@ -1136,7 +1204,7 @@ ul#movimientos li {
 }
 
 /* Botones */
-.blocka-btn {
+/*.blocka-btn {
     padding: 15px 30px;
     border: none;
     border-radius: 10px;
@@ -1146,16 +1214,16 @@ ul#movimientos li {
     transition: all 0.3s ease;
     margin: 8px;
     min-width: 160px;
-}
+}*/
 
-.blocka-btn-primary {
+/*.blocka-btn-primary {
     background: linear-gradient(135deg, var(--primary-color), #e65d2d);
     color: var(--background-dark);
     box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
 .blocka-btn-primary:hover {
-    transform: translateY(-3px);
+    transform: translateY(-10px);
     box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
 }
 
@@ -1176,7 +1244,7 @@ ul#movimientos li {
     cursor: not-allowed;
     transform: none !important;
 }
-
+*/
 /* Pantalla de preview */
 .blocka-preview-content {
     text-align: center;
@@ -1395,4 +1463,3 @@ ul#movimientos li {
 .blocka-piece.pulse {
     animation: pulse 0.5s ease-in-out;
 }
-

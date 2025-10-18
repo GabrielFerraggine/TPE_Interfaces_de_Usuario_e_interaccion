@@ -86,7 +86,7 @@
                             <div class="instructions">
                                 <h3>¿Cómo se juega?</h3>
                                 <ul>
-                                    <li><strong>Objetivo:</strong> Rota las 4 piezas hasta formar la imagen completa
+                                    <li><strong>Objetivo:</strong> Rota las piezas (4, 6 u 8 a eleccion) hasta formar la imagen completa
                                     </li>
                                     <li><strong>Click Izquierdo:</strong> Rotar pieza hacia la izquierda (90°)</li>
                                     <li><strong>Click Derecho:</strong> Rotar pieza hacia la derecha (90°)</li>
@@ -98,8 +98,29 @@
                             <button id="startGameBtn" class="btn btn-primary">Comenzar Juego</button>
                         </div>
                     </div>
+                    <div id="complexityLevel" class="game-screen">
+                        <div class="complexityLevel-content">
+                            <h2>Selecciona la complejidad del nivel</h2>
+                            <p class="complexity-description">Elige cuántas piezas tendrá el rompecabezas:</p>
+                            <div class="complexityBtn-content">
+                                <button id="btn4" class="btn btn-primary">
+                                    4 piezas<br><small>(2x2)</small>
+                                </button>
+                                <button id="btn6" class="btn btn-primary">
+                                    6 piezas<br><small>(3x2)</small>
+                                </button>
+                                <button id="btn8" class="btn btn-primary">
+                                    8 piezas<br><small>(4x2)</small>
+                                </button>
+                            </div>
+                            <div class="complexity-info">
+                                <p><strong>Más piezas = Mayor desafío</strong></p>
+                                <p>Las imágenes se dividirán en la configuración seleccionada</p>
+                            </div>
+                        </div>
+                    </div>
                     <div id="thumbScreen" class="game-screen">
-                        <div class="thumbScreenDisplay">
+                        <div class="thumb-content">
                             <h2>Seleccionando imagen...</h2>
                             <canvas id="thumbCanvas" width="1600" height="470"></canvas>
                         </div>
@@ -152,8 +173,7 @@
                                 <p><strong>Tiempo:</strong> <span id="finalTime">00:00</span></p>
                                 <p><strong>Nivel:</strong> <span id="completedLevel">1</span>/3</p>
                             </div>
-                            <canvas id="completeCanvas" width="400" height="400"
-                                style="border: 3px solid var(--primary-color); border-radius: 12px; margin: 20px auto; display: block;"></canvas>
+                            <canvas id="completeCanvas" width="400" height="400"></canvas>
                             <div class="game-controls2">
                                 <button id="nextLevelBtn" class="btn btn-primary">Siguiente Nivel</button>
                                 <button id="menuBtn2" class="btn btn-secondary">Menú Principal</button>
