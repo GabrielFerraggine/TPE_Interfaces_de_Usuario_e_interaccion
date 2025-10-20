@@ -542,10 +542,19 @@ function timeLimitExceeded() {
     isGameActive = false;
     clearInterval(timerInterval);
 
-    // Mostrar mensaje de tiempo agotado
+    // Mostrar notificación de tiempo agotado
     setTimeout(() => {
-        alert(`¡Tiempo agotado! No completaste el nivel ${currentLevel} en el tiempo límite. El nivel se reiniciará.`);
-        resetCurrentLevel();
+        showNotification(
+            '¡Tiempo Agotado!', 
+            `No completaste el nivel ${currentLevel} en el tiempo límite. El nivel se reiniciará.`,
+            [
+                {
+                    text: 'Reiniciar Nivel',
+                    type: 'confirm',
+                    callback: resetCurrentLevel
+                }
+            ]
+        );
     }, 100);
 }
 
@@ -782,6 +791,71 @@ document.getElementById('startBtn').addEventListener('click', function () {
         }, 1000);
     }
 });
+
+// ==================== SISTEMA DE NOTIFICACIONES ====================
+function showNotification(title, message, buttons = []) {
+    const overlay = document.getElementById('notificationOverlay');
+    const notification = document.getElementById('gameNotification');
+    const titleElement = document.getElementById('notificationTitle');
+    const messageElement = document.getElementById('notificationMessage');
+    const buttonsContainer = document.getElementById('notificationButtons');
+    
+    titleElement.textContent = title;
+    messageElement.textContent = message;
+    
+    // Limpiar botones anteriores
+    buttonsContainer.innerHTML = '';
+    
+    // Crear botones dinámicamente
+    buttons.forEach(button => {
+        const btn = document.createElement('button');
+        btn.textContent = button.text;
+        btn.className = `notification-btn ${button.type || 'confirm'}`;
+        btn.onclick = () => {
+            hideNotification();
+            if (button.callback) button.callback();
+        };
+        buttonsContainer.appendChild(btn);
+    });
+    
+    // Si no hay botones, agregar uno por defecto
+    if (buttons.length === 0) {
+        const defaultBtn = document.createElement('button');
+        defaultBtn.textContent = 'Aceptar';
+        defaultBtn.className = 'notification-btn confirm';
+        defaultBtn.onclick = hideNotification;
+        buttonsContainer.appendChild(defaultBtn);
+    }
+    
+    overlay.classList.add('active');
+    notification.classList.add('active');
+}
+
+function hideNotification() {
+    const overlay = document.getElementById('notificationOverlay');
+    const notification = document.getElementById('gameNotification');
+    
+    overlay.classList.remove('active');
+    notification.classList.remove('active');
+}
+
+// Función para mostrar confirmación
+function showConfirmation(message, onConfirm, onCancel = null) {
+    showNotification('Confirmar', message, [
+        {
+            text: 'Cancelar',
+            type: 'cancel',
+            callback: onCancel
+        },
+        {
+            text: 'Aceptar',
+            type: 'confirm',
+            callback: onConfirm
+        }
+    ]);
+}
+
+
 //Selectores de cantidad de piezas
 document.getElementById('btn4').addEventListener('click', function() {
     updateGridConfig(4);
@@ -808,10 +882,13 @@ document.getElementById('helpBtn').addEventListener('click', useHelp);
 
 //Confirma si desea volver al menu principal
 document.getElementById('menuBtn').addEventListener('click', function () {
-    if (confirm('¿Volver al menú principal? Se perderá el progreso actual.')) {
-        showScreen('welcomeScreen');
-        resetGame();
-    }
+    showConfirmation(
+        '¿Volver al menú principal? Se perderá el progreso actual.',
+        function() {
+            showScreen('welcomeScreen');
+            resetGame();
+        }
+    );
 });
 
 //Te lleva al menu sin confirmacion 
@@ -825,10 +902,21 @@ document.getElementById('nextLevelBtn').addEventListener('click', function () {
         currentLevel++;
         selectRandom();
     } else {
-        alert('¡Felicidades! Completaste todos los niveles del juego BLOCKA.');
-        showScreen('welcomeScreen');
-        currentLevel = 1;
-        resetGame();
+        showNotification(
+            '¡Felicidades!', 
+            'Completaste todos los niveles del juego BLOCKA.',
+            [
+                {
+                    text: 'Volver al Menú',
+                    type: 'confirm',
+                    callback: function() {
+                        showScreen('welcomeScreen');
+                        currentLevel = 1;
+                        resetGame();
+                    }
+                }
+            ]
+        );
     }
 });
 

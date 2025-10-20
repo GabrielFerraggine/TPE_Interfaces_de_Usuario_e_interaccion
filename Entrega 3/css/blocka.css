@@ -354,7 +354,7 @@ ul {
 .main-card {
     width: 1650px;
     max-height: 1080px;
-    margin: 30px auto;
+    margin: 20px auto;
     background: var(--card-background);
     border-radius: 16px;
     overflow: hidden;
@@ -476,7 +476,17 @@ ul {
 .complexityLevel-content h2 {
     font-size: 2.5rem;
     margin-bottom: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
     color: var(--text-primary);
+}
+
+.complexityLevel-content p{
+    margin-left: 30px;
+}
+
+.complexityLevel-content button:hover{
+    transform: scale(1.12);
 }
 
 /* Ajustes responsivos para el canvas del juego */
@@ -527,7 +537,7 @@ ul {
     padding: 10px;
     background: var(--background-dark);
     border-radius: 10px;
-    margin-bottom: 5px;
+    margin-bottom: -34px;
 }
 
 .game-level, .game-filter, .game-pieces, .game-progress  {
@@ -755,6 +765,94 @@ ul {
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+/* ==================== NOTIFICACIONES ==================== */
+.game-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background-dark);
+    border: 3px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 30px;
+    z-index: 3000;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    max-width: 500px;
+    width: 90%;
+    display: none;
+}
+
+.game-notification.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2999;
+    display: none;
+}
+
+.notification-overlay.active {
+    display: block;
+}
+
+.notification-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: var(--font-bold);
+    margin-bottom: 15px;
+}
+
+.notification-message {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.notification-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.notification-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: var(--font-bold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.notification-btn.confirm {
+    background: var(--primary-color);
+    color: var(--background-dark);
+}
+
+.notification-btn.cancel {
+    background: var(--background-light);
+    color: var(--text-primary);
+    border: 2px solid var(--primary-color);
+}
+
+.notification-btn:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 
@@ -1203,48 +1301,7 @@ ul#movimientos li {
     font-size: 0.8rem;
 }
 
-/* Botones */
-/*.blocka-btn {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: var(--font-bold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 8px;
-    min-width: 160px;
-}*/
 
-/*.blocka-btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), #e65d2d);
-    color: var(--background-dark);
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-}
-
-.blocka-btn-primary:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
-}
-
-.blocka-btn-secondary {
-    background: var(--background-light);
-    color: var(--text-primary);
-    border: 2px solid var(--primary-color);
-}
-
-.blocka-btn-secondary:hover {
-    background: var(--primary-color);
-    color: var(--background-dark);
-    transform: translateY(-2px);
-}
-
-.blocka-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none !important;
-}
-*/
 /* Pantalla de preview */
 .blocka-preview-content {
     text-align: center;

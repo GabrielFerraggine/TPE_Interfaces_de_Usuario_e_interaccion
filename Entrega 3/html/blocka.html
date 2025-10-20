@@ -86,7 +86,8 @@
                             <div class="instructions">
                                 <h3>¿Cómo se juega?</h3>
                                 <ul>
-                                    <li><strong>Objetivo:</strong> Rota las piezas (4, 6 u 8 a eleccion) hasta formar la imagen completa
+                                    <li><strong>Objetivo:</strong> Rota las piezas (4, 6 u 8 a eleccion) hasta formar la
+                                        imagen completa
                                     </li>
                                     <li><strong>Click Izquierdo:</strong> Rotar pieza hacia la izquierda (90°)</li>
                                     <li><strong>Click Derecho:</strong> Rotar pieza hacia la derecha (90°)</li>
@@ -115,7 +116,8 @@
                             </div>
                             <div class="complexity-info">
                                 <p><strong>Más piezas = Mayor desafío</strong></p>
-                                <p>Las imágenes se dividirán en la configuración seleccionada</p>
+                                &nbsp 
+                                <p> Las imágenes se dividirán en la configuración seleccionada</p>
                             </div>
                         </div>
                     </div>
@@ -196,6 +198,16 @@
                     <button class="share-btn help" onclick="location.href='#helpSection'">¿Necesitas mas ayuda?</button>
                 </div>
             </section>
+
+            <!-- Sistema de Notificaciones -->
+            <div id="notificationOverlay" class="notification-overlay"></div>
+            <div id="gameNotification" class="game-notification">
+                <div class="notification-title" id="notificationTitle">Notificación</div>
+                <div class="notification-message" id="notificationMessage"></div>
+                <div class="notification-buttons" id="notificationButtons">
+                    <!--los botones se generan dinamicamente -->
+                </div>
+            </div>
             <!-- Descripción -->
             <section class="game-description" id="helpSection">
                 <h2>BLOCKA - Rompecabezas de Rotación</h2>
