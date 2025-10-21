@@ -59,7 +59,6 @@ let timerInterval;
 let seconds = 0;
 let isGameActive = false;
 let correctPieces = 0;
-let totalPieces = 4;
 let pieceRotations = [0, 0, 0, 0];
 let correctRotations = [0, 0, 0, 0];
 let usedHelp = false;
@@ -239,10 +238,9 @@ function applyImageFilter(imageData, filterType) {
 // Función para actualizar la configuración del grid
 function updateGridConfig(piecesCount) {
     cantPieces = piecesCount;
-    totalPieces = piecesCount;
     gridConfig = gridConfigs[piecesCount];
     
-    // Reinicializar arrays de rotaciones
+    //Reinicializar arrays de rotaciones
     pieceRotations = Array(piecesCount).fill(0).map(() => Math.floor(Math.random() * 4));
     correctRotations = Array(piecesCount).fill(0);
     
@@ -405,7 +403,7 @@ function drawGameBoard() {
     const startY = 10;
 
     //recorre las 4 piezas del puzzle
-    for (let i = 0; i < totalPieces; i++) {
+    for (let i = 0; i < cantPieces; i++) {
         //Define la posicion de cada pieza
         const row = Math.floor(i / gridConfig.cols);
         const col = i % gridConfig.cols;
@@ -456,7 +454,7 @@ function getPieceAtPosition(x, y) {
     const startX = 10;
     const startY = 10;
 
-    for (let i = 0; i < totalPieces; i++) {
+    for (let i = 0; i < cantPieces; i++) {
         const row = Math.floor(i / gridConfig.cols);
         const col = i % gridConfig.cols;
         const px = startX + col * (pieceSize + gap);
@@ -475,7 +473,9 @@ function rotatePiece(index, direction) {
 
     //guarda si una pieza esta bien rotada o no
     const wasCorrect = pieceRotations[index] === correctRotations[index];
+    //Calcular nueva rotación (asegurando que esté entre 0-3, se iba de rango antes)
     pieceRotations[index] = (pieceRotations[index] + direction + 4) % 4;
+
     const isCorrect = pieceRotations[index] === correctRotations[index];
 
     //Suma o resta al contador de piezas que esta bien rotadas
@@ -492,8 +492,8 @@ function rotatePiece(index, direction) {
 
 //Indicador visual de la cantidad de piezas acertadas
 function updateDisplay() {
-    document.getElementById('correctPieces').textContent = correctPieces + '/' + totalPieces;
-    const progress = Math.round((correctPieces / totalPieces) * 100);
+    document.getElementById('correctPieces').textContent = correctPieces + '/' + cantPieces;
+    const progress = Math.round((correctPieces / cantPieces) * 100);
     document.getElementById('progress').textContent = progress + '%';
 }
 
@@ -525,7 +525,7 @@ function updateTimerDisplay() {
 
 // Check level complete
 function checkLevelComplete() {
-    if (correctPieces === totalPieces) {
+    if (correctPieces === cantPieces) {
         levelComplete();
     }
 
@@ -564,10 +564,19 @@ function resetCurrentLevel() {
     clearInterval(timerInterval);
     timeLimitReached = false;
 
-    // Mantener la misma imagen pero reiniciar rotaciones y timer
+    //Mantener la misma imagen pero reiniciar rotaciones y timer
     correctPieces = 0;
-    pieceRotations = [...Array(4)].map(() => Math.floor(Math.random() * 4));
+    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(cantPieces).fill(0);
+    usedHelp = false;
     seconds = 0;
+
+    //Calcular correctPieces inicial
+    for (let i = 0; i < cantPieces; i++) {
+        if (pieceRotations[i] === correctRotations[i]) {
+            correctPieces++;
+        }
+    }
 
     document.getElementById('startBtn').disabled = false;
     document.getElementById('helpBtn').disabled = true;
@@ -576,7 +585,7 @@ function resetCurrentLevel() {
     updateDisplay();
     drawGameBoard();
 
-    // Mostrar mensaje en la pantalla de juego
+    //Mostrar mensaje en la pantalla de juego
     showScreen('gameScreen');
 }
 
@@ -611,8 +620,8 @@ function loadLevel(level) {
 
     // Reiniciar valores del juego
     correctPieces = 0;
-    pieceRotations = [0, 0, 0, 0];
-    correctRotations = [0, 0, 0, 0];
+    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(cantPieces).fill(0);
     usedHelp = false;
     seconds = 0;
     timeLimitReached = false;
@@ -623,16 +632,18 @@ function loadLevel(level) {
     document.getElementById('helpBtn').disabled = true;
     updateTimerDisplay();
     updateDisplay();
-    updateTimerLimitDisplay(); // Actualizar display del límite de tiempo
+    updateTimerLimitDisplay(); //Actualizar display del límite de tiempo
 }
 
 function resetGame() {
     isGameActive = false;
     clearInterval(timerInterval);
     correctPieces = 0;
-    pieceRotations = Array(totalPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(cantPieces).fill(0);
     seconds = 0;
     timeLimitReached = false;
+    usedHelp = false;
     currentLevel = 1;
 
     document.getElementById('startBtn').disabled = false;
@@ -671,16 +682,20 @@ function showImagePreview() {
     document.getElementById('previewLevel').textContent = currentLevel;
 
     const startPreview = () => {
-        correctRotations = Array(totalPieces).fill(0);
+        correctRotations = Array(cantPieces).fill(0);
         pieceRotations = [];
 
-        for (let i = 0; i < totalPieces; i++) {
+        //Restringir piezas correctas iniciales
+        for (let i = 0; i < cantPieces; i++) {
             let randomRotation = Math.floor(Math.random() * 4);
-            if (randomRotation === correctRotations[i]) {
-                randomRotation++;
-                if (randomRotation === 4) randomRotation = 0;
-            }
             pieceRotations.push(randomRotation);
+        }
+
+        correctPieces = 0;
+        for (let i = 0; i < cantPieces; i++) {
+            if (pieceRotations[i] === correctRotations[i]) {
+                correctPieces++;
+            }
         }
 
         drawImagePreview(previewCanvas, previewCtx, currentLevel);
@@ -689,6 +704,7 @@ function showImagePreview() {
         setTimeout(() => {
             showScreen('gameScreen');
             drawGameBoard();
+            updateDisplay();
         }, 3000);
     };
 
@@ -704,19 +720,20 @@ function showImagePreview() {
             setTimeout(() => {
                 showScreen('gameScreen');
                 drawGameBoard();
+                updateDisplay();
             }, 3000);
         };
     }
 }
 
 
-// Use help
+//Use help
 function useHelp() {
     if (!isGameActive || usedHelp) return;
 
     ///busca una pieza en posicion incorrecta
     let incorrectIndex = -1;
-    for (let i = 0; i < totalPieces; i++) {
+    for (let i = 0; i < cantPieces; i++) {
         if (pieceRotations[i] !== correctRotations[i]) {
             incorrectIndex = i;
             break;
@@ -859,16 +876,19 @@ function showConfirmation(message, onConfirm, onCancel = null) {
 //Selectores de cantidad de piezas
 document.getElementById('btn4').addEventListener('click', function() {
     updateGridConfig(4);
+    resetGame();
     selectRandom();
 });
 
 document.getElementById('btn6').addEventListener('click', function() {
     updateGridConfig(6);
+    resetGame();
     selectRandom();
 });
 
 document.getElementById('btn8').addEventListener('click', function() {
     updateGridConfig(8);
+    resetGame();
     selectRandom();
 });
 
