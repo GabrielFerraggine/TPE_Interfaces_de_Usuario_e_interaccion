@@ -378,7 +378,7 @@ h3 {
 /* ==================== CARD PRINCIPAL ==================== */
 .main-card {
     width: 1650px;
-    max-height: 1080px;
+    height: 768px;
     margin: 20px auto;
     background: var(--card-background);
     border-radius: 16px;
@@ -642,20 +642,23 @@ h3 {
 /* pantalla completa */
 .complete-content {
     text-align: center;
-    padding: 40px;
+    padding: 5px;
 }
 
 .complete-content h2 {
     color: black;
-    font-size: 2.5rem;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
 }
 
 .stats {
     background: var(--background-light);
-    padding: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-around;
+    padding: 5px;
     border-radius: 12px;
-    margin: 25px 0;
+    margin: 5px 0;
     border: 2px solid var(--primary-color);
 }
 
@@ -1528,31 +1531,29 @@ ul#movimientos li {
 /* Pantalla de nivel completado */
 .blocka-complete-content {
     text-align: center;
-    padding: 50px;
+    padding: 5px;
     background: var(--background-light);
     border-radius: 20px;
     box-shadow: 0 12px 10px rgba(0, 0, 0, 0.4);
-    max-width: 100px;
     border: 4px solid var(--primary-color);
 }
 
 .blocka-complete-content h2 {
     color: var(--primary-color);
-    font-size: 2.5rem;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
 }
 .complete-content {
     background: var(--card-background);
     background-image: url("../img/imgBlocka/fondo_blocka.png");
     border-radius: 20px;
-    padding: 50px;
+    padding: 10px;
     text-align: center;
-    max-width: 1600px;
-    max-height: 90vh;
+    max-width: 1640px;
+    max-height: 80vh;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
     border: 4px solid var(--primary-color);
-    margin: 20px;
+    margin: 5px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1569,7 +1570,6 @@ ul#movimientos li {
 
 .blocka-stats p {
     margin: 12px 0;
-    font-size: 1.2rem;
     font-weight: var(--font-bold);
 }
 
