@@ -69,9 +69,9 @@ let cantPieces = 4;
 let gridConfig = { cols: 2, rows: 2 };
 
 const gridConfigs = {
-    4: { cols: 2, rows: 2, pieceSize: 280 },
-    6: { cols: 3, rows: 2, pieceSize: 186 },
-    8: { cols: 4, rows: 2, pieceSize: 140 }
+    4: { cols: 2, rows: 2, pieceSize: 200 },
+    6: { cols: 3, rows: 2, pieceSize: 200 },
+    8: { cols: 4, rows: 2, pieceSize: 200 }
 };
 
 const images = [

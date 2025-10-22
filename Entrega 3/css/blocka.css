@@ -51,6 +51,24 @@ ul {
     list-style: none;
 }
 
+h1 {
+    font-size: var(--font-size-xxlarge);
+    margin-bottom: 1rem;
+    color: black;
+}
+
+h2 {
+    font-size: var(--font-size-xlarge);
+    margin-bottom: 0.75rem; 
+    color: black;
+}
+
+h3 {
+    font-size: var(--font-size-large);
+    margin-bottom: 0.5rem;
+    color: black;
+}
+
 /* ==================== ESTRUCTURA PRINCIPAL ==================== */
 .main-container {
     min-height: 100vh;
@@ -110,6 +128,11 @@ ul {
     width: 44px;
     height: 44px;
     flex-shrink: 0;
+}
+
+.sidebar-nav a:focus {
+    background-color: rgba(255, 107, 53, 0.2);
+    border-radius: 4px;
 }
 
 /* Texto oculto por defecto */
@@ -378,7 +401,7 @@ ul {
 .welcome-content h2 {
     font-size: 1.5rem;
     margin-bottom: 30px;
-    color: var(--text-primary);
+    color: black;
 }
 
 .instructions {
@@ -431,8 +454,8 @@ ul {
 
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-color), #e65d2d);
-    color: var(--background-dark);
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+    color: #000000;
+    font-weight: var(--font-bold);
 }
 
 #startGameBtn:hover {
@@ -452,9 +475,18 @@ ul {
     color: var(--background-dark);
 }
 
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .complexityBtn-content {
@@ -478,7 +510,7 @@ ul {
     margin-bottom: 30px;
     margin-left: 20px;
     margin-top: 20px;
-    color: var(--text-primary);
+    color: black;
 }
 
 .complexityLevel-content p{
@@ -488,15 +520,22 @@ ul {
 .complexityLevel-content button:hover{
     transform: scale(1.12);
 }
+.complexity-info, .complexity-description {
+    padding-left: 30px;
+}
 
 /* Ajustes responsivos para el canvas del juego */
-.canvas-container {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
+.canvas-container,
+.thumb-content,
+.preview-content,
+.complete-content,
+.welcome-content,
+.complexityLevel-content {
     background-image: url("../img/imgBlocka/fondo_blocka.png");
-    min-height: 650px;
-    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
 }
 
 /* Estilos para diferentes configuraciones de grid */
@@ -564,6 +603,10 @@ ul {
     cursor: pointer;
 }
 
+#gameCanvas:focus {
+    outline: 3px solid var(--focus-color);
+}
+
 .game-controls1, .game-controls2 {
     display: flex;
     justify-content: center;
@@ -588,7 +631,7 @@ ul {
 }
 
 .complete-content h2 {
-    color: var(--primary-color);
+    color: black;
     font-size: 2.5rem;
     margin-bottom: 25px;
 }
@@ -666,7 +709,12 @@ ul {
 .share-btn .arrow {
     font-size: 20px;
 }
-
+#completeScreen {
+    width: 100vw;
+    height: 75vh;
+    background: var(--background-dark);
+    overflow-y: auto;
+}
 
 @keyframes share {
     0% {
@@ -747,10 +795,18 @@ ul {
 /* ==================== ESTILOS TEMPORIZADOR ==================== */
 .timer.warning {
     font-weight: var(--font-extrabold);
+    animation: pulse 1s infinite;
 }
 
 .timer.danger {
     font-weight: var(--font-extrabold);
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 
 .game-timer-limit {
@@ -765,6 +821,7 @@ ul {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    min-width: 120px;
 }
 
 /* ==================== NOTIFICACIONES ==================== */
@@ -1093,6 +1150,7 @@ ul#movimientos li {
     color: var(--primary-color);
     transform: scale(1.1);
 }
+
 
 .comment-actions span {
     font-size: 13px;
@@ -1447,8 +1505,8 @@ ul#movimientos li {
     padding: 50px;
     background: var(--background-light);
     border-radius: 20px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    max-width: 500px;
+    box-shadow: 0 12px 10px rgba(0, 0, 0, 0.4);
+    max-width: 100px;
     border: 4px solid var(--primary-color);
 }
 
@@ -1457,6 +1515,22 @@ ul#movimientos li {
     font-size: 2.5rem;
     margin-bottom: 25px;
     text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+}
+.complete-content {
+    background: var(--card-background);
+    background-image: url("../img/imgBlocka/fondo_blocka.png");
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+    max-width: 1600px;
+    max-height: 90vh;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+    border: 4px solid var(--primary-color);
+    margin: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
 }
 
 .blocka-stats {
