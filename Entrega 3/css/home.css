@@ -401,6 +401,10 @@ body {
     background-color: var(--background-dark);
 }
 
+#menuIcon{
+    margin-top: 7px;
+}
+
 .sidebar-logo img {
     width: 44px;
     height: 44px;
@@ -787,6 +791,54 @@ body {
     justify-content: center;
 }
 
+button.left.recomendados {
+  position: absolute;
+  top: 825px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.recomendados {
+  position: absolute;
+  top: 825px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.left.accion {
+  position: absolute;
+  top: 1250px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.accion {
+  position: absolute;
+  top: 1250px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.left.puzzle {
+  position: absolute;
+  top: 1675px;
+  left: 150px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+button.right.puzzle {
+  position: absolute;
+  top: 1675px;
+  right: 85px;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
 .game-carousel::-webkit-scrollbar-track {
     background: var(--background-light);
     border-radius: 4px;
@@ -816,6 +868,42 @@ body {
     border-radius: 10px;
     display: block;
     transition: transform 0.3s ease;
+}
+
+.carousel-arrow.left.recomendados{
+    position: absolute;
+    left: 110px;
+    top: 815px;
+}
+
+.carousel-arrow.right.recomendados{
+    position: absolute;
+    left: 1800px;
+    top: 815px;
+}
+
+.carousel-arrow.left.accion{
+    position: absolute;
+    left: 110px;
+    top: 1270px;
+}
+
+.carousel-arrow.right.accion{
+    position: absolute;
+    left: 1800px;
+    top: 1270px;
+}
+
+.carousel-arrow.left.puzzle{
+    position: absolute;
+    left: 110px;
+    top: 1710px;
+}
+
+.carousel-arrow.right.puzzle{
+    position: absolute;
+    left: 1800px;
+    top: 1710px;
 }
 
 .game-title {
@@ -890,48 +978,6 @@ body {
     }
 }
 
-
-
-/* ==================== COMENTARIOS ==================== */
-.comments {
-    max-width: 1440px;
-    margin: 40px auto;
-    padding: 30px;
-    background: var(--card-background);
-    border-radius: 16px;
-    font-family: var(--font-family-inter);
-}
-
-.comments h3 {
-    font-size: var(--font-size-large);
-    font-weight: var(--font-extrabold);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.comment-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-.comment-box input {
-    flex: 1;
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: none;
-    font-size: var(--font-size-medium);
-}
-
-.send-btn {
-    background: var(--primary-color);
-    padding: 10px 14px;
-    border-radius: 8px;
-    color: var(--text-primary);
-    font-weight: var(--font-bold);
-    cursor: pointer;
-}
 /* ==================== FOOTER ==================== */
 .main-footer {
     background-color: var(--background-dark);
