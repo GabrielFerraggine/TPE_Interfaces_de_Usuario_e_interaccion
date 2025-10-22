@@ -188,19 +188,21 @@ h3 {
 
 .logo-header {
     display: flex;
-    align-items: center;
+    align-items: end;
 }
 
 .logo-header img {
     width: 38px;
     height: 54px;
     margin-right: 10px;
+    margin-bottom: 4px;
 }
 
 .logo-header h1 {
     font-size: 1.5rem;
     color: var(--text-primary);
     margin-right: 13px;
+    margin-top: 17px;
 }
 
 .search-bar input {
@@ -499,18 +501,27 @@ h3 {
 }
 
 .complexityBtn-content .btn {
-    min-width: 120px;
+    min-width: 140px;
     padding: 20px 30px;
     font-size: 1.2rem;
-    margin: 10px;
+    margin: 20px;
+    margin-bottom: 50px;
+}
+
+.complexityLevel-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
 }
 
 .complexityLevel-content h2 {
     font-size: 2.5rem;
     margin-bottom: 30px;
-    margin-left: 20px;
     margin-top: 20px;
     color: black;
+    text-align: center;
 }
 
 .complexityLevel-content p{
@@ -531,7 +542,8 @@ h3 {
 .complete-content,
 .welcome-content,
 .complexityLevel-content {
-    background-image: url("../img/imgBlocka/fondo_blocka.png");
+    background-image: url("../img/imgBlocka/fondo_blocka.png") ;
+    /* background-color: var(--background-dark); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -617,6 +629,9 @@ h3 {
 .game-controls1 button{
     margin-top: -10px;
 }
+.thumb-content{
+    padding-top: 50px;
+}
 
 .thumb-content h2{
     display: flex;
@@ -659,8 +674,16 @@ h3 {
 }
 
 .preview-content h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 20px;
+    font-weight: var(--font-extrabold);
+}
+
+.preview-content p{
+    color: black;
+    font-size: large;
+    font-weight: var(--font-extrabold);
+
 }
 
 #previewCanvas {
@@ -927,6 +950,7 @@ h3 {
     text-align: center;
     font-size: var(--font-size-xlarge);
     font-weight: var(--font-extrabold);
+    color: white;
     margin-bottom: 25px;
 }
 
@@ -1003,6 +1027,7 @@ ul#movimientos li {
 .how-to-play h3 {
     font-size: var(--font-size-large);
     font-weight: var(--font-extrabold);
+    color : white;
     margin-bottom: 20px;
 }
 
@@ -1058,6 +1083,7 @@ ul#movimientos li {
 .comments h3 {
     font-size: var(--font-size-large);
     font-weight: var(--font-extrabold);
+    color: white;
     text-align: center;
     margin-bottom: 20px;
 }

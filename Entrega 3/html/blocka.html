@@ -123,13 +123,13 @@
                     </div>
                     <div id="thumbScreen" class="game-screen">
                         <div class="thumb-content">
-                            <h2>Seleccionando imagen...</h2>
+                            <h2 id="thumbTitle">Seleccionando imagen...</h2>
                             <canvas id="thumbCanvas" width="1600" height="400"></canvas>
                         </div>
                     </div>
                     <div id="previewScreen" class="game-screen">
                         <div class="preview-content">
-                            <h2>Imagen del Nivel <span id="previewLevel">1</span></h2>
+                            <h2>Nivel <span id="previewLevel">1</span></h2>
                             <canvas id="previewCanvas" width="400" height="400"></canvas>
                             <p>Memoriza la imagen...</p>
                         </div>
@@ -142,7 +142,7 @@
                             <div class="game-filter">
                                 <span><strong>Filtro: <span id="currentFilter">Escala de grises</span></strong></span>
                             </div>
-                            <!-- Reemplazar esta sección en el game-header -->
+
                             <div class="timer-container">
                                 <div class="game-info timer">
                                     <strong>Tiempo:</strong> <span id="timerDisplay">00:00</span>
@@ -183,7 +183,10 @@
                         </div>
                     </div>
                 </div>
-                <!--Contenedor para compartir (se mantiene igual)-->
+
+
+                <!--compartir-->
+                
                 <div class="share-container">
                     <button class="share-btn" id="toggleShare">
                         Compartir <span class="arrow">➜</span>
@@ -200,15 +203,18 @@
             </section>
 
             <!-- Sistema de Notificaciones -->
+
             <div id="notificationOverlay" class="notification-overlay"></div>
             <div id="gameNotification" class="game-notification">
                 <div class="notification-title" id="notificationTitle">Notificación</div>
                 <div class="notification-message" id="notificationMessage"></div>
                 <div class="notification-buttons" id="notificationButtons">
-                    <!--los botones se generan dinamicamente -->
+                    <!-- botones se generan dinamicamente -->
                 </div>
             </div>
+
             <!-- Descripción -->
+            
             <section class="game-description" id="helpSection">
                 <h2>BLOCKA - Rompecabezas de Rotación</h2>
                 <div class="desc-content">

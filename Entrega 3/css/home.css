@@ -401,6 +401,10 @@ body {
     background-color: var(--background-dark);
 }
 
+#menuIcon{
+    margin-top: 7px;
+}
+
 .sidebar-logo img {
     width: 44px;
     height: 44px;
