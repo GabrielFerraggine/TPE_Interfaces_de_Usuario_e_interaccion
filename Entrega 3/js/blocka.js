@@ -194,11 +194,11 @@ function loadLevel(level) {
 function updateGridConfig(piecesCount) {
     cantPieces = piecesCount;
     gridConfig = gridConfigs[piecesCount];
-    
+
     //Reinicializar arrays de rotaciones
     pieceRotations = Array(piecesCount).fill(0).map(() => Math.floor(Math.random() * 4));
     correctRotations = Array(piecesCount).fill(0);
-    
+
     //Ajustar tamaño del canvas si es necesario
     adjustCanvasSize();
 }
@@ -208,10 +208,10 @@ function adjustCanvasSize() {
     const gap = 20;
     const startX = 10;
     const startY = 10;
-    
+
     const width = startX * 2 + gridConfig.cols * gridConfig.pieceSize + (gridConfig.cols - 1) * gap;
     const height = startY * 2 + gridConfig.rows * gridConfig.pieceSize + (gridConfig.rows - 1) * gap;
-    
+
     gameCanvas.width = width;
     gameCanvas.height = height;
 }
@@ -272,11 +272,12 @@ function getPieceAtPosition(x, y) {
         const px = startX + col * (pieceSize + gap);
         const py = startY + row * (pieceSize + gap);
 
-        if (x >= px && x <= px + pieceSize && y >= py && y <= py + pieceSize) {
+        // Verificar límites con mayor precisión
+        if (x >= px && x < px + pieceSize && y >= py && y < py + pieceSize) {
             return i;
         }
     }
-    return -1;//Caso el click esta fuera del canvas 
+    return -1; // Click fuera del canvas
 }
 
 //Rota una pieza a una posicion diferente a la correcta
@@ -392,7 +393,7 @@ function timeLimitExceeded() {
     //Mostrar notificación de tiempo agotado
     setTimeout(() => {
         showNotification(
-            '¡Tiempo Agotado!', 
+            '¡Tiempo Agotado!',
             `No completaste el nivel ${currentLevel} en el tiempo límite. El nivel se reiniciará.`,
             [
                 {
@@ -654,31 +655,31 @@ function applyImageFilter(imageData, filterType) {
     const data = imageData.data;
     const width = imageData.width;
     const height = imageData.height;
-    
+
     //Doble for tradicional para recorrer filas y columnas
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             // Calcular índice en el array de datos
             const index = (y * width + x) * 4;
-            
+
             const r = data[index];
             const g = data[index + 1];
             const b = data[index + 2];
-            
-            switch(filterType) {
+
+            switch (filterType) {
                 case 'grayscale':
                     const gray = 0.299 * r + 0.587 * g + 0.114 * b;
                     data[index] = gray;         // R
                     data[index + 1] = gray;     // G
                     data[index + 2] = gray;     // B
                     break;
-                    
+
                 case 'brightness':
                     data[index] = Math.min(r * 1.9, 255);     // R
                     data[index + 1] = Math.min(g * 1.9, 255); // G
                     data[index + 2] = Math.min(b * 1.9, 255); // B
                     break;
-                    
+
                 case 'invert':
                     data[index] = 255 - r;     // R
                     data[index + 1] = 255 - g; // G
@@ -771,13 +772,13 @@ function showNotification(title, message, buttons = []) {
     const titleElement = document.getElementById('notificationTitle');
     const messageElement = document.getElementById('notificationMessage');
     const buttonsContainer = document.getElementById('notificationButtons');
-    
+
     titleElement.textContent = title;
     messageElement.textContent = message;
-    
+
     // Limpiar botones anteriores
     buttonsContainer.innerHTML = '';
-    
+
     // Crear botones dinámicamente
     buttons.forEach(button => {
         const btn = document.createElement('button');
@@ -789,7 +790,7 @@ function showNotification(title, message, buttons = []) {
         };
         buttonsContainer.appendChild(btn);
     });
-    
+
     // Si no hay botones, agregar uno por defecto
     if (buttons.length === 0) {
         const defaultBtn = document.createElement('button');
@@ -798,7 +799,7 @@ function showNotification(title, message, buttons = []) {
         defaultBtn.onclick = hideNotification;
         buttonsContainer.appendChild(defaultBtn);
     }
-    
+
     overlay.classList.add('active');
     notification.classList.add('active');
 }
@@ -806,7 +807,7 @@ function showNotification(title, message, buttons = []) {
 function hideNotification() {
     const overlay = document.getElementById('notificationOverlay');
     const notification = document.getElementById('gameNotification');
-    
+
     overlay.classList.remove('active');
     notification.classList.remove('active');
 }
@@ -829,25 +830,37 @@ function showConfirmation(message, onConfirm, onCancel = null) {
 
 /*================================EventListerner ===========================*/
 
-//Responde a los clicks izquierdos
+// Click izquierdo
 gameCanvas.addEventListener('click', function (e) {
     if (!isGameActive) return;
     const rect = gameCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+
+    // Ajustar proporción entre tamaño visual y real del canvas
+    const scaleX = gameCanvas.width / rect.width;
+    const scaleY = gameCanvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
     const pieceIndex = getPieceAtPosition(x, y);
     if (pieceIndex !== -1) {
         rotatePiece(pieceIndex, -1);
     }
 });
 
-//Responde a los clicks derechos
+// Click derecho
 gameCanvas.addEventListener('contextmenu', function (e) {
     e.preventDefault();
     if (!isGameActive) return;
     const rect = gameCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+
+    // Igual que arriba
+    const scaleX = gameCanvas.width / rect.width;
+    const scaleY = gameCanvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
     const pieceIndex = getPieceAtPosition(x, y);
     if (pieceIndex !== -1) {
         rotatePiece(pieceIndex, 1);
@@ -876,26 +889,26 @@ document.getElementById('startBtn').addEventListener('click', function () {
 });
 
 //Selectores de cantidad de piezas
-document.getElementById('btn4').addEventListener('click', function() {
+document.getElementById('btn4').addEventListener('click', function () {
     updateGridConfig(4);
     resetGame();
     selectRandom();
 });
 
-document.getElementById('btn6').addEventListener('click', function() {
+document.getElementById('btn6').addEventListener('click', function () {
     updateGridConfig(6);
     resetGame();
     selectRandom();
 });
 
-document.getElementById('btn8').addEventListener('click', function() {
+document.getElementById('btn8').addEventListener('click', function () {
     updateGridConfig(8);
     resetGame();
     selectRandom();
 });
 
 //Inicia de una imagen aleatoria
-document.getElementById('startGameBtn').addEventListener('click', function() {
+document.getElementById('startGameBtn').addEventListener('click', function () {
     showScreen('complexityLevel');
 });
 
@@ -906,7 +919,7 @@ document.getElementById('helpBtn').addEventListener('click', useHelp);
 document.getElementById('menuBtn').addEventListener('click', function () {
     showConfirmation(
         '¿Volver al menú principal? Se perderá el progreso actual.',
-        function() {
+        function () {
             showScreen('welcomeScreen');
             resetGame();
         }
@@ -925,13 +938,13 @@ document.getElementById('nextLevelBtn').addEventListener('click', function () {
         selectRandom();
     } else {
         showNotification(
-            '¡Felicidades!', 
+            '¡Felicidades!',
             'Completaste todos los niveles del juego BLOCKA.',
             [
                 {
                     text: 'Volver al Menú',
                     type: 'confirm',
-                    callback: function() {
+                    callback: function () {
                         showScreen('welcomeScreen');
                         currentLevel = 1;
                         resetGame();
