@@ -129,113 +129,68 @@ const startX = 400;
 let y = 50;
 let selectedIndex = -1;
 
-function drawThumbnails(highlightIndex = -1) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+/*================== INICIALIZACION Y CONFIGURACION ================================ */
+//Función para obtener una pieza de la imagen con filtro aplicado
+function getFilteredImagePiece(image, pieceIndex, filterType) {
+    const pieceCols = gridConfig.cols;
+    const pieceRows = gridConfig.rows;
+    const imgPieceWidth = image.width / pieceCols;
+    const imgPieceHeight = image.height / pieceRows;
 
-    const imagesPerRow = Math.ceil(imagesThunb.length / 2);//Mitad de imagenes por fila
-    let currentX = startX;
-    let currentY = y;
+    const row = Math.floor(pieceIndex / pieceCols);
+    const col = pieceIndex % pieceCols;
 
-    loadedImages.forEach((img, i) => {
-        // Cambiar a nueva fila cuando llegamos al límite
-        if (i > 0 && i % imagesPerRow === 0) {
-            currentX = startX;
-            currentY += 150 + spacing;//Altura de imagen + espaciado
-        }
+    //Crear canvas temporal para la pieza
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = imgPieceWidth;
+    tempCanvas.height = imgPieceHeight;
 
-        ctx.drawImage(img, currentX, currentY, 150, 150);
+    //Dibujar la pieza en el canvas temporal
+    tempCtx.drawImage(
+        image,
+        col * imgPieceWidth, row * imgPieceHeight,
+        imgPieceWidth, imgPieceHeight,
+        0, 0,
+        imgPieceWidth, imgPieceHeight
+    );
 
-        if (i === highlightIndex) {
-            ctx.strokeStyle = '#FF6B35';
-            ctx.lineWidth = 4;
-            ctx.strokeRect(currentX - 3, currentY - 3, 156, 152);
-        }
+    //Obtener ImageData y aplicar filtro
+    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+    const filteredData = applyImageFilter(imageData, filterType);
 
-        //Mover a la siguiente posición en X
-        currentX += 150 + spacing;
-    });
+    //Devolver el canvas con el filtro aplicado
+    tempCtx.putImageData(filteredData, 0, 0);
+    return tempCanvas;
 }
 
-function selectRandom() {
-    showScreen('thumbScreen');
-    selectedIndex = Math.floor(Math.random() * images.length);
-    let vueltas = 0;
-    let velocidad = 100;
-    let current = 0;
+//Carga el nivel configurando valores iniciales
+function loadLevel(level) {
+    currentLevel = level;
+    document.getElementById('currentLevel').textContent = level;
+    document.getElementById('completedLevel').textContent = level;
 
-    const totalVueltas = loadedImages.length * 3;
-    const totalSteps = totalVueltas + selectedIndex + 2;
+    const config = levelConfig[level - 1];
+    document.getElementById('currentFilter').textContent = config.name;
 
-    const animate = () => {
-        vueltas++;
+    //Reiniciar valores del juego
+    correctPieces = 0;
+    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(cantPieces).fill(0);
+    usedHelp = false;
+    seconds = 0;
+    timeLimitReached = false;
 
-        if (vueltas < totalSteps) {
-            drawThumbnails(current);
-            if (vueltas > totalSteps * 0.7) velocidad += 30;
-            current = (current + 1) % loadedImages.length;
-            setTimeout(animate, velocidad);
-        } else {
-            drawThumbnails(selectedIndex);
-            currentImage = new Image();
-            currentImage.src = images[selectedIndex];
-
-            currentImage.onload = () => {
-                showImagePreview();
-            };
-        }
-    };
-
-    animate();
+    clearInterval(timerInterval);
+    isGameActive = false;
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('helpBtn').disabled = true;
+    updateTimerDisplay();
+    updateDisplay();
+    updateTimerLimitDisplay();
 }
 
-Promise.all(loadedImages.map(img => new Promise(res => img.onload = res)))
-    .then(() => drawThumbnails());
-
-// ==================== FILTROS CON IMAGEDATA ====================
-
-// Función para aplicar filtros usando ImageData
-function applyImageFilter(imageData, filterType) {
-    const data = imageData.data;
-    const width = imageData.width;
-    const height = imageData.height;
-    
-    // Doble for tradicional para recorrer filas y columnas
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            // Calcular índice en el array de datos
-            const index = (y * width + x) * 4;
-            
-            const r = data[index];
-            const g = data[index + 1];
-            const b = data[index + 2];
-            
-            switch(filterType) {
-                case 'grayscale':
-                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-                    data[index] = gray;         // R
-                    data[index + 1] = gray;     // G
-                    data[index + 2] = gray;     // B
-                    break;
-                    
-                case 'brightness':
-                    data[index] = Math.min(r * 1.9, 255);     // R
-                    data[index + 1] = Math.min(g * 1.9, 255); // G
-                    data[index + 2] = Math.min(b * 1.9, 255); // B
-                    break;
-                    
-                case 'invert':
-                    data[index] = 255 - r;     // R
-                    data[index + 1] = 255 - g; // G
-                    data[index + 2] = 255 - b; // B
-                    break;
-            }
-        }
-    }
-    return imageData;
-}
-
-//=============================Grilla dinamica====================
-// Función para actualizar la configuración del grid
+//Actualiza el display del grid en base a la cantidad de piezas
 function updateGridConfig(piecesCount) {
     cantPieces = piecesCount;
     gridConfig = gridConfigs[piecesCount];
@@ -244,11 +199,11 @@ function updateGridConfig(piecesCount) {
     pieceRotations = Array(piecesCount).fill(0).map(() => Math.floor(Math.random() * 4));
     correctRotations = Array(piecesCount).fill(0);
     
-    // Ajustar tamaño del canvas si es necesario
+    //Ajustar tamaño del canvas si es necesario
     adjustCanvasSize();
 }
 
-// Función para ajustar el tamaño del canvas según la configuración
+//Función para ajustar el tamaño del canvas según la configuración
 function adjustCanvasSize() {
     const gap = 20;
     const startX = 10;
@@ -261,192 +216,49 @@ function adjustCanvasSize() {
     gameCanvas.height = height;
 }
 
+function resetGame() {
+    isGameActive = false;
+    clearInterval(timerInterval);
+    correctPieces = 0;
+    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
+    correctRotations = Array(cantPieces).fill(0);
+    seconds = 0;
+    timeLimitReached = false;
+    usedHelp = false;
+    currentLevel = 1;
 
-//Función para obtener una pieza de la imagen con filtro aplicado
-function getFilteredImagePiece(image, pieceIndex, filterType) {
-    const pieceCols = gridConfig.cols;
-    const pieceRows = gridConfig.rows;
-    const imgPieceWidth = image.width / pieceCols;
-    const imgPieceHeight = image.height / pieceRows;
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('helpBtn').disabled = true;
 
-    const row = Math.floor(pieceIndex / pieceCols);
-    const col = pieceIndex % pieceCols;
+    updateTimerDisplay();
+    updateDisplay();
+    updateTimerLimitDisplay();
 
-    // Crear canvas temporal para la pieza
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
-    tempCanvas.width = imgPieceWidth;
-    tempCanvas.height = imgPieceHeight;
-
-    // Dibujar la pieza en el canvas temporal
-    tempCtx.drawImage(
-        image,
-        col * imgPieceWidth, row * imgPieceHeight,
-        imgPieceWidth, imgPieceHeight,
-        0, 0,
-        imgPieceWidth, imgPieceHeight
-    );
-
-    // Obtener ImageData y aplicar filtro
-    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-    const filteredData = applyImageFilter(imageData, filterType);
-
-    // Devolver el canvas con el filtro aplicado
-    tempCtx.putImageData(filteredData, 0, 0);
-    return tempCanvas;
+    // Resetear clases del timer
+    const timerDisplay = document.getElementById('timerDisplay');
+    timerDisplay.classList.remove('warning', 'danger');
 }
 
-function drawImagePreview(canvas, ctx, level) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const config = levelConfig[level - 1];
+//mostrar el tiempo límite en la UI
+function updateTimerLimitDisplay() {
+    const timerLimitElement = document.getElementById('timerLimit');
+    if (!timerLimitElement) return;
 
-    if (currentImage && currentImage.complete) {
-        //Crear canvas temporal para aplicar filtro a toda la imagen
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCanvas.width = currentImage.width;
-        tempCanvas.height = currentImage.height;
+    const maxTime = maxTimePerLevel[currentLevel - 1];
 
-        // Dibujar imagen original
-        tempCtx.drawImage(currentImage, 0, 0);
-
-        // Aplicar filtro
-        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-        const filteredData = applyImageFilter(imageData, config.filter);
-        tempCtx.putImageData(filteredData, 0, 0);
-
-        // Dibujar en el canvas de preview
-        ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+    if (maxTime > 0) {
+        const minutes = Math.floor(maxTime / 60);
+        const seconds = maxTime % 60;
+        const timeStr = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+        timerLimitElement.textContent = `Límite: ${timeStr}`;
+        timerLimitElement.style.display = 'block';
     } else {
-        // Fallback si no hay imagen
-        drawPieceBackground(ctx, 0, 0, canvas.width, canvas.height, config.colors);
-    }
-
-    // Dibujar cuadrícula de referencia
-    ctx.filter = 'none';
-    ctx.strokeStyle = '#FF6B35';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-
-    // Líneas verticales
-    for (let col = 1; col < gridConfig.cols; col++) {
-        const x = (canvas.width / gridConfig.cols) * col;
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-    }
-
-    // Líneas horizontales
-    for (let row = 1; row < gridConfig.rows; row++) {
-        const y = (canvas.height / gridConfig.rows) * row;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-    }
-
-    // Texto del nivel
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 32px Inter';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('Nivel ' + level, canvas.width / 2, canvas.height / 2);
-}
-
-//Manejo de pantallas
-function showScreen(screenId) {
-    document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-}
-
-//dibuja el fondo de cada pieza aplicando degrade
-function drawPieceBackground(ctx, x, y, width, height, colors) {
-    const gradient = ctx.createLinearGradient(x, y, x + width, y + height);
-    gradient.addColorStop(0, colors[0]);
-    gradient.addColorStop(1, colors[1]);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(x, y, width, height);
-}
-
-//Dibuja una pieza
-function drawPiece(ctx, index, rotation, x, y, size, config, isCorrect) {
-    ctx.save();//guarda la configuracion actual(colores,transformaciones, filtros)
-
-    ctx.translate(x + size / 2, y + size / 2);//Situa el origen de la pieza al centro
-    ctx.rotate((rotation * 90) * Math.PI / 180);//Rota la pieza 90°
-    ctx.translate(-(x + size / 2), -(y + size / 2));
-
-    if (currentImage) {
-        // Obtener la pieza con filtro aplicado
-        const filteredPiece = getFilteredImagePiece(currentImage, index, config.filter);
-
-        // Dibujar la pieza filtrada
-        ctx.drawImage(filteredPiece, x, y, size, size);
-    } else {
-        drawPieceBackground(ctx, x, y, size, size, config.colors);
-    }
-
-    //restaura para no afectar a la siguiente pieza
-    ctx.restore();
-}
-
-//Dibuja las piezas
-function drawGameBoard() {
-    gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);//limpia el tablero al rotar una pieza
-
-    const config = levelConfig[currentLevel - 1];//aplica filtro segun nivel (tomando el array de filtros como referencia)
-    const pieceSize = gridConfig.pieceSize;
-    const gap = 20;
-    const startX = 10;
-    const startY = 10;
-
-    //recorre las 4 piezas del puzzle
-    for (let i = 0; i < cantPieces; i++) {
-        //Define la posicion de cada pieza
-        const row = Math.floor(i / gridConfig.cols);
-        const col = i % gridConfig.cols;
-        //define coordenadas de dibujo
-        const x = startX + col * (pieceSize + gap);
-        const y = startY + row * (pieceSize + gap);
-        const isCorrect = pieceRotations[i] === correctRotations[i];
-
-        //Redibuja la pieza que fue rotada 
-        drawPiece(gameCtx, i, pieceRotations[i], x, y, pieceSize, config, isCorrect);
+        timerLimitElement.textContent = 'Sin límite';
+        timerLimitElement.style.display = 'block';
     }
 }
 
-//Dibuja la imagen previa (función original como fallback)
-function drawPreview(canvas, ctx, level) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const config = levelConfig[level - 1];
-
-    //Aplica filtro o degrade
-    drawPieceBackground(ctx, 0, 0, canvas.width, canvas.height, config.colors);
-
-    //Dibuja la cuadricula de referencia
-    ctx.filter = 'none';
-    ctx.strokeStyle = '#FF6B35';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-    //dibuja la linea que divide en 4
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.moveTo(0, canvas.height / 2);
-    ctx.lineTo(canvas.width, canvas.height / 2);
-    ctx.stroke();
-
-    //Texto del centro del preview
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 32px Inter';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('Nivel ' + level, canvas.width / 2, canvas.height / 2);
-}
-
+/*================================== INTERACCIÓN DEL JUGADOR ===============================*/
 //Obtiene los calculos para saber que pieza fue clickeada
 function getPieceAtPosition(x, y) {
     const pieceSize = gridConfig.pieceSize;
@@ -490,6 +302,41 @@ function rotatePiece(index, direction) {
     checkLevelComplete();
 }
 
+//Usar ayuda
+function useHelp() {
+    if (!isGameActive || usedHelp) return;
+
+    ///busca una pieza en posicion incorrecta
+    let incorrectIndex = -1;
+    for (let i = 0; i < cantPieces; i++) {
+        if (pieceRotations[i] !== correctRotations[i]) {
+            incorrectIndex = i;
+            break;
+        }
+    }
+
+    //Si existe alguna pieza en posicion incorrecta la rota, actualiza y comprueba si se completo el nivel
+    if (incorrectIndex !== -1) {
+        const wasCorrect = pieceRotations[incorrectIndex] === correctRotations[incorrectIndex];
+        pieceRotations[incorrectIndex] = correctRotations[incorrectIndex];
+
+        if (!wasCorrect) {
+            correctPieces++;
+        }
+
+        //extra suma 5s al timer
+        seconds += 5;
+        updateTimerDisplay();
+        usedHelp = true;
+        document.getElementById('helpBtn').disabled = true;
+
+        drawGameBoard();
+        updateDisplay();
+        checkLevelComplete();
+    }
+}
+
+/*======================================== ACTUALIZACION DE ESTADOS ================================*/
 //Indicador visual de la cantidad de piezas acertadas
 function updateDisplay() {
     document.getElementById('correctPieces').textContent = correctPieces + '/' + cantPieces;
@@ -507,7 +354,7 @@ function updateTimerDisplay() {
     timerDisplay.textContent = timeStr;
     document.getElementById('finalTime').textContent = timeStr;
 
-    const maxTime = maxTimePerLevel[currentLevel - 1]; // Ajustar índice porque currentLevel empieza en 1
+    const maxTime = maxTimePerLevel[currentLevel - 1]; //Ajustar índice porque currentLevel empieza en 1
     if (maxTime > 0) {
         if (seconds >= maxTime - 10 && seconds < maxTime) {
             timerDisplay.classList.add('warning');
@@ -523,7 +370,7 @@ function updateTimerDisplay() {
     }
 }
 
-// Check level complete
+//Chequea que todas las piezas esten en su lugar y que no se haya excedido el tiempo limite
 function checkLevelComplete() {
     if (correctPieces === cantPieces) {
         levelComplete();
@@ -537,12 +384,12 @@ function checkLevelComplete() {
     }
 }
 
-// función para manejar cuando se excede el tiempo
+//funcion para manejar cuando se excede el tiempo
 function timeLimitExceeded() {
     isGameActive = false;
     clearInterval(timerInterval);
 
-    // Mostrar notificación de tiempo agotado
+    //Mostrar notificación de tiempo agotado
     setTimeout(() => {
         showNotification(
             '¡Tiempo Agotado!', 
@@ -589,94 +436,8 @@ function resetCurrentLevel() {
     showScreen('gameScreen');
 }
 
-//Muestra el canvas que indica que se completo el nivel
-function levelComplete() {
-    isGameActive = false;
-    clearInterval(timerInterval);
-
-    document.getElementById('completedLevel').textContent = currentLevel;
-
-    // Mostrar la imagen COMPLETA SIN FILTROS
-    if (currentImage && currentImage.complete) {
-        completeCtx.clearRect(0, 0, completeCanvas.width, completeCanvas.height);
-        completeCtx.drawImage(currentImage, 0, 0, completeCanvas.width, completeCanvas.height);
-    } else {
-        // Fallback si no hay imagen
-        const config = levelConfig[currentLevel - 1];
-        drawPieceBackground(completeCtx, 0, 0, completeCanvas.width, completeCanvas.height, config.colors);
-    }
-
-    showScreen('completeScreen');
-}
-
-//Carga el nivel configurando valores iniciales
-function loadLevel(level) {
-    currentLevel = level;
-    document.getElementById('currentLevel').textContent = level;
-    document.getElementById('completedLevel').textContent = level;
-
-    const config = levelConfig[level - 1];
-    document.getElementById('currentFilter').textContent = config.name;
-
-    // Reiniciar valores del juego
-    correctPieces = 0;
-    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
-    correctRotations = Array(cantPieces).fill(0);
-    usedHelp = false;
-    seconds = 0;
-    timeLimitReached = false;
-
-    clearInterval(timerInterval);
-    isGameActive = false;
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('helpBtn').disabled = true;
-    updateTimerDisplay();
-    updateDisplay();
-    updateTimerLimitDisplay(); //Actualizar display del límite de tiempo
-}
-
-function resetGame() {
-    isGameActive = false;
-    clearInterval(timerInterval);
-    correctPieces = 0;
-    pieceRotations = Array(cantPieces).fill(0).map(() => Math.floor(Math.random() * 4));
-    correctRotations = Array(cantPieces).fill(0);
-    seconds = 0;
-    timeLimitReached = false;
-    usedHelp = false;
-    currentLevel = 1;
-
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('helpBtn').disabled = true;
-
-    updateTimerDisplay();
-    updateDisplay();
-    updateTimerLimitDisplay();
-
-    // Resetear clases del timer
-    const timerDisplay = document.getElementById('timerDisplay');
-    timerDisplay.classList.remove('warning', 'danger');
-}
-
-//mostrar el tiempo límite en la UI
-function updateTimerLimitDisplay() {
-    const timerLimitElement = document.getElementById('timerLimit');
-    if (!timerLimitElement) return;
-
-    const maxTime = maxTimePerLevel[currentLevel - 1];
-
-    if (maxTime > 0) {
-        const minutes = Math.floor(maxTime / 60);
-        const seconds = maxTime % 60;
-        const timeStr = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
-        timerLimitElement.textContent = `Límite: ${timeStr}`;
-        timerLimitElement.style.display = 'block';
-    } else {
-        timerLimitElement.textContent = 'Sin límite';
-        timerLimitElement.style.display = 'block';
-    }
-}
-
+/*========================================= DIBUJO Y RENDERIZADO =============================== */
+/*Muestra la pantalla del preview, si no hay imagen retorna */
 function showImagePreview() {
     loadLevel(currentLevel);
     document.getElementById('previewLevel').textContent = currentLevel;
@@ -726,90 +487,284 @@ function showImagePreview() {
     }
 }
 
+/*Dibuja la preview de la imagen aplicando filtros*/
+function drawImagePreview(canvas, ctx, level) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const config = levelConfig[level - 1];
 
-//Use help
-function useHelp() {
-    if (!isGameActive || usedHelp) return;
+    if (currentImage && currentImage.complete) {
+        //Crear canvas temporal para aplicar filtro a toda la imagen
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = currentImage.width;
+        tempCanvas.height = currentImage.height;
 
-    ///busca una pieza en posicion incorrecta
-    let incorrectIndex = -1;
-    for (let i = 0; i < cantPieces; i++) {
-        if (pieceRotations[i] !== correctRotations[i]) {
-            incorrectIndex = i;
-            break;
-        }
+        //Dibujar imagen original
+        tempCtx.drawImage(currentImage, 0, 0);
+
+        //Aplicar filtro
+        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const filteredData = applyImageFilter(imageData, config.filter);
+        tempCtx.putImageData(filteredData, 0, 0);
+
+        //Dibujar en el canvas de preview
+        ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+    } else {
+        //Fallback si no hay imagen
+        drawPieceBackground(ctx, 0, 0, canvas.width, canvas.height, config.colors);
     }
 
-    //Si existe alguna pieza en posicion incorrecta la rota, actualiza y comprueba si se completo el nivel
-    if (incorrectIndex !== -1) {
-        const wasCorrect = pieceRotations[incorrectIndex] === correctRotations[incorrectIndex];
-        pieceRotations[incorrectIndex] = correctRotations[incorrectIndex];
+    //Dibujar cuadrícula de referencia
+    ctx.filter = 'none';
+    ctx.strokeStyle = '#FF6B35';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-        if (!wasCorrect) {
-            correctPieces++;
+
+    //Lineas verticales
+    for (let col = 1; col < gridConfig.cols; col++) {
+        const x = (canvas.width / gridConfig.cols) * col;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+
+    //Lineas horizontales
+    for (let row = 1; row < gridConfig.rows; row++) {
+        const y = (canvas.height / gridConfig.rows) * row;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+
+    // Texto del nivel
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 32px Inter';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Nivel ' + level, canvas.width / 2, canvas.height / 2);
+}
+
+//Dibuja la imagen previa
+function drawPreview(canvas, ctx, level) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const config = levelConfig[level - 1];
+
+    //Aplica filtro o degrade
+    drawPieceBackground(ctx, 0, 0, canvas.width, canvas.height, config.colors);
+
+    //Dibuja la cuadricula de referencia
+    ctx.filter = 'none';
+    ctx.strokeStyle = '#FF6B35';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+    //Dibuja la linea que divide la imagen
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+
+    //Texto del centro del preview
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 32px Inter';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Nivel ' + level, canvas.width / 2, canvas.height / 2);
+}
+
+//Dibuja el fondo de cada pieza aplicando degrade
+function drawPieceBackground(ctx, x, y, width, height, colors) {
+    const gradient = ctx.createLinearGradient(x, y, x + width, y + height);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(1, colors[1]);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(x, y, width, height);
+}
+
+/*Dibuja el thumnails*/
+function drawThumbnails(highlightIndex = -1) {//el -1 es para evitar que se vaya de rango
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const imagesPerRow = Math.ceil(imagesThunb.length / 2);//Mitad de imagenes por fila
+    let currentX = startX;
+    let currentY = y;
+
+    loadedImages.forEach((img, i) => {
+        // Cambiar a nueva fila cuando llegamos al límite
+        if (i > 0 && i % imagesPerRow === 0) {
+            currentX = startX;
+            currentY += 150 + spacing;//Altura de imagen + espaciado
         }
 
-        //extra suma 5s al timer
-        seconds += 5;
-        updateTimerDisplay();
-        usedHelp = true;
-        document.getElementById('helpBtn').disabled = true;
+        ctx.drawImage(img, currentX, currentY, 150, 150);
 
-        drawGameBoard();
-        updateDisplay();
-        checkLevelComplete();
+        if (i === highlightIndex) {
+            ctx.strokeStyle = '#FF6B35';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(currentX - 3, currentY - 3, 156, 152);
+        }
+
+        //Mover a la siguiente posición en X
+        currentX += 150 + spacing;
+    });
+}
+//Carga de las imagenes
+Promise.all(loadedImages.map(img => new Promise(res => img.onload = res))).then(() => drawThumbnails());
+
+/*Elige una imagen random y anima la seleccion*/
+function selectRandom() {
+    showScreen('thumbScreen');
+    selectedIndex = Math.floor(Math.random() * images.length);
+    let vueltas = 0;
+    let velocidad = 100;
+    let current = 0;
+
+    const totalVueltas = loadedImages.length * 3;
+    const totalSteps = totalVueltas + selectedIndex + 2;
+
+    const animate = () => {
+        vueltas++;
+
+        if (vueltas < totalSteps) {
+            drawThumbnails(current);
+            if (vueltas > totalSteps * 0.7) velocidad += 30;
+            current = (current + 1) % loadedImages.length;
+            setTimeout(animate, velocidad);
+        } else {
+            drawThumbnails(selectedIndex);
+            currentImage = new Image();
+            currentImage.src = images[selectedIndex];
+
+            currentImage.onload = () => {
+                showImagePreview();
+            };
+        }
+    };
+
+    animate();
+}
+
+//Función para aplicar filtros usando ImageData
+function applyImageFilter(imageData, filterType) {
+    const data = imageData.data;
+    const width = imageData.width;
+    const height = imageData.height;
+    
+    //Doble for tradicional para recorrer filas y columnas
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            // Calcular índice en el array de datos
+            const index = (y * width + x) * 4;
+            
+            const r = data[index];
+            const g = data[index + 1];
+            const b = data[index + 2];
+            
+            switch(filterType) {
+                case 'grayscale':
+                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                    data[index] = gray;         // R
+                    data[index + 1] = gray;     // G
+                    data[index + 2] = gray;     // B
+                    break;
+                    
+                case 'brightness':
+                    data[index] = Math.min(r * 1.9, 255);     // R
+                    data[index + 1] = Math.min(g * 1.9, 255); // G
+                    data[index + 2] = Math.min(b * 1.9, 255); // B
+                    break;
+                    
+                case 'invert':
+                    data[index] = 255 - r;     // R
+                    data[index + 1] = 255 - g; // G
+                    data[index + 2] = 255 - b; // B
+                    break;
+            }
+        }
+    }
+    return imageData;
+}
+
+//Dibuja una pieza
+function drawPiece(ctx, index, rotation, x, y, size, config, isCorrect) {
+    ctx.save();//guarda la configuracion actual(colores,transformaciones, filtros)
+
+    ctx.translate(x + size / 2, y + size / 2);//Situa el origen de la pieza al centro
+    ctx.rotate((rotation * 90) * Math.PI / 180);//Rota la pieza 90°
+    ctx.translate(-(x + size / 2), -(y + size / 2));
+
+    if (currentImage) {
+        // Obtener la pieza con filtro aplicado
+        const filteredPiece = getFilteredImagePiece(currentImage, index, config.filter);
+
+        // Dibujar la pieza filtrada
+        ctx.drawImage(filteredPiece, x, y, size, size);
+    } else {
+        drawPieceBackground(ctx, x, y, size, size, config.colors);
+    }
+
+    //restaura para no afectar a la siguiente pieza
+    ctx.restore();
+}
+
+//Dibuja las piezas en el grid
+function drawGameBoard() {
+    gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);//limpia el tablero al rotar una pieza
+
+    const config = levelConfig[currentLevel - 1];//aplica filtro segun nivel (tomando el array de filtros como referencia)
+    const pieceSize = gridConfig.pieceSize;
+    const gap = 20;
+    const startX = 10;
+    const startY = 10;
+
+    //recorre las 4 piezas del puzzle
+    for (let i = 0; i < cantPieces; i++) {
+        //Define la posicion de cada pieza
+        const row = Math.floor(i / gridConfig.cols);
+        const col = i % gridConfig.cols;
+        //define coordenadas de dibujo
+        const x = startX + col * (pieceSize + gap);
+        const y = startY + row * (pieceSize + gap);
+        const isCorrect = pieceRotations[i] === correctRotations[i];
+
+        //Redibuja la pieza que fue rotada 
+        drawPiece(gameCtx, i, pieceRotations[i], x, y, pieceSize, config, isCorrect);
     }
 }
 
-/*================================EventListerner ===========================*/
+//Muestra el canvas que indica que se completo el nivel
+function levelComplete() {
+    isGameActive = false;
+    clearInterval(timerInterval);
 
-//Responde a los clicks izquierdos
-gameCanvas.addEventListener('click', function (e) {
-    if (!isGameActive) return;
-    const rect = gameCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const pieceIndex = getPieceAtPosition(x, y);
-    if (pieceIndex !== -1) {
-        rotatePiece(pieceIndex, -1);
+    document.getElementById('completedLevel').textContent = currentLevel;
+
+    // Mostrar la imagen COMPLETA SIN FILTROS
+    if (currentImage && currentImage.complete) {
+        completeCtx.clearRect(0, 0, completeCanvas.width, completeCanvas.height);
+        completeCtx.drawImage(currentImage, 0, 0, completeCanvas.width, completeCanvas.height);
+    } else {
+        // Fallback si no hay imagen
+        const config = levelConfig[currentLevel - 1];
+        drawPieceBackground(completeCtx, 0, 0, completeCanvas.width, completeCanvas.height, config.colors);
     }
-});
 
-//Responde a los clicks derechos
-gameCanvas.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-    if (!isGameActive) return;
-    const rect = gameCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const pieceIndex = getPieceAtPosition(x, y);
-    if (pieceIndex !== -1) {
-        rotatePiece(pieceIndex, 1);
-    }
-    return false;
-});
+    showScreen('completeScreen');
+}
 
-//Inicia el nivel actual del boton comenzar nivel
-document.getElementById('startBtn').addEventListener('click', function () {
-    if (!isGameActive) {
-        isGameActive = true;
-        timeLimitReached = false;
-        document.getElementById('startBtn').disabled = true;
-        document.getElementById('helpBtn').disabled = false;
 
-        seconds = 0;
-        updateTimerDisplay();
-        timerInterval = setInterval(function () {
-            if (isGameActive) {
-                seconds++;
-                updateTimerDisplay();
-                checkLevelComplete(); // Verificar tiempo en cada actualización
-            }
-        }, 1000);
-    }
-});
+/*============================================ MANEJO DE PANTALLAS ============================*/
+function showScreen(screenId) {
+    document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+}
 
-// ==================== SISTEMA DE NOTIFICACIONES ====================
+/*========================================== SISTEMA DE NOTIFICACIONES =======================================*/
 function showNotification(title, message, buttons = []) {
     const overlay = document.getElementById('notificationOverlay');
     const notification = document.getElementById('gameNotification');
@@ -872,6 +827,53 @@ function showConfirmation(message, onConfirm, onCancel = null) {
     ]);
 }
 
+/*================================EventListerner ===========================*/
+
+//Responde a los clicks izquierdos
+gameCanvas.addEventListener('click', function (e) {
+    if (!isGameActive) return;
+    const rect = gameCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const pieceIndex = getPieceAtPosition(x, y);
+    if (pieceIndex !== -1) {
+        rotatePiece(pieceIndex, -1);
+    }
+});
+
+//Responde a los clicks derechos
+gameCanvas.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    if (!isGameActive) return;
+    const rect = gameCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const pieceIndex = getPieceAtPosition(x, y);
+    if (pieceIndex !== -1) {
+        rotatePiece(pieceIndex, 1);
+    }
+    return false;
+});
+
+//Inicia el nivel actual del boton comenzar nivel
+document.getElementById('startBtn').addEventListener('click', function () {
+    if (!isGameActive) {
+        isGameActive = true;
+        timeLimitReached = false;
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('helpBtn').disabled = false;
+
+        seconds = 0;
+        updateTimerDisplay();
+        timerInterval = setInterval(function () {
+            if (isGameActive) {
+                seconds++;
+                updateTimerDisplay();
+                checkLevelComplete(); // Verificar tiempo en cada actualización
+            }
+        }, 1000);
+    }
+});
 
 //Selectores de cantidad de piezas
 document.getElementById('btn4').addEventListener('click', function() {
@@ -940,6 +942,7 @@ document.getElementById('nextLevelBtn').addEventListener('click', function () {
     }
 });
 
-//Inicializacion por defecto
+/*========================================== INICIALIZACION POR DEFECTO =============================*/
+
 updateGridConfig(4);
 showScreen('welcomeScreen');

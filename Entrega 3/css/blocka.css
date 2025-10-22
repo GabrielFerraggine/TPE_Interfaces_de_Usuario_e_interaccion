@@ -71,9 +71,7 @@ h3 {
 
 /* ==================== ESTRUCTURA PRINCIPAL ==================== */
 .main-container {
-    min-height: 100vh;
     margin-left: 57px;
-    /* Deja espacio para el sidebar fijo */
 }
 
 .content-wrapper {
@@ -139,7 +137,6 @@ h3 {
 .sidebar-nav a span {
     display: none;
     margin-left: 12px;
-    font-size: 1rem;
     color: var(--text-primary);
     white-space: nowrap;
     line-height: 1;
@@ -378,7 +375,7 @@ h3 {
 /* ==================== CARD PRINCIPAL ==================== */
 .main-card {
     width: 1650px;
-    height: 768px;
+    max-height: 768px;
     margin: 20px auto;
     background: var(--card-background);
     border-radius: 16px;
