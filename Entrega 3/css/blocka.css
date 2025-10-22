@@ -318,6 +318,7 @@ h3 {
     background: url('../img/Lupa.png') no-repeat center center;
     background-size: contain;
     border: none;
+    cursor: pointer;
     position: absolute;
     right: 10px;
     top: 50%;
@@ -392,9 +393,73 @@ h3 {
     display: block;
 }
 
+.canvas-container,
+.thumb-content,
+.preview-content,
+.complete-content,
+.welcome-content,
+.complexityLevel-content {
+    background-image: url("../img/imgBlocka/fondo_blocka.png") ;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/*=========================Botones ===========================*/ 
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 8px;
+    min-width: 160px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #e65d2d);
+    color: #000000;
+    font-weight: var(--font-bold);
+}
+
+#startGameBtn:hover {
+    transform: translateY(1px) scale(1.1);
+}
+
+.btn-secondary {
+    background: var(--background-light);
+    color: var(--text-primary);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: var(--background-dark);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/*===================== Welcome container ===================*/
 .welcome-content {
     text-align: center;
+    align-content: center;
     padding: 40px;
+    min-height: 75vh;
 }
 
 .welcome-content h2 {
@@ -438,54 +503,12 @@ h3 {
     left: 0;
 }
 
-/* Buttons */
-.btn {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 8px;
-    min-width: 160px;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), #e65d2d);
-    color: #000000;
-    font-weight: var(--font-bold);
-}
-
-#startGameBtn:hover {
-    transform: translateY(1px) scale(1.1);
-}
-
-
-
-.btn-secondary {
-    background: var(--background-light);
-    color: var(--text-primary);
-    border: 2px solid var(--primary-color);
-}
-
-.btn-secondary:hover:not(:disabled) {
-    background: var(--primary-color);
-    color: var(--background-dark);
-}
-
-.btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+/*==========================Complexity container============================*/
+.complexityLevel-content {
+    text-align: center;
+    align-content: center;
+    padding: 20px;
+    min-height: 75vh;
 }
 
 .complexityBtn-content {
@@ -503,14 +526,6 @@ h3 {
     font-size: 1.2rem;
     margin: 20px;
     margin-bottom: 50px;
-}
-
-.complexityLevel-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
 }
 
 .complexityLevel-content h2 {
@@ -532,52 +547,58 @@ h3 {
     padding-left: 30px;
 }
 
-/* Ajustes responsivos para el canvas del juego */
-.canvas-container,
-.thumb-content,
-.preview-content,
-.complete-content,
-.welcome-content,
-.complexityLevel-content {
-    background-image: url("../img/imgBlocka/fondo_blocka.png") ;
-    /* background-color: var(--background-dark); */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
+/*============================== Thumbnail container ==========================*/
+.thumb-content{
+    padding-top: 50px;
+    min-height: 75vh;
 }
 
-/* Estilos para diferentes configuraciones de grid */
-.grid-2x2 #gameCanvas {
-    width: 600px;
-    height: 600px;
+.thumb-content h2{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.thumbScreenDisplay h2{
+    font-size: x-large;
 }
 
-.grid-3x2 #gameCanvas {
-    width: 800px;
-    height: 500px;
+/*=============================== Preview container ===========================*/
+.preview-content {
+    text-align: center;
+    padding: 40px;
+    min-height: 75vh;
 }
 
-.grid-4x2 #gameCanvas {
-    width: 900px;
-    height: 400px;
+.preview-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: var(--font-extrabold);
 }
 
-/* Ajustes para el preview con diferentes grids */
-.preview-grid-2x2 #previewCanvas {
-    border-width: 4px;
+.preview-content p {
+    color: black;
+    font-size: large;
+    font-weight: var(--font-extrabold);
+
 }
 
-.preview-grid-3x2 #previewCanvas {
-    border-width: 3px;
+#previewCanvas {
+    border: 4px solid var(--primary-color);
+    border-radius: 12px;
+    margin: 25px auto;
+    display: block;
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
 }
 
-.preview-grid-4x2 #previewCanvas {
-    border-width: 2px;
+/*======================= Game/canvas container ====================================*/
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    min-height: 58vh;
+    margin: 30px 0;
+    background-image: url("../img/imgBlocka/fondo_blocka.png");
 }
 
-
-/* Game Screen */
 .game-header {
     display: flex;
     justify-content: space-between;
@@ -595,14 +616,6 @@ h3 {
 .timer {
     font-size: var(--font-size-xlarge);
     font-family: var(--font-family-inter);
-}
-
-/* Canvas Container */
-.canvas-container {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
-    background-image: url("../img/imgBlocka/fondo_blocka.png"); /*cambiar si se considera que queda feo*/
 }
 
 #gameCanvas {
@@ -626,20 +639,18 @@ h3 {
 .game-controls1 button{
     margin-top: -10px;
 }
-.thumb-content{
-    padding-top: 50px;
-}
 
-.thumb-content h2{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-/* pantalla completa */
+/*====================================Complete container======================*/
 .complete-content {
-    text-align: center;
+    border-radius: 20px;
     padding: 5px;
+    text-align: center;
+    max-width: 1640px;
+    max-height: 80vh;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+    border: 4px solid var(--primary-color);
+    margin: 5px;
+    position: relative;
 }
 
 .complete-content h2 {
@@ -647,58 +658,28 @@ h3 {
     margin-bottom: 5px;
 }
 
-.stats {
-    background: var(--background-light);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content:space-around;
-    padding: 5px;
-    border-radius: 12px;
-    margin: 5px 0;
-    border: 2px solid var(--primary-color);
-}
-
 .stats p {
+    color: black;
     margin: 12px 0;
     font-size: 1.2rem;
     font-weight: 700;
 }
 
-.thumbScreenDisplay h2{
-    font-size: x-large;
-}
-.preview-content {
-    text-align: center;
-    padding: 40px;
-}
-
-.preview-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: var(--font-extrabold);
-}
-
-.preview-content p{
-    color: black;
-    font-size: large;
-    font-weight: var(--font-extrabold);
-
-}
-
-#previewCanvas {
-    border: 4px solid var(--primary-color);
-    border-radius: 12px;
-    margin: 25px auto;
-    display: block;
-    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
-}
 #completeCanvas {
     border: 3px solid var(--primary-color); 
     border-radius: 12px; margin: 
     20px auto; 
     display: block;
 }
+
+#completeScreen {
+    width: 100vw;
+    height: 75vh;
+    background: var(--background-dark);
+    overflow-y: auto;
+}
+
+/*=============================== Share Container===============================*/
 .share-container {
     width: 100%;
     display: flex;
@@ -732,12 +713,6 @@ h3 {
 .share-btn .arrow {
     font-size: 20px;
 }
-#completeScreen {
-    width: 100vw;
-    height: 75vh;
-    background: var(--background-dark);
-    overflow-y: auto;
-}
 
 @keyframes share {
     0% {
@@ -752,8 +727,6 @@ h3 {
         transform: translateX(0);
     }
 }
-
-/* boton ayuda */
 
 .share-btn.help:hover {
     box-shadow: 0 0px 25px rgba(255, 107, 53, 0.7);
@@ -815,23 +788,7 @@ h3 {
     height: 63px;
 }
 
-/* ==================== ESTILOS TEMPORIZADOR ==================== */
-.timer.warning {
-    font-weight: var(--font-extrabold);
-    animation: pulse 1s infinite;
-}
-
-.timer.danger {
-    font-weight: var(--font-extrabold);
-    animation: pulse 0.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
+/*=============================== ESTILOS TEMPORIZADOR ============================*/
 .game-timer-limit {
     font-size: var(--font-size-medium);
     color: var(--text-secondary);
@@ -847,7 +804,7 @@ h3 {
     min-width: 120px;
 }
 
-/* ==================== NOTIFICACIONES ==================== */
+/*====================================NOTIFICACIONES============================*/
 .game-notification {
     position: fixed;
     top: 50%;
@@ -935,8 +892,7 @@ h3 {
     to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
-
-/* ==================== DESCRIPCIÓN ==================== */
+/*=============================DESCRIPCION=============================*/
 .game-description {
     max-width: 1650px;
     margin: 40px auto;
@@ -1004,8 +960,7 @@ ul#movimientos li {
     text-decoration: underline;
 }
 
-
-/* ==================== CÓMO SE JUEGA ==================== */
+/*==================== CÓMO SE JUEGA ====================*/
 #helpSection {
     scroll-margin-top: 100px; /*Deja un espacio al deplazarse*/
 }
@@ -1058,7 +1013,6 @@ ul#movimientos li {
     line-height: 1.4;
     word-wrap: break-word;
 }
-
 
 #completa{
     width: 90px;
@@ -1291,329 +1245,4 @@ ul#movimientos li {
 
 .footer-section ul li {
     margin-bottom: 10px;
-}
-
-/* ==================== ESTILOS BLOCKA ==================== */
-
-/* Contenedor principal del juego */
-.blocka-game-container {
-    width: 100%;
-    height: 790px;
-    position: relative;
-    background: var(--card-background);
-    overflow: hidden;
-}
-
-/* Pantallas del juego */
-.blocka-screen {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-background);
-    padding: 20px;
-}
-
-.blocka-screen.active {
-    display: flex;
-}
-
-/* Pantalla de bienvenida */
-.blocka-welcome-content {
-    text-align: center;
-    max-width: 600px;
-    padding: 40px;
-    background: var(--background-light);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.blocka-title {
-    font-size: 4rem;
-    font-weight: var(--font-extrabold);
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(255, 107, 53, 0.7);
-}
-
-.blocka-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    color: var(--text-secondary);
-    font-weight: var(--font-bold);
-}
-
-.blocka-instructions {
-    background: var(--background-dark);
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    text-align: left;
-    border: 2px solid var(--primary-color);
-}
-
-.blocka-instructions h3 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-.blocka-instructions ul {
-    list-style: none;
-    padding: 0;
-}
-
-.blocka-instructions li {
-    margin-bottom: 12px;
-    padding-left: 25px;
-    position: relative;
-    font-size: 1rem;
-    line-height: 1.4;
-}
-
-.blocka-instructions li:before {
-    content: "▶";
-    color: var(--primary-color);
-    position: absolute;
-    left: 0;
-    font-size: 0.8rem;
-}
-
-
-/* Pantalla de preview */
-.blocka-preview-content {
-    text-align: center;
-    padding: 40px;
-    background: var(--background-light);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.blocka-preview-image {
-    width: 400px;
-    height: 400px;
-    margin: 25px auto;
-    border: 4px solid var(--primary-color);
-    border-radius: 12px;
-    background: var(--background-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
-}
-
-.preview-placeholder {
-    color: var(--text-primary);
-    font-size: 2rem;
-    font-weight: var(--font-bold);
-    text-align: center;
-}
-
-/* Pantalla de juego */
-.blocka-game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 20px 40px;
-    background: var(--background-light);
-    border-bottom: 3px solid var(--primary-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.blocka-info,
-.blocka-timer,
-.blocka-progress {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-}
-
-.blocka-info span,
-.blocka-timer span,
-.blocka-progress span {
-    font-size: 1.1rem;
-    font-weight: var(--font-bold);
-}
-
-.blocka-timer {
-    color: var(--primary-color);
-    font-size: 1.3rem;
-}
-
-/* Contenedor de juego */
-.blocka-game-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    width: 100%;
-}
-
-/* Contenedor de piezas */
-.blocka-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 15px;
-    width: 600px;
-    height: 600px;
-    background: var(--background-light);
-    padding: 20px;
-    border-radius: 16px;
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.blocka-piece {
-    position: relative;
-    background: var(--background-dark);
-    border: 2px solid var(--primary-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    font-weight: var(--font-bold);
-    color: var(--text-primary);
-}
-
-.blocka-piece:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
-    border-color: #ff8c5a;
-}
-
-.blocka-piece.piece-correct {
-    border-color: #4CAF50;
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
-    background: rgba(76, 175, 80, 0.1);
-}
-
-.rotation-indicator {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: var(--font-bold);
-    z-index: 10;
-}
-
-/* Controles del juego */
-.blocka-controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 25px;
-    background: var(--background-light);
-    width: 100%;
-    border-top: 3px solid var(--primary-color);
-}
-
-/* Pantalla de nivel completado */
-.blocka-complete-content {
-    text-align: center;
-    padding: 5px;
-    background: var(--background-light);
-    border-radius: 20px;
-    box-shadow: 0 12px 10px rgba(0, 0, 0, 0.4);
-    border: 4px solid var(--primary-color);
-}
-
-.blocka-complete-content h2 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
-}
-.complete-content {
-    background: var(--card-background);
-    background-image: url("../img/imgBlocka/fondo_blocka.png");
-    border-radius: 20px;
-    padding: 10px;
-    text-align: center;
-    max-width: 1640px;
-    max-height: 80vh;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
-    border: 4px solid var(--primary-color);
-    margin: 5px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-}
-
-.blocka-stats {
-    background: var(--background-dark);
-    padding: 25px;
-    border-radius: 12px;
-    margin: 25px 0;
-    border: 2px solid var(--primary-color);
-}
-
-.blocka-stats p {
-    margin: 12px 0;
-    font-weight: var(--font-bold);
-}
-
-.blocka-completed-image {
-    width: 300px;
-    height: 300px;
-    margin: 25px auto;
-    border: 3px solid var(--primary-color);
-    border-radius: 12px;
-    background: var(--background-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
-}
-
-.completed-placeholder {
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    font-weight: var(--font-bold);
-    text-align: center;
-}
-
-.blocka-complete-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-/* Colores para los niveles */
-.level-1 { background: linear-gradient(135deg, #FF6B35, #FF8C5A); }
-.level-2 { background: linear-gradient(135deg, #3366CC, #5599FF); }
-.level-3 { background: linear-gradient(135deg, #33CC66, #66FF99); }
-
-/* Efectos de filtro visual */
-.piece-grayscale { filter: grayscale(100%); }
-.piece-brightness { filter: brightness(130%); }
-.piece-invert { filter: invert(100%); }
-
-/* Animaciones */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.blocka-piece.pulse {
-    animation: pulse 0.5s ease-in-out;
 }
