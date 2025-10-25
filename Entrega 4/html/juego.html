@@ -80,19 +80,41 @@
 
 
             <!-- Card principal -->
+            <!-- En juego.html, reemplazar la sección main-card por: -->
             <section class="main-card">
-                <img src="../img/peg-img.jpg" alt="Juego Viking" class="main-img">
+                <div class="game-container">
+                    <canvas id="pegSolitaireCanvas" width="1000" height="600"></canvas>
+
+                    <div class="game-controls">
+                        <button id="startGameBtn" class="btn btn-primary">Iniciar Juego</button>
+                        <button id="resetGameBtn" class="btn btn-secondary">Reiniciar</button>
+                        <div class="timer-container">
+                            <span>Tiempo: </span>
+                            <span id="timerDisplay">00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sistema de Notificaciones -->
+                <div id="notificationOverlay" class="notification-overlay"></div>
+                <div id="gameNotification" class="game-notification">
+                    <div class="notification-title" id="notificationTitle">Notificación</div>
+                    <div class="notification-message" id="notificationMessage"></div>
+                    <div class="notification-buttons" id="notificationButtons">
+                        <!-- botones se generan dinamicamente -->
+                    </div>
+                </div>
+
                 <div class="share-container">
                     <button class="share-btn" id="toggleShare">
                         Compartir <span class="arrow">➜</span>
                     </button>
                     <div class="social-icons-share" id="socialIcons">
-                        <img src="../img/wpp.png" alt="Whattsapp">
+                        <img src="../img/wpp.png" alt="Whatsapp">
                         <img src="../img/ig.png" alt="Instagram">
                         <img src="../img/tiktok.png" alt="Tik Tok">
                         <img src="../img/email.png" alt="Email">
                         <img src="../img/mensaje.png" alt="SMS">
-
                     </div>
                 </div>
             </section>
@@ -153,7 +175,7 @@
                 </div>
 
                 <p>
-                    <a href="https://www.youtube.com/watch?v=qTOhdAHP05s">
+                    <a href="https://www.youtube.com/watch?v=qTOhdAHP05s" target="_blank">
                         <span id="link-ayuda">¿Necesitas ayuda?</span>
                     </a> Descubre paso a paso cómo jugar al Peg Solitaire Viking Odyssey.
                 </p>
@@ -289,6 +311,12 @@
 
     </div>
     <script src="../js/juego.js"></script>
+    <script src="../js/jsPeg/Tablero.js"></script>
+    <script src="../js/jsPeg/Ficha.js"></script>
+    <script src="../js/jsPeg/Notificaciones.js"></script>
+
+
+
 </body>
 
 </html>
