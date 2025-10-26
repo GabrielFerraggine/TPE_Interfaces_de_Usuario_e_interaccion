@@ -4,20 +4,69 @@ class Tablero {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+        // Lista de imágenes disponibles para las fichas
+
+        //INICIALIZAR PROPIEDADES PRIMERO
         this.fichas = [];
-        this.fichaSeleccionada = null;
         this.casillas = [];
         this.movimientosValidos = [];
-        this.timer = 0;
-        this.timerInterval = null;
+        this.fichaSeleccionada = null;
         this.juegoActivo = false;
-        
+        this.timer = 0;
+        this.ultimoMovimiento = 0;
+        this.ayudaActiva = false;
+        this.movimientoAyuda = null;
+        this.timerInterval = null;
+
+        this.imagenesFichas = [
+            "../img/imgPeg/CascoVikingoFicha.png",
+            "../img/imgPeg/casco-hacha.png"
+        ];
+        // Seleccionar imagen aleatoria al inicializar
+        this.imagenFichaActual = this.obtenerImagenAleatoria();
+        // Precargar la imagen
+        this.cargarImagenFicha();
+        // Inicializar el juego
         this.configurarTablero();
         this.inicializarFichas();
         this.configurarEventos();
         this.dibujar();
+        
+        this.juegoActivo = false;
+        this.timer = 0;
+        this.ultimoMovimiento = 0;
+        this.ayudaActiva = false;
+    }
+
+    obtenerImagenAleatoria() {
+        const indiceAleatorio = Math.floor(Math.random() * this.imagenesFichas.length);
+        return this.imagenesFichas[indiceAleatorio];
     }
     
+    cargarImagenFicha() {
+        this.imagenFicha = new Image();
+        this.imagenFicha.src = this.imagenFichaActual;
+        this.imagenFicha.onload = () => {
+            console.log("Imagen de ficha cargada:", this.imagenFichaActual);
+            // Solo dibujar si el juego está configurado
+            if (this.fichas && this.fichas.length > 0) {
+                this.dibujar();
+            }
+        };
+        this.imagenFicha.onerror = () => {
+            console.error("Error al cargar la imagen:", this.imagenFichaActual);
+        };
+    }
+
+    cambiarImagenFicha(nuevaImagen) {
+        this.imagenFichaActual = nuevaImagen;
+        this.cargarImagenFicha();
+    }
+
+    getImagenFicha() {
+        return this.imagenFicha;
+    }
+
     configurarTablero() {
         this.posicionesValidas = [
             [0, 0, 1, 1, 1, 0, 0],
@@ -57,9 +106,11 @@ class Tablero {
         this.casillas.forEach(casilla => {
             if (casilla.ocupada) {
                 this.fichas.push(new Ficha(
+                    this.ctx,
                     casilla.x + casilla.tamano / 2,
                     casilla.y + casilla.tamano / 2,
                     casilla.tamano / 2 - 8,
+                    this,
                     casilla.fila,
                     casilla.columna
                 ));
@@ -379,8 +430,6 @@ class Tablero {
     }
     
     dibujarTablero() {
-        this.ctx.fillStyle = '#5D4037';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = '#8B4513';
         this.ctx.strokeStyle = '#5D4037';
         this.ctx.lineWidth = 2;
@@ -451,7 +500,6 @@ class Tablero {
 
 
 // ==================== INICIALIZACIÓN ====================
-
 let juegoPegSolitaire = null;
 
 document.addEventListener('DOMContentLoaded', function() {

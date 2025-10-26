@@ -46,13 +46,12 @@ document.querySelectorAll("#logoutBtn").forEach(btn => {
 });
 
 
-// Botón compartir
+//Boton compartir
 document.addEventListener('DOMContentLoaded', (event) => {
     const toggleButton = document.getElementById('toggleShare');
     const socialIcons = document.getElementById('socialIcons');
 
     toggleButton.addEventListener('click', () => {
-        // Toggles the 'visible' class on the social-icons container
         socialIcons.classList.toggle('visible');
     });
 });
