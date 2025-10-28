@@ -368,16 +368,20 @@ ul {
     display: block;
 }
 
+/*=============================== Share Container===============================*/
 .share-container {
     width: 100%;
-    height: auto;
     display: flex;
     align-items: center;
     background-color: var(--background-dark);
-    padding: 10px;
+    padding: 5px;
+    border-top: 2px solid rgba(255, 107, 53, 0.2);
+    margin-top: 10px;
+    gap: 10px;
 }
 
-.share-btn {
+.share-btn,
+.share-btn.help {
     background-color: var(--primary-color);
     color: var(--background-dark);
     border: none;
@@ -389,6 +393,9 @@ ul {
     display: flex;
     align-items: center;
     gap: 5px;
+    height: 50px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .share-btn:hover {
@@ -399,7 +406,6 @@ ul {
 .share-btn .arrow {
     font-size: 20px;
 }
-
 
 @keyframes share {
     0% {
@@ -415,15 +421,38 @@ ul {
     }
 }
 
+.share-btn.help:hover {
+    box-shadow: 0 0px 25px rgba(255, 107, 53, 0.7);
+    animation: shareHelp 0.4s ease-in-out 3;
+}
+
+
+@keyframes shareHelp {
+
+    /*animacion al reves que el boton share*/
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
 .social-icons-share {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     flex: 1;
-    transition: all 0.2s ease-in;
-    width: 0;
+    transition: all 0.3s ease-in-out;
+    max-width: 0;
+    opacity: 0;
     visibility: hidden;
-
+    overflow: hidden;
 }
 
 .social-icons-share img:hover {
@@ -432,10 +461,10 @@ ul {
 }
 
 .social-icons-share.visible {
-    width: 100%;
-    visibility: visible;
+    max-width: 100%;
     opacity: 1;
-    margin-left: 20px;
+    visibility: visible;
+    margin-left: 10px;
 }
 
 .social-icons-share img {
@@ -443,6 +472,7 @@ ul {
     height: 40px;
     object-fit: contain;
     margin: 0 5px;
+    flex-shrink: 0;
 }
 
 .social-icons-share img:nth-last-child(2) {
@@ -483,7 +513,7 @@ ul {
     justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-top: 15px;
+    margin-top: 5px;
     padding: 10px;
     padding-right: 60px;
     background-color: var(--background-dark);
