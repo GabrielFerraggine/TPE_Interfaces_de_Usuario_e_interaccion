@@ -526,6 +526,34 @@ ul {
     color: var(--text-primary);
 }
 
+.time-limit-container {
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid var(--primary-color);
+    margin: 5px;
+}
+
+.time-limit-container.warning {
+    color: #FFAA00;
+    border-color: #FFAA00;
+}
+
+.time-limit-container.danger {
+    color: #FF4444;
+    border-color: #FF4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
 .btn {
     padding: 15px 30px;
     border: none;

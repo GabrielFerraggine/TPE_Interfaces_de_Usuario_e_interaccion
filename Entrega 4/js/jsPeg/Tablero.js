@@ -4,7 +4,6 @@ class Tablero {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        // Lista de imágenes disponibles para las fichas
 
         //INICIALIZAR PROPIEDADES PRIMERO
         this.fichas = [];
@@ -18,9 +17,14 @@ class Tablero {
         this.movimientoAyuda = null;
         this.timerInterval = null;
 
+        //Sistema de tiempo límite
+        this.sistemaTiempoLimite = new SistemaTiempoLimite(this);
+
+        //Lista de imágenes disponibles para las fichas
         this.imagenesFichas = [
             "../img/imgPeg/CascoVikingoFicha.png",
-            "../img/imgPeg/casco-hacha.png"
+            "../img/imgPeg/Casco-hacha.png",
+            "../img/imgPeg/Ficha-runica.png"
         ];
         // Seleccionar imagen aleatoria al inicializar
         this.imagenFichaActual = this.obtenerImagenAleatoria();
@@ -350,11 +354,17 @@ class Tablero {
         this.detenerTimer();
         this.detenerAyuda();
         
+        //Iniciar tiempo limite
+        this.sistemaTiempoLimite.iniciarTiempoLimite();
+
         this.timerInterval = setInterval(() => {
             this.timer++;
             this.actualizarTimerDisplay();
+
+            //Actualizar tiempo limite
+            this.sistemaTiempoLimite.actualizarTiempoLimite();
             
-            // Verificar si necesita ayuda (5 segundos sin movimiento)
+            //Verificar si necesita ayuda (5 segundos sin movimiento)
             if (this.timer - this.ultimoMovimiento >= 5 && !this.ayudaActiva) {
                 this.mostrarAyuda();
             }
@@ -451,40 +461,40 @@ class Tablero {
     }
     
     dibujarMovimientosValidos() {
-    this.movimientosValidos.forEach(mov => {
-        this.ctx.fillStyle = 'rgba(255, 107, 53, 0.5)';
-        this.ctx.strokeStyle = '#FF6B35';
-        this.ctx.lineWidth = 3;
-        this.ctx.beginPath();
-        this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
-    });
-    
-    // Dibujar ayuda si está activa
-    if (this.ayudaActiva && this.movimientoAyuda) {
-        const ayuda = this.movimientoAyuda;
+        this.movimientosValidos.forEach(mov => {
+            this.ctx.fillStyle = 'rgba(255, 107, 53, 0.5)';
+            this.ctx.strokeStyle = '#FF6B35';
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.stroke();
+        });
         
-        // Destacar la ficha sugerida con un círculo azul
-        this.ctx.fillStyle = 'rgba(0, 150, 255, 0.3)';
-        this.ctx.strokeStyle = '#0096FF';
-        this.ctx.lineWidth = 4;
-        this.ctx.beginPath();
-        this.ctx.arc(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        // Destacar el destino sugerido con un círculo azul
-        this.ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
-        this.ctx.strokeStyle = '#0096FF';
-        this.ctx.lineWidth = 4;
-        this.ctx.beginPath();
-        this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
-        
+        // Dibujar ayuda si está activa
+        if (this.ayudaActiva && this.movimientoAyuda) {
+            const ayuda = this.movimientoAyuda;
+            
+            // Destacar la ficha sugerida con un círculo azul
+            this.ctx.fillStyle = 'rgba(0, 150, 255, 0.3)';
+            this.ctx.strokeStyle = '#0096FF';
+            this.ctx.lineWidth = 4;
+            this.ctx.beginPath();
+            this.ctx.arc(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.stroke();
+            
+            // Destacar el destino sugerido con un círculo azul
+            this.ctx.fillStyle = 'rgba(0, 150, 255, 0.5)';
+            this.ctx.strokeStyle = '#0096FF';
+            this.ctx.lineWidth = 4;
+            this.ctx.beginPath();
+            this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.stroke();
+            
+        }
     }
-}
     
     dibujarFichas() {
         this.fichas.forEach(ficha => {

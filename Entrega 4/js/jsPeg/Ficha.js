@@ -56,7 +56,28 @@ class Ficha {
         }
     }
     
-    dibujarTemporal(ctx) {
+dibujarTemporal(ctx) {
+    const imagenFicha = this.tablero.getImagenFicha();
+    
+    if (imagenFicha && imagenFicha.complete) {
+        //Dibuja la ficha temporal
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.xTemp, this.yTemp, this.radio, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        
+        ctx.drawImage(
+            imagenFicha,
+            this.xTemp - this.radio,
+            this.yTemp - this.radio,
+            this.radio * 2,
+            this.radio * 2
+        );
+        
+        ctx.restore();
+    } else {
+        //Fallback: dibujar círculo si la imagen no está cargada
         ctx.fillStyle = '#8B4513';
         ctx.strokeStyle = '#FF6B35';
         ctx.lineWidth = 3;
@@ -68,9 +89,19 @@ class Ficha {
         ctx.beginPath();
         ctx.arc(this.xTemp, this.yTemp, this.radio * 0.3, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.beginPath();
-        ctx.arc(this.xTemp + 2, this.yTemp + 2, this.radio, 0, Math.PI * 2);
-        ctx.fill();
     }
+
+    // Efecto de sombra para el estado temporal
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.beginPath();
+    ctx.arc(this.xTemp + 2, this.yTemp + 2, this.radio, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Resaltar la ficha temporal
+    ctx.strokeStyle = '#FF6B35';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(this.xTemp, this.yTemp, this.radio, 0, Math.PI * 2);
+    ctx.stroke();
+}
 }

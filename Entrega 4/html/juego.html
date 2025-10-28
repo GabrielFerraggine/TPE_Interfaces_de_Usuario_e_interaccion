@@ -87,9 +87,15 @@
                     <div class="game-controls">
                         <button id="startGameBtn" class="btn btn-primary">Iniciar Juego</button>
                         <button id="resetGameBtn" class="btn btn-secondary">Reiniciar</button>
-                        <div class="timer-container">
-                            <span>Tiempo: </span>
-                            <span id="timerDisplay">00:00</span>
+                        <div class="game-info">
+                            <div class="timer-container">
+                                <span>Tiempo Transcurrido:</span>
+                                <span id="timerDisplay">00:00</span>
+                            </div>
+                            <div class="time-limit-container">
+                                <span>Tiempo Restante:</span>
+                                <span id="tiempoLimiteDisplay">03:00</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,7 +320,7 @@
     <script src="../js/jsPeg/Tablero.js"></script>
     <script src="../js/jsPeg/Ficha.js"></script>
     <script src="../js/jsPeg/Notificaciones.js"></script>
-
+    <script src="../js/jsPeg/SistemaTiempoLimite.js"></script>
 
 
 </body>
