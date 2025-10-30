@@ -1,7 +1,7 @@
 class SistemaTiempoLimite {
     constructor(tablero) {
         this.tablero = tablero;
-        this.tiempoLimite = 180; //3 minutos en segundos
+        this.tiempoLimite = 300; //5 minutos en segundos
         this.tiempoRestante = this.tiempoLimite;
         this.alertaMostrada = false;
     }

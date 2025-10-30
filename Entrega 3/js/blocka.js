@@ -272,7 +272,7 @@ function getPieceAtPosition(x, y) {
         const px = startX + col * (pieceSize + gap);
         const py = startY + row * (pieceSize + gap);
 
-        // Verificar límites con mayor precisión
+        //Verificar límites con mayor precisión
         if (x >= px && x < px + pieceSize && y >= py && y < py + pieceSize) {
             return i;
         }

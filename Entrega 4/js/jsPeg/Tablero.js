@@ -373,7 +373,7 @@ class Tablero {
             this.actualizarTimerDisplay();
             this.sistemaTiempoLimite.actualizarTiempoLimite();
 
-            if (this.timer - this.ultimoMovimiento >= 5 && !this.ayudaActiva) {
+            if (this.timer - this.ultimoMovimiento >= 30 && !this.ayudaActiva) {
                 this.mostrarAyuda();
             }
         }, 1000);
@@ -448,7 +448,7 @@ class Tablero {
 
     dibujarTablero() {
         this.ctx.fillStyle = '#3B2F2F'; //fondo tablero
-        this.ctx.strokeStyle = '#5D4037'; //borde tablero
+        this.ctx.strokeStyle = '#1C1C1C'; //borde tablero
         this.ctx.lineWidth = 2;
 
         this.casillas.forEach(casilla => {
@@ -481,8 +481,8 @@ class Tablero {
         this.ctx.fill();
         this.ctx.stroke();
         
-        // efecto al tamaño
-        const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 3;
+        //efecto al tamaño
+        const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 9;
         this.ctx.strokeStyle = `rgba(255, 255, 255, ${pulso * 0.7})`;
         this.ctx.lineWidth = 2;
         this.ctx.beginPath();
@@ -492,28 +492,28 @@ class Tablero {
 
     // Dibujar ayuda si está activa
     if (this.ayudaActiva && this.movimientoAyuda) {
-        const ayuda = this.movimientoAyuda;
-        const pulsoAyuda = 0.4 + (Math.sin(Date.now() / 250) * 0.3 + 0.3);
+            const ayuda = this.movimientoAyuda;
+            const pulsoAyuda = 0.4 + (Math.sin(Date.now() / 250) * 0.3 + 0.3);
 
-        // Destacar la ficha sugerida con pulso
-        this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
-        this.ctx.strokeStyle = '#0096FF';
-        this.ctx.lineWidth = 4;
-        this.ctx.beginPath();
-        this.ctx.arc(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
+            // Destacar la ficha sugerida con pulso
+            this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
+            this.ctx.strokeStyle = '#0096FF';
+            this.ctx.lineWidth = 4;
+            this.ctx.beginPath();
+            this.ctx.arc(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.stroke();
 
-        // Destacar el destino sugerido con pulso
-        this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.5})`;
-        this.ctx.strokeStyle = '#0096FF';
-        this.ctx.lineWidth = 4;
-        this.ctx.beginPath();
-        this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
+            // Destacar el destino sugerido con pulso
+            this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.5})`;
+            this.ctx.strokeStyle = '#0096FF';
+            this.ctx.lineWidth = 4;
+            this.ctx.beginPath();
+            this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.stroke();
+        }
     }
-}
 
     dibujarFichas() {
         this.fichas.forEach(ficha => {

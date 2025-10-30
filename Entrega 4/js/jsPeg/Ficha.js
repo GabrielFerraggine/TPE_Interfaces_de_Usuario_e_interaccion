@@ -33,8 +33,8 @@ class Ficha {
             this.y,
             this.radio
         );
-        gradiente.addColorStop(0, "#1C1C1C"); // color fondo ficha
-        gradiente.addColorStop(1, "#1C1C1C"); // sombra (cambiar color)
+        gradiente.addColorStop(0, "#1C1C1C"); //color fondo ficha
+        gradiente.addColorStop(1, "#1C1C1C"); //sombra
         ctx.fillStyle = gradiente;
 
 
@@ -68,7 +68,7 @@ class Ficha {
 
         //Borde si está seleccionada
         if (this.seleccionada) {
-            ctx.strokeStyle = "#eacf24ff";
+            ctx.strokeStyle = "#FF6B35";
             ctx.lineWidth = 2.3;
         } else {// Borde normal
             ctx.strokeStyle = "#b18119cf"; 
@@ -122,7 +122,7 @@ class Ficha {
         ctx.restore();
 
         // Borde
-        ctx.strokeStyle = "#FFD700";
+        ctx.strokeStyle = "#FF6B35";
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(this.xTemp, this.yTemp, this.radio - 1, 0, Math.PI * 2);
