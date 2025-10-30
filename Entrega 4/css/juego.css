@@ -500,7 +500,7 @@ ul {
 #pegSolitaireCanvas {
     border: 2px solid var(--primary-color);
     border-radius: 8px;
-    background-image: url("../img/imgPeg/TableroVacio.png");
+    background-image: url("../img/imgPeg/OpcionTablero3.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

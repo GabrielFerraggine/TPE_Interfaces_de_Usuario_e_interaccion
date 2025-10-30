@@ -10,98 +10,123 @@ class Ficha {
         this.ocupada = true;
         this.seleccionada = false;
         this.xTemp = null;
-        this.yTemp = null;  
-    }
-    
-    dibujar() {
-        if (this.ocupada) {
-            const imagenFicha = this.tablero.getImagenFicha();
-            
-            if (imagenFicha && imagenFicha.complete) {
-                // Dibujar imagen de la ficha
-                this.ctx.save();
-                this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
-                this.ctx.closePath();
-                this.ctx.clip();
-                
-                this.ctx.drawImage(
-                    imagenFicha,
-                    this.x - this.radio,
-                    this.y - this.radio,
-                    this.radio * 2,
-                    this.radio * 2
-                );
-                
-                this.ctx.restore();
-            } else {
-                // Fallback: dibujar círculo si la imagen no está cargada
-                this.ctx.fillStyle = this.seleccionada ? '#FFD700' : '#8B4513';
-                this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
-                this.ctx.fill();
-                this.ctx.strokeStyle = '#000';
-                this.ctx.lineWidth = 2;
-                this.ctx.stroke();
-            }
+        this.yTemp = null;
 
-            // Resaltar si está seleccionada
-            if (this.seleccionada) {
-                this.ctx.strokeStyle = '#FFD700';
-                this.ctx.lineWidth = 3;
-                this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
-                this.ctx.stroke();
-            }
-        }
+        const rutaAleatoria = this.tablero.obtenerImagenAleatoria();
+        this.imagenFicha = new Image();
+        this.imagenFicha.src = rutaAleatoria;
     }
-    
-dibujarTemporal(ctx) {
-    const imagenFicha = this.tablero.getImagenFicha();
-    
-    if (imagenFicha && imagenFicha.complete) {
-        //Dibuja la ficha temporal
+
+
+    dibujar() {
+        if (!this.ocupada) return;
+
+        const imagenFicha = this.imagenFicha;
+        const ctx = this.ctx;
+
+        //Fondo circular
+        const gradiente = ctx.createRadialGradient(
+            this.x - this.radio * 0.3,
+            this.y - this.radio * 0.3,
+            this.radio * 0.2,
+            this.x,
+            this.y,
+            this.radio
+        );
+        gradiente.addColorStop(0, "#1C1C1C"); // color fondo ficha
+        gradiente.addColorStop(1, "#1C1C1C"); // sombra (cambiar color)
+        ctx.fillStyle = gradiente;
+
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
+        ctx.fill();
+
+        //Sombra de la ficha
         ctx.save();
+        ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        //Imagen de la ficha
+        if (imagenFicha && imagenFicha.complete) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radio - 3, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
+            ctx.drawImage(
+                imagenFicha,
+                this.x - this.radio + 3,
+                this.y - this.radio + 3,
+                (this.radio - 3) * 2,
+                (this.radio - 3) * 2
+            );
+        }
+
+        ctx.restore();
+
+        //Borde si está seleccionada
+        if (this.seleccionada) {
+            ctx.strokeStyle = "#eacf24ff";
+            ctx.lineWidth = 2.3;
+        } else {// Borde normal
+            ctx.strokeStyle = "#b18119cf"; 
+            ctx.lineWidth = 1.9;
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radio - 1, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+
+
+    dibujarTemporal(ctx) {
+        const imagenFicha = this.imagenFicha;
+
+        const gradiente = ctx.createRadialGradient(
+            this.xTemp - this.radio * 0.3,
+            this.yTemp - this.radio * 0.3,
+            this.radio * 0.2,
+            this.xTemp,
+            this.yTemp,
+            this.radio
+        );
+        gradiente.addColorStop(0, "#1C1C1C");
+        gradiente.addColorStop(1, "#1C1C1C");
+        ctx.fillStyle = gradiente;
         ctx.beginPath();
         ctx.arc(this.xTemp, this.yTemp, this.radio, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        
-        ctx.drawImage(
-            imagenFicha,
-            this.xTemp - this.radio,
-            this.yTemp - this.radio,
-            this.radio * 2,
-            this.radio * 2
-        );
-        
+        ctx.fill();
+
+        ctx.save();
+        ctx.shadowColor = "rgba(0,0,0,0.45)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 3;
+
+        //Imagen de la ficha
+        if (imagenFicha && imagenFicha.complete) {
+            ctx.beginPath();
+            ctx.arc(this.xTemp, this.yTemp, this.radio - 4, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.clip();
+            ctx.drawImage(
+                imagenFicha,
+                this.xTemp - this.radio + 4,
+                this.yTemp - this.radio + 4,
+                (this.radio - 4) * 2,
+                (this.radio - 4) * 2
+            );
+        }
+
         ctx.restore();
-    } else {
-        //Fallback: dibujar círculo si la imagen no está cargada
-        ctx.fillStyle = '#8B4513';
-        ctx.strokeStyle = '#FF6B35';
+
+        // Borde
+        ctx.strokeStyle = "#FFD700";
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(this.xTemp, this.yTemp, this.radio, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(this.xTemp, this.yTemp, this.radio - 1, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.fillStyle = '#FFD700';
-        ctx.beginPath();
-        ctx.arc(this.xTemp, this.yTemp, this.radio * 0.3, 0, Math.PI * 2);
-        ctx.fill();
     }
 
-    // Efecto de sombra para el estado temporal
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    ctx.beginPath();
-    ctx.arc(this.xTemp + 2, this.yTemp + 2, this.radio, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Resaltar la ficha temporal
-    ctx.strokeStyle = '#FF6B35';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(this.xTemp, this.yTemp, this.radio, 0, Math.PI * 2);
-    ctx.stroke();
-}
 }
