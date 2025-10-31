@@ -1,5 +1,5 @@
 class Ficha {
-    constructor(ctx, x, y, radio, tablero, fila, columna) {
+    constructor(ctx, x, y, radio, tablero, fila, columna, rutaImagen) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
@@ -12,9 +12,13 @@ class Ficha {
         this.xTemp = null;
         this.yTemp = null;
 
-        const rutaAleatoria = this.tablero.obtenerImagenAleatoria();
         this.imagenFicha = new Image();
-        this.imagenFicha.src = rutaAleatoria;
+        this.imagenFicha.src = rutaImagen;
+        
+        // Agregar manejo de errores para la imagen
+        this.imagenFicha.onerror = () => {
+            console.error("Error al cargar la imagen:", rutaImagen);
+        };
     }
 
     dibujar() {

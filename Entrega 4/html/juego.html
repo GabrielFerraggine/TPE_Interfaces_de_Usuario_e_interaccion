@@ -25,7 +25,8 @@
                     <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
                     <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
@@ -76,10 +77,7 @@
                 <span>Peg Solitare Viking</span>
             </nav>
 
-
-
             <!-- Card principal -->
-            <!-- En juego.html, reemplazar la sección main-card por: -->
             <section class="main-card">
                 <div class="game-container">
                     <canvas id="pegSolitaireCanvas" width="1000" height="587"></canvas>
@@ -96,6 +94,59 @@
                                 <span>Tiempo Restante:</span>
                                 <span id="tiempoLimiteDisplay">05:00</span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de Configuración -->
+                <div id="configModal" class="config-modal">
+                    <div class="config-modal-content">
+                        <div class="config-modal-body">
+                            <div class="config-modal-section">
+                                <h4>Elige la imagen de tus Vikingos:</h4>
+                                <div class="config-options">
+                                    <div class="config-option" data-group="imagen"
+                                        data-value="../img/imgPeg/casco-hacha.png">
+                                        <img src="../img/imgPeg/casco-hacha.png" alt="Casco Vikingo" class="imgCasco">
+                                    </div>
+                                    <div class="config-option" data-group="imagen" data-value="../img/imgPeg/barco.png">
+                                        <img src="../img/imgPeg/barco.png" alt="Casco con Hacha" class="small-image">
+                                    </div>
+                                    <div class="config-option" data-group="imagen"
+                                        data-value="../img/imgPeg/Ficha-runicaa.png">
+                                        <img src="../img/imgPeg/Ficha-runicaa.png" alt="Ficha Rúnica">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-modal-section">
+                                <h4>Elige la forma de las fichas:</h4>
+                                <div class="config-options">
+
+                                    <div class="config-option" data-group="forma" data-value="circular">
+                                        <div class="shape circular"></div>
+                                        <span>Circular</span>
+                                    </div>
+                                    <div class="config-option" data-group="forma" data-value="cuadrada">
+                                        <div class="shape cuadrada"></div>
+                                        <span>Cuadrada</span>
+                                    </div>
+                                    <div class="config-option" data-group="forma" data-value="pentagonal">
+                                        <div class="shape pentagonal">
+                                            <svg class="shape-svg-pentagon" viewBox="0 0 100 100"
+                                                preserveAspectRatio="xMidYMid meet">
+                                                <polygon points="50,0 100,38 82,100 18,100 0,38" />
+                                            </svg>
+                                        </div>
+                                        <span>Pentagonal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="configErrorMessage" class="config-error-message"></p>
+                        <div class="config-modal-footer">
+                            <button id="confirmConfigBtn" class="btn btn-primary">Jugar</button>
+                            <button id="cancelConfigBtn" class="btn btn-secondary">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -187,7 +238,6 @@
                 </p>
             </section>
 
-
             <!-- Comentarios -->
             <section class="comments">
                 <h3>¡Comenta qué te pareció el juego!</h3>
@@ -253,7 +303,6 @@
                 </div>
             </section>
 
-
             <!-- Footer -->
             <footer class="main-footer">
                 <div class="footer-container">
@@ -313,19 +362,16 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-    
+
     <script src="../js/juego.js"></script>
     <script src="../js/jsPeg/Tablero.js"></script>
     <script src="../js/jsPeg/Ficha.js"></script>
     <script src="../js/jsPeg/FichaCircular.js"></script>
     <script src="../js/jsPeg/FichaCuadrada.js"></script>
-    <script src="../js/jsPeg/FichaTriangular.js"></script>
     <script src="../js/jsPeg/Notificaciones.js"></script>
     <script src="../js/jsPeg/SistemaTiempoLimite.js"></script>
-
+    <script src="../js/jsPeg/FichaPentagonal.js"></script>
 </body>
 
 </html>

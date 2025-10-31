@@ -1,19 +1,26 @@
-// ==================== CLASES DEL JUEGO PEG SOLITAIRE ====================
 class Tablero {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
 
-        //Lista de imagenes disponibles para las fichas
         this.imagenesFichas = [
-            "../img/imgPeg/CascoVikingoFicha-.png",
-            "../img/imgPeg/Casco-hacha-.png",
+            "../img/imgPeg/barco.png",
+            "../img/imgPeg/Casco-hacha.png",
             "../img/imgPeg/Ficha-runicaa.png"
         ];
 
+        // Objeto para mapear nombres de formas a sus clases
+        this.formasFichas = {
+            'circular': FichaCircular,
+            'cuadrada': FichaCuadrada,
+            'pentagonal': FichaPentagonal,
+        };
+
+        this.formaSeleccionada = 'aleatoria';
+        this.imagenSeleccionada = 'aleatoria';
 
         //Inicializacion de propiedades
-        this.imagenFichaActual = this.obtenerImagenAleatoria(); 
+        this.imagenFichaActual = this.obtenerImagenAleatoria();
         this.fichas = [];
         this.casillas = [];
         this.movimientosValidos = [];
@@ -36,6 +43,7 @@ class Tablero {
             this.inicializarFichas();
             this.configurarEventos();
             this.dibujar();
+            this.configurarModalEventListeners();
         });
 
         this.juegoActivo = false;
@@ -44,11 +52,26 @@ class Tablero {
         this.ayudaActiva = false;
     }
 
-    //Metodo para crear ficha aleatoria
-    crearFichaAleatoria(ctx, x, y, radio, tablero, fila, columna) {
-        const tipos = [FichaCircular, FichaCuadrada, FichaTriangular];
-        const TipoAleatorio = tipos[Math.floor(Math.random() * tipos.length)];
-        return new TipoAleatorio(ctx, x, y, radio, tablero, fila, columna);
+    //crear fichas basado en la selección
+    crearFicha(ctx, x, y, radio, tablero, fila, columna) {
+        //Determinar la FORMA
+        let TipoFicha;
+        if (this.formaSeleccionada === 'aleatoria') {
+            const tipos = Object.values(this.formasFichas);
+            TipoFicha = tipos[Math.floor(Math.random() * tipos.length)];
+        } else {
+            TipoFicha = this.formasFichas[this.formaSeleccionada];
+        }
+
+        let rutaImagen;
+        if (this.imagenSeleccionada === 'aleatoria') {
+            rutaImagen = this.obtenerImagenAleatoria();
+        } else {
+            rutaImagen = this.imagenSeleccionada;
+        }
+
+        //Crear la fichs
+        return new TipoFicha(ctx, x, y, radio, tablero, fila, columna, rutaImagen);
     }
 
     obtenerImagenAleatoria() {
@@ -61,7 +84,6 @@ class Tablero {
         this.imagenFicha.src = this.imagenFichaActual;
         this.imagenFicha.onload = () => {
             console.log("Imagen de ficha cargada:", this.imagenFichaActual);
-            //Solo dibujar si el juego está configurado
             if (this.fichas && this.fichas.length > 0) {
                 this.dibujar();
             }
@@ -118,12 +140,12 @@ class Tablero {
         this.fichas = [];
         this.casillas.forEach(casilla => {
             if (casilla.ocupada) {
-                //Crear ficha con forma aleatoria directamente
-                const ficha = this.crearFichaAleatoria(
+                // Se llama a crearFicha
+                const ficha = this.crearFicha(
                     this.ctx,
                     casilla.x + casilla.tamano / 2,
                     casilla.y + casilla.tamano / 2,
-                    casilla.tamano / 2 - 8,
+                    casilla.tamano / 2 - 4,
                     this,
                     casilla.fila,
                     casilla.columna
@@ -146,7 +168,15 @@ class Tablero {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        this.fichaSeleccionada = this.obtenerFichaEnPosicion(x, y);
+        this.fichaSeleccionada = null;
+        for (let ficha of this.fichas.slice().reverse()) {
+            if (ficha.contienePunto(x, y)) {
+                this.fichaSeleccionada = ficha;
+                this.fichas.forEach(f => f.seleccionada = false);
+                ficha.seleccionada = true;
+                break;
+            }
+        }
 
         if (this.fichaSeleccionada) {
             this.mostrarMovimientosValidos(this.fichaSeleccionada);
@@ -175,21 +205,15 @@ class Tablero {
 
         this.intentarMoverFicha(this.fichaSeleccionada, x, y);
 
+        if (this.fichaSeleccionada) {
+            this.fichaSeleccionada.seleccionada = false;
+        }
+
         this.fichaSeleccionada.xTemp = null;
         this.fichaSeleccionada.yTemp = null;
         this.fichaSeleccionada = null;
         this.movimientosValidos = [];
         this.dibujar();
-    }
-
-    obtenerFichaEnPosicion(x, y) {
-        for (let ficha of this.fichas) {
-            const distancia = Math.sqrt(Math.pow(x - ficha.x, 2) + Math.pow(y - ficha.y, 2));
-            if (distancia <= ficha.radio) {
-                return ficha;
-            }
-        }
-        return null;
     }
 
     mostrarMovimientosValidos(ficha) {
@@ -294,7 +318,6 @@ class Tablero {
             casillaSalto.vacia = true;
         }
 
-        //Resetear timer de ayuda
         this.ultimoMovimiento = this.timer;
         this.detenerAyuda();
 
@@ -322,7 +345,6 @@ class Tablero {
             if (fichasRestantes === 1) {
                 const fichaFinal = this.fichas[0];
                 const esCentro = fichaFinal.fila === 3 && fichaFinal.columna === 3;
-
                 if (esCentro) {
                     titulo = '¡Victoria Épica!';
                     mensaje = 'El último vikingo ocupa el trono central.';
@@ -334,41 +356,125 @@ class Tablero {
                 titulo = 'Juego Terminado';
                 mensaje = `Quedaron ${fichasRestantes} vikingos en pie.`;
             }
-
             const botones = [
-                {
-                    text: 'Jugar de Nuevo',
-                    type: 'confirm',
-                    callback: () => this.reiniciarJuego()
-                },
-                {
-                    text: 'Menú Principal',
-                    type: 'cancel',
-                    callback: () => {
-                        this.reiniciarJuego();
-                    }
-                }
+                { text: 'Jugar de Nuevo', type: 'confirm', callback: () => this.reiniciarJuego() },
+                { text: 'Menú Principal', type: 'cancel', callback: () => { this.reiniciarJuego(); } }
             ];
-
             showNotification(titulo, mensaje, botones);
         }
     }
 
+    //MUESTRA EL MODAL VISUAL
     iniciarJuego() {
         if (this.juegoActivo) return;
+
+        //forzar selección reiniciando las variables a null
+        this.formaSeleccionada = null;
+        this.imagenSeleccionada = null;
+
+        //Limpiar la selección visual
+        const configModal = document.getElementById('configModal');
+        const options = configModal.querySelectorAll('.config-option');
+        options.forEach(opt => opt.classList.remove('selected'));
+
+        //Ocultar el mensaje de error
+        const errorMsg = document.getElementById('configErrorMessage');
+        if (errorMsg) {
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+        }
+
+        // Mostrar el modal de configuración
+        configModal.classList.add('active'); 
+    }
+
+    // En Tablero.js
+    configurarModalEventListeners() {
+        const configModal = document.getElementById('configModal');
+        const confirmBtn = document.getElementById('confirmConfigBtn');
+        const cancelBtn = document.getElementById('cancelConfigBtn');
+        const imageOptions = document.querySelectorAll('.config-option[data-group="imagen"]');
+        const shapeOptions = document.querySelectorAll('.config-option[data-group="forma"]');
+        const errorMsg = document.getElementById('configErrorMessage');
+
+        // Configurar selección de opciones
+        this.addClickHandler(imageOptions, 'imagenSeleccionada');
+        this.addClickHandler(shapeOptions, 'formaSeleccionada');
+
+        confirmBtn.addEventListener('click', () => {
+
+            // Validar la selección
+            if (this.imagenSeleccionada && this.formaSeleccionada) {
+                if (errorMsg) errorMsg.style.display = 'none'; // Ocultar error
+                configModal.classList.remove('active');
+                this._comenzarPartida();
+
+            } else {
+                if (errorMsg) {
+                    if (!this.imagenSeleccionada && !this.formaSeleccionada) {
+                        errorMsg.textContent = 'Debes elegir una imagen y una forma.';
+                    } else if (!this.imagenSeleccionada) {
+                        errorMsg.textContent = 'Debes elegir una imagen para tus Vikingos.';
+                    } else {
+                        errorMsg.textContent = 'Debes elegir una forma para las fichas.';
+                    }
+                    errorMsg.style.display = 'block'; // Mostrar error
+                }
+            }
+        });
+
+        const resetToRandom = () => {
+            configModal.classList.remove('active');
+            this.formaSeleccionada = 'aleatoria';
+            this.imagenSeleccionada = 'aleatoria';
+            if (errorMsg) errorMsg.style.display = 'none'; // Ocultar error
+        };
+
+        cancelBtn.addEventListener('click', resetToRandom);
+
+        // Cerrar modal al hacer clic fuera
+        configModal.addEventListener('click', (e) => {
+            if (e.target === configModal) {
+                resetToRandom();
+            }
+        });
+    }
+
+    // Se llama después de mostrar el modal para hacer cliqueables las opciones.
+    setupModalEventListeners() {
+        const imageOptions = document.querySelectorAll('.config-option[data-group="imagen"]');
+        const shapeOptions = document.querySelectorAll('.config-option[data-group="forma"]');
+
+        this.addClickHandler(imageOptions, 'imagenSeleccionada');
+        this.addClickHandler(shapeOptions, 'formaSeleccionada');
+    }
+
+    // Helper para la lógica de selección visual.
+    addClickHandler(options, propertyToSet) {
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+
+                option.classList.add('selected');
+
+                this[propertyToSet] = option.dataset.value;
+                console.log(`Set ${propertyToSet} to: ${this[propertyToSet]}`);
+            });
+        });
+    }
+
+    _comenzarPartida() {
+        // Reiniciar el tablero con las configuraciones seleccionadas
+        this.reiniciarJuego();
+
         this.juegoActivo = true;
         this.timer = 0;
         this.ultimoMovimiento = 0;
-        this.ayudaActiva = false;
-        this.movimientoAyuda = null;
         this.actualizarTimerDisplay();
         this.detenerTimer();
         this.detenerAyuda();
-
-        //Iniciar tiempo limite
         this.sistemaTiempoLimite.iniciarTiempoLimite();
 
-        //Animacion continua para los pulsos
         const animar = () => {
             if (this.juegoActivo) {
                 this.dibujar();
@@ -396,25 +502,20 @@ class Tablero {
     }
 
     mostrarAyuda() {
-        // Buscar un movimiento posible
         const movimientosPosibles = [];
-
         for (let ficha of this.fichas) {
             const movimientos = this.obtenerMovimientosValidos(ficha);
             if (movimientos.length > 0) {
                 movimientosPosibles.push({
                     ficha: ficha,
-                    movimiento: movimientos[0] // Tomar el primer movimiento posible
+                    movimiento: movimientos[0]
                 });
             }
         }
-
         if (movimientosPosibles.length > 0) {
-            // Elegir un movimiento aleatorio para sugerir
             const ayuda = movimientosPosibles[Math.floor(Math.random() * movimientosPosibles.length)];
             this.ayudaActiva = true;
             this.movimientoAyuda = ayuda;
-
             this.dibujar();
         }
     }
@@ -436,7 +537,9 @@ class Tablero {
         this.fichaSeleccionada = null;
         this.movimientosValidos = [];
         this.configurarTablero();
+
         this.inicializarFichas();
+
         document.getElementById('startGameBtn').disabled = false;
         this.dibujar();
     }
@@ -477,43 +580,37 @@ class Tablero {
     }
 
     dibujarMovimientosValidos() {
-    // Calcular pulso basado en el tiempo (entre 0.3 y 0.8)
-    const pulso = 0.3 + (Math.sin(Date.now() / 300) * 0.25 + 0.25);
-    
-    this.movimientosValidos.forEach(mov => {
-        // Color con efecto de pulso
-        this.ctx.fillStyle = `rgba(255, 107, 53, ${pulso})`;
-        this.ctx.strokeStyle = '#FF6B35';
-        this.ctx.lineWidth = 3;
-        this.ctx.beginPath();
-        this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.stroke();
-        
-        //efecto al tamaño
-        const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 9;
-        this.ctx.strokeStyle = `rgba(255, 255, 255, ${pulso * 0.7})`;
-        this.ctx.lineWidth = 2;
-        this.ctx.beginPath();
-        this.ctx.arc(mov.x, mov.y, tamanoPulso, 0, Math.PI * 2);
-        this.ctx.stroke();
-    });
-
-    // Dibujar ayuda si está activa
-    if (this.ayudaActiva && this.movimientoAyuda) {
-            const ayuda = this.movimientoAyuda;
-            const pulsoAyuda = 0.4 + (Math.sin(Date.now() / 250) * 0.3 + 0.3);
-
-            // Destacar la ficha sugerida con pulso
-            this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
-            this.ctx.strokeStyle = '#0096FF';
-            this.ctx.lineWidth = 4;
+        const pulso = 0.3 + (Math.sin(Date.now() / 300) * 0.25 + 0.25);
+        this.movimientosValidos.forEach(mov => {
+            this.ctx.fillStyle = `rgba(255, 107, 53, ${pulso})`;
+            this.ctx.strokeStyle = '#FF6B35';
+            this.ctx.lineWidth = 3;
             this.ctx.beginPath();
-            this.ctx.arc(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8, 0, Math.PI * 2);
+            this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.stroke();
 
-            // Destacar el destino sugerido con pulso
+            const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 9;
+            this.ctx.strokeStyle = `rgba(255, 255, 255, ${pulso * 0.7})`;
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.arc(mov.x, mov.y, tamanoPulso, 0, Math.PI * 2);
+            this.ctx.stroke();
+        });
+
+        if (this.ayudaActiva && this.movimientoAyuda) {
+            const ayuda = this.movimientoAyuda;
+            const pulsoAyuda = 0.4 + (Math.sin(Date.now() / 250) * 0.3 + 0.3);
+
+            this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
+            this.ctx.strokeStyle = '#0096FF';
+            this.ctx.lineWidth = 4;
+            // Usar crearForma de la ficha para la ayuda
+            this.ctx.beginPath();
+            ayuda.ficha.crearForma(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8);
+            this.ctx.fill();
+            this.ctx.stroke();
+
             this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.5})`;
             this.ctx.strokeStyle = '#0096FF';
             this.ctx.lineWidth = 4;
@@ -535,12 +632,9 @@ class Tablero {
         }
     }
 
-
-    //Precarga las imagenes
     precargarImagenes(callback) {
         const rutas = this.imagenesFichas;
         let cargadas = 0;
-
         rutas.forEach(ruta => {
             const img = new Image();
             img.src = ruta;
@@ -573,6 +667,9 @@ document.addEventListener('DOMContentLoaded', function () {
             juegoPegSolitaire.iniciarJuego();
         });
         document.getElementById('resetGameBtn').addEventListener('click', function () {
+            // Al reiniciar, resetear también las selecciones
+            juegoPegSolitaire.formaSeleccionada = 'aleatoria';
+            juegoPegSolitaire.imagenSeleccionada = 'aleatoria';
             juegoPegSolitaire.reiniciarJuego();
         });
     }

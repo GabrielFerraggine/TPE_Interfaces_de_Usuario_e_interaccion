@@ -141,6 +141,7 @@ ul {
     filter: brightness(1.2) drop-shadow(0 0 4px #f3732f);
     transform: scale(1.08);
 }
+
 #menuHamburguesaBtn {
     background: none;
     border: none;
@@ -339,15 +340,23 @@ ul {
     margin-right: 4px;
 }
 
-.breadcrumb img:hover{
+.breadcrumb img:hover {
     cursor: pointer;
     animation: spin 2s linear 1;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(-360deg); } 
-    100% { transform: rotate(0deg); } 
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(-360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* ==================== CARD PRINCIPAL ==================== */
@@ -549,9 +558,17 @@ ul {
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .btn {
@@ -671,11 +688,164 @@ ul {
         opacity: 0;
         transform: translate(-50%, -60%);
     }
+
     to {
         opacity: 1;
         transform: translate(-50%, -50%);
     }
 }
+
+/* ==================== MODAL DE CONFIGURACIÓN ==================== */
+.config-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 4000;
+}
+
+.config-modal.active {
+    display: flex;
+}
+
+.config-modal-content {
+    background: var(--background-dark);
+    border: 3px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.config-modal-header h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: var(--font-bold);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.config-modal-section {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.config-modal-section h4 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.config-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.config-option {
+    padding: 10px;
+    border: 3px solid var(--background-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--background-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 90px;
+}
+
+.config-option:hover {
+    border-color: var(--primary-color);
+}
+
+.config-option.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+    transform: scale(1.05);
+}
+
+.config-option img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.config-option .shape {
+    width: 90px;
+    height: 90px;
+    background-color: #fff;
+    border: 2px solid #1C1C1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.config-option .shape.circular {
+    border-radius: 50%;
+}
+
+.config-option .shape.cuadrada {
+    border-radius: 8px;
+}
+
+.config-option .shape.pentagonal {
+    background-color: transparent;
+    border: none;
+}
+
+.shape-svg-pentagon polygon {
+    fill: #fff;
+    stroke: #1C1C1C;
+    stroke-width: 2;    
+}
+
+.config-option .shape.pentagonal::before {
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
+    color: #1C1C1C;
+    bottom: 5px;
+    right: 5px;
+}
+
+.config-option span {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+.config-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.config-modal-footer .btn {
+    min-width: 120px;
+}
+
+.config-error-message {
+    display: none; /* Oculto por defecto */
+    color: #FF4444; /* Un color de error rojo */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
 
 
 /* ==================== DESCRIPCIÓN ==================== */
@@ -751,6 +921,7 @@ ul#movimientos li {
     scroll-margin-top: 100px;
     /*Deja un espacio al deplazarse*/
 }
+
 .how-to-play {
     width: 1650px;
     margin: 40px auto;
@@ -760,6 +931,7 @@ ul#movimientos li {
     font-family: var(--font-family-inter);
     text-align: center;
 }
+
 .how-to-play p {
     text-align: center;
     margin-top: 15px;
@@ -804,7 +976,7 @@ ul#movimientos li {
     font-weight: bold;
 }
 
-#flecha-der{
+#flecha-der {
     width: 90px;
     height: auto;
 }
@@ -984,7 +1156,7 @@ ul#movimientos li {
     gap: 10px;
 }
 
-.footer-logo img{
+.footer-logo img {
     width: 48px;
     height: 68px;
 }
@@ -993,7 +1165,8 @@ ul#movimientos li {
     display: flex;
     gap: 30px;
 }
-.social-icons img{
+
+.social-icons img {
     width: 40px;
     height: 40px;
     border-radius: 5px;

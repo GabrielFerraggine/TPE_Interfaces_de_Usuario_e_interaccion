@@ -1,12 +1,37 @@
-class FichaTriangular extends Ficha {
-    crearForma(x, y, radio) {
-        const altura = radio * Math.sqrt(3);
-        const mitadBase = radio;
+// FichaPentagonal.js
+class FichaPentagonal extends Ficha {
+    constructor(ctx, x, y, radio, tablero, fila, columna, imagenSrc) {
+        super(ctx, x, y, radio, tablero, fila, columna, imagenSrc);
         
-        this.ctx.moveTo(x, y - altura / 2);
-        this.ctx.lineTo(x - mitadBase, y + altura / 2);
-        this.ctx.lineTo(x + mitadBase, y + altura / 2);
+        // Usar la misma imagen que la clase base
+        this.imagen = this.imagenFicha;
+    }
+
+    crearForma(x, y, radio) {
+        // Crear un pentágono
+        const lados = 5;
+        const anguloInicial = -Math.PI / 2;
+        
+        this.ctx.beginPath();
+        
+        for (let i = 0; i <= lados; i++) {
+            const angulo = anguloInicial + (i * 2 * Math.PI / lados);
+            const puntoX = x + radio * Math.cos(angulo);
+            const puntoY = y + radio * Math.sin(angulo);
+            
+            if (i === 0) {
+                this.ctx.moveTo(puntoX, puntoY);
+            } else {
+                this.ctx.lineTo(puntoX, puntoY);
+            }
+        }
+        
         this.ctx.closePath();
+    }
+
+    contienePunto(x, y) {
+        this.crearForma(this.x, this.y, this.radio);
+        return this.ctx.isPointInPath(x, y);
     }
 
     dibujar() {
@@ -17,6 +42,7 @@ class FichaTriangular extends Ficha {
         const y = this.y;
         const radio = this.radio;
 
+        // Usar el mismo gradiente que las otras fichas
         ctx.fillStyle = this.crearGradiente(x, y, radio);
         ctx.beginPath();
         this.crearForma(x, y, radio);
@@ -28,8 +54,11 @@ class FichaTriangular extends Ficha {
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
 
+        // Usar el método dibujarImagen de la clase base
         this.dibujarImagen(x, y, radio);
         ctx.restore();
+        
+        // Usar el método dibujarBorde de la clase base (con colores amarillos)
         this.dibujarBorde(x, y, radio);
     }
 
@@ -57,19 +86,5 @@ class FichaTriangular extends Ficha {
         ctx.beginPath();
         this.crearForma(x, y, radio - 1);
         ctx.stroke();
-    }
-
-    contienePunto(xPunto, yPunto) {
-        const altura = this.radio * Math.sqrt(3);
-        const mitadBase = this.radio;
-        
-        const relX = xPunto - this.x;
-        const relY = yPunto - this.y;
-        
-        const dentroDeBase = Math.abs(relX) <= mitadBase;
-        const dentroDeAltura = relY >= -altura/2 && relY <= altura/2;
-        const dentroDeLados = relY <= (altura/2) - Math.abs(relX) * Math.sqrt(3);
-        
-        return dentroDeBase && dentroDeAltura && dentroDeLados;
     }
 }

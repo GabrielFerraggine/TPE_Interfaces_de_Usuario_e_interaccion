@@ -11,7 +11,7 @@ function showNotification(title, message, buttons = []) {
     const buttonsContainer = document.getElementById('notificationButtons');
 
     titleElement.textContent = title;
-    messageElement.textContent = message;
+    messageElement.innerHTML = message;
     buttonsContainer.innerHTML = '';
 
     buttons.forEach(button => {
