@@ -10,12 +10,8 @@ class Tablero {
         ];
 
         // Objeto para mapear nombres de formas a sus clases
-        this.formasFichas = {
-            'circular': FichaCircular,
-            'cuadrada': FichaCuadrada,
-            'pentagonal': FichaPentagonal,
-        };
-
+        this.formasFichas = {};
+        this.inicializarFormasFichas(); 
         this.formaSeleccionada = 'aleatoria';
         this.imagenSeleccionada = 'aleatoria';
 
@@ -36,15 +32,13 @@ class Tablero {
         this.sistemaTiempoLimite = new SistemaTiempoLimite(this);
 
         //Precargar la imagen
-        this.cargarImagenFicha();
-        //Inicializar el juego
-        this.configurarTablero();
-        this.precargarImagenes(() => {
-            this.inicializarFichas();
-            this.configurarEventos();
-            this.dibujar();
-            this.configurarModalEventListeners();
-        });
+    this.inicializarFormasFichas();
+    this.precargarImagenes(() => {
+        this.inicializarFichas();
+        this.configurarEventos();
+        this.dibujar();
+        this.configurarModalEventListeners();
+    });
 
         this.juegoActivo = false;
         this.timer = 0;
@@ -53,30 +47,72 @@ class Tablero {
     }
 
     //crear fichas basado en la selección
-    crearFicha(ctx, x, y, radio, tablero, fila, columna) {
-        //Determinar la FORMA
-        let TipoFicha;
-        if (this.formaSeleccionada === 'aleatoria') {
-            const tipos = Object.values(this.formasFichas);
-            TipoFicha = tipos[Math.floor(Math.random() * tipos.length)];
-        } else {
-            TipoFicha = this.formasFichas[this.formaSeleccionada];
-        }
-
-        let rutaImagen;
-        if (this.imagenSeleccionada === 'aleatoria') {
-            rutaImagen = this.obtenerImagenAleatoria();
-        } else {
-            rutaImagen = this.imagenSeleccionada;
-        }
-
-        //Crear la fichs
-        return new TipoFicha(ctx, x, y, radio, tablero, fila, columna, rutaImagen);
+crearFicha(ctx, x, y, radio, tablero, fila, columna) {
+    // Verificar que formasFichas tenga contenido
+    if (Object.keys(this.formasFichas).length === 0) {
+        console.error('No hay formas de fichas disponibles');
+        return null;
     }
 
+    let ClaseFicha;
+    if (this.formaSeleccionada === 'aleatoria') {
+        const tipos = Object.values(this.formasFichas).filter(cls => typeof cls === 'function');
+        if (tipos.length === 0) {
+            console.error('No hay constructores válidos en formasFichas');
+            return null;
+        }
+        ClaseFicha = tipos[Math.floor(Math.random() * tipos.length)];
+    } else {
+        ClaseFicha = this.formasFichas[this.formaSeleccionada];
+    }
+
+    // Verificar que tenemos un constructor válido
+    if (typeof ClaseFicha !== 'function') {
+        console.error('ClaseFicha no es función:', ClaseFicha, 'para forma:', this.formaSeleccionada);
+        console.error('Formas disponibles:', this.formasFichas);
+        return null;
+    }
+
+    let rutaImagen;
+    if (this.imagenSeleccionada === 'aleatoria') {
+        rutaImagen = this.obtenerImagenAleatoria();
+    } else {
+        rutaImagen = this.imagenSeleccionada;
+    }
+
+    try {
+        return new ClaseFicha(ctx, x, y, radio, tablero, fila, columna, rutaImagen);
+    } catch (error) {
+        console.error('Error al crear ficha:', error);
+        return null;
+    }
+}
     obtenerImagenAleatoria() {
         const indiceAleatorio = Math.floor(Math.random() * this.imagenesFichas.length);
         return this.imagenesFichas[indiceAleatorio];
+    }
+
+    inicializarFormasFichas() {
+        // Verifica que las clases existan en el ámbito global
+        if (typeof FichaCircular === 'function') {
+            this.formasFichas['circular'] = FichaCircular;
+        } else {
+            console.error('FichaCircular no está definida');
+        }
+        
+        if (typeof FichaCuadrada === 'function') {
+            this.formasFichas['cuadrada'] = FichaCuadrada;
+        } else {
+            console.error('FichaCuadrada no está definida');
+        }
+        
+        if (typeof FichaPentagonal === 'function') {
+            this.formasFichas['pentagonal'] = FichaPentagonal;
+        } else {
+            console.error('FichaPentagonal no está definida');
+        }
+    
+        console.log('Formas de fichas inicializadas:', Object.keys(this.formasFichas));
     }
 
     cargarImagenFicha() {
@@ -324,6 +360,7 @@ class Tablero {
         setTimeout(() => this.verificarFinJuego(), 100);
     }
 
+    // En verificarFinJuego(), cambia el callback:
     verificarFinJuego() {
         let hayMovimientos = false;
         for (let ficha of this.fichas) {
@@ -357,8 +394,20 @@ class Tablero {
                 mensaje = `Quedaron ${fichasRestantes} vikingos en pie.`;
             }
             const botones = [
-                { text: 'Jugar de Nuevo', type: 'confirm', callback: () => this.reiniciarJuego() },
-                { text: 'Menú Principal', type: 'cancel', callback: () => { this.reiniciarJuego(); } }
+                { 
+                    text: 'Jugar de Nuevo', 
+                    type: 'confirm', 
+                    callback: () => {
+                        this.reiniciarJuego(); // Esto mostrará el modal de configuración
+                    } 
+                },
+                { 
+                    text: 'Menú Principal', 
+                    type: 'cancel', 
+                    callback: () => { 
+                        this.reinicioRapido(); // Esto reinicia rápidamente sin modal
+                    } 
+                }
             ];
             showNotification(titulo, mensaje, botones);
         }
@@ -392,7 +441,6 @@ class Tablero {
     configurarModalEventListeners() {
         const configModal = document.getElementById('configModal');
         const confirmBtn = document.getElementById('confirmConfigBtn');
-        const cancelBtn = document.getElementById('cancelConfigBtn');
         const imageOptions = document.querySelectorAll('.config-option[data-group="imagen"]');
         const shapeOptions = document.querySelectorAll('.config-option[data-group="forma"]');
         const errorMsg = document.getElementById('configErrorMessage');
@@ -430,8 +478,6 @@ class Tablero {
             if (errorMsg) errorMsg.style.display = 'none'; // Ocultar error
         };
 
-        cancelBtn.addEventListener('click', resetToRandom);
-
         // Cerrar modal al hacer clic fuera
         configModal.addEventListener('click', (e) => {
             if (e.target === configModal) {
@@ -462,19 +508,27 @@ class Tablero {
             });
         });
     }
-
     _comenzarPartida() {
-        // Reiniciar el tablero con las configuraciones seleccionadas
-        this.reiniciarJuego();
+        console.log('Iniciando partida con configuración:', {
+            forma: this.formaSeleccionada,
+            imagen: this.imagenSeleccionada
+        });
+        
+        // Primero reiniciar el juego rápidamente con las configuraciones seleccionadas
+        this.reinicioRapido();
 
+        // Configurar el estado del juego
         this.juegoActivo = true;
         this.timer = 0;
         this.ultimoMovimiento = 0;
         this.actualizarTimerDisplay();
-        this.detenerTimer();
         this.detenerAyuda();
+        
+        // Iniciar sistemas
         this.sistemaTiempoLimite.iniciarTiempoLimite();
+        this.iniciarTimer();
 
+        // Iniciar animación del juego
         const animar = () => {
             if (this.juegoActivo) {
                 this.dibujar();
@@ -483,6 +537,12 @@ class Tablero {
         };
         animar();
 
+        console.log('Partida iniciada correctamente');
+    }
+
+    iniciarTimer() {
+        this.detenerTimer(); // Asegurarse de que no hay timers duplicados
+        
         this.timerInterval = setInterval(() => {
             this.timer++;
             this.actualizarTimerDisplay();
@@ -492,10 +552,7 @@ class Tablero {
                 this.mostrarAyuda();
             }
         }, 1000);
-
-        document.getElementById('startGameBtn').disabled = true;
     }
-
     detenerAyuda() {
         this.ayudaActiva = false;
         this.movimientoAyuda = null;
@@ -528,20 +585,36 @@ class Tablero {
     }
 
     reiniciarJuego() {
+        //Primero detener todo
         this.detenerTimer();
+        this.detenerAyuda();
+        this.juegoActivo = false;
+        
+        //Mostrar el modal de configuración para nueva partida
+        this.iniciarJuego();
+        
+        console.log('Reinicio completo - mostrando modal de configuración');
+    }
+
+    reinicioRapido() {
         this.detenerAyuda();
         this.juegoActivo = false;
         this.timer = 0;
         this.ultimoMovimiento = 0;
-        this.actualizarTimerDisplay();
         this.fichaSeleccionada = null;
         this.movimientosValidos = [];
+        
+        // Mantener las configuraciones actuales
+        // Reiniciar completamente el tablero y fichas
         this.configurarTablero();
-
         this.inicializarFichas();
 
-        document.getElementById('startGameBtn').disabled = false;
+        this.sistemaTiempoLimite.detenerTiempoLimite();
+        this.sistemaTiempoLimite.iniciarTiempoLimite();
+        
         this.dibujar();
+        this.juegoActivo = true;
+        console.log('Reinicio rápido - forma:', this.formaSeleccionada, 'imagen:', this.imagenSeleccionada);
     }
 
     actualizarTimerDisplay() {
@@ -663,13 +736,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('pegSolitaireCanvas');
     if (canvas) {
         juegoPegSolitaire = new Tablero(canvas);
-        document.getElementById('startGameBtn').addEventListener('click', function () {
-            juegoPegSolitaire.iniciarJuego();
+
+        juegoPegSolitaire.iniciarJuego();
+
+        // Botón de reinicio rápido (mantiene configuraciones)
+        document.getElementById('btnNewGame').addEventListener('click', function () {
+            juegoPegSolitaire.reinicioRapido();
         });
+
+        // Botón de reinicio completo (muestra modal)
         document.getElementById('resetGameBtn').addEventListener('click', function () {
-            // Al reiniciar, resetear también las selecciones
-            juegoPegSolitaire.formaSeleccionada = 'aleatoria';
-            juegoPegSolitaire.imagenSeleccionada = 'aleatoria';
             juegoPegSolitaire.reiniciarJuego();
         });
     }
