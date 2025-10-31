@@ -1,11 +1,19 @@
 // ==================== CLASES DEL JUEGO PEG SOLITAIRE ====================
-
 class Tablero {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
 
-        //INICIALIZAR PROPIEDADES PRIMERO
+        //Lista de imagenes disponibles para las fichas
+        this.imagenesFichas = [
+            "../img/imgPeg/CascoVikingoFicha-.png",
+            "../img/imgPeg/Casco-hacha-.png",
+            "../img/imgPeg/Ficha-runicaa.png"
+        ];
+
+
+        //Inicializacion de propiedades
+        this.imagenFichaActual = this.obtenerImagenAleatoria(); 
         this.fichas = [];
         this.casillas = [];
         this.movimientosValidos = [];
@@ -17,20 +25,12 @@ class Tablero {
         this.movimientoAyuda = null;
         this.timerInterval = null;
 
-        //Sistema de tiempo límite
+        //Sistema de tiempo limite
         this.sistemaTiempoLimite = new SistemaTiempoLimite(this);
 
-        //Lista de imágenes disponibles para las fichas
-        this.imagenesFichas = [
-            "../img/imgPeg/CascoVikingoFicha-.png",
-            "../img/imgPeg/Casco-hacha-.png",
-            "../img/imgPeg/Ficha-runicaa.png"
-        ];
-        // Seleccionar imagen aleatoria al inicializar
-        this.imagenFichaActual = this.obtenerImagenAleatoria();
-        // Precargar la imagen
+        //Precargar la imagen
         this.cargarImagenFicha();
-        // Inicializar el juego
+        //Inicializar el juego
         this.configurarTablero();
         this.precargarImagenes(() => {
             this.inicializarFichas();
@@ -44,6 +44,13 @@ class Tablero {
         this.ayudaActiva = false;
     }
 
+    //Metodo para crear ficha aleatoria
+    crearFichaAleatoria(ctx, x, y, radio, tablero, fila, columna) {
+        const tipos = [FichaCircular, FichaCuadrada, FichaTriangular];
+        const TipoAleatorio = tipos[Math.floor(Math.random() * tipos.length)];
+        return new TipoAleatorio(ctx, x, y, radio, tablero, fila, columna);
+    }
+
     obtenerImagenAleatoria() {
         const indiceAleatorio = Math.floor(Math.random() * this.imagenesFichas.length);
         return this.imagenesFichas[indiceAleatorio];
@@ -54,7 +61,7 @@ class Tablero {
         this.imagenFicha.src = this.imagenFichaActual;
         this.imagenFicha.onload = () => {
             console.log("Imagen de ficha cargada:", this.imagenFichaActual);
-            // Solo dibujar si el juego está configurado
+            //Solo dibujar si el juego está configurado
             if (this.fichas && this.fichas.length > 0) {
                 this.dibujar();
             }
@@ -111,7 +118,8 @@ class Tablero {
         this.fichas = [];
         this.casillas.forEach(casilla => {
             if (casilla.ocupada) {
-                this.fichas.push(new Ficha(
+                //Crear ficha con forma aleatoria directamente
+                const ficha = this.crearFichaAleatoria(
                     this.ctx,
                     casilla.x + casilla.tamano / 2,
                     casilla.y + casilla.tamano / 2,
@@ -119,7 +127,8 @@ class Tablero {
                     this,
                     casilla.fila,
                     casilla.columna
-                ));
+                );
+                this.fichas.push(ficha);
             }
         });
     }
@@ -285,7 +294,7 @@ class Tablero {
             casillaSalto.vacia = true;
         }
 
-        // Resetear timer de ayuda
+        //Resetear timer de ayuda
         this.ultimoMovimiento = this.timer;
         this.detenerAyuda();
 
@@ -356,10 +365,10 @@ class Tablero {
         this.detenerTimer();
         this.detenerAyuda();
 
-        // Iniciar tiempo limite
+        //Iniciar tiempo limite
         this.sistemaTiempoLimite.iniciarTiempoLimite();
 
-        // Animación continua para los pulsos
+        //Animacion continua para los pulsos
         const animar = () => {
             if (this.juegoActivo) {
                 this.dibujar();
@@ -527,7 +536,7 @@ class Tablero {
     }
 
 
-    // PRECARGAR IMAGENES (antes, a veces aparecian las fichas vacias)
+    //Precarga las imagenes
     precargarImagenes(callback) {
         const rutas = this.imagenesFichas;
         let cargadas = 0;
@@ -550,7 +559,6 @@ class Tablero {
             };
         });
     }
-
 }
 
 
