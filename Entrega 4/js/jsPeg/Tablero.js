@@ -111,15 +111,12 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         } else {
             console.error('FichaPentagonal no está definida');
         }
-    
-        console.log('Formas de fichas inicializadas:', Object.keys(this.formasFichas));
     }
 
     cargarImagenFicha() {
         this.imagenFicha = new Image();
         this.imagenFicha.src = this.imagenFichaActual;
         this.imagenFicha.onload = () => {
-            console.log("Imagen de ficha cargada:", this.imagenFichaActual);
             if (this.fichas && this.fichas.length > 0) {
                 this.dibujar();
             }
@@ -504,16 +501,10 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
                 option.classList.add('selected');
 
                 this[propertyToSet] = option.dataset.value;
-                console.log(`Set ${propertyToSet} to: ${this[propertyToSet]}`);
             });
         });
     }
     _comenzarPartida() {
-        console.log('Iniciando partida con configuración:', {
-            forma: this.formaSeleccionada,
-            imagen: this.imagenSeleccionada
-        });
-        
         // Primero reiniciar el juego rápidamente con las configuraciones seleccionadas
         this.reinicioRapido();
 
@@ -536,8 +527,6 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             }
         };
         animar();
-
-        console.log('Partida iniciada correctamente');
     }
 
     iniciarTimer() {
@@ -553,6 +542,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             }
         }, 1000);
     }
+
     detenerAyuda() {
         this.ayudaActiva = false;
         this.movimientoAyuda = null;
@@ -592,8 +582,6 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         
         //Mostrar el modal de configuración para nueva partida
         this.iniciarJuego();
-        
-        console.log('Reinicio completo - mostrando modal de configuración');
     }
 
     reinicioRapido() {
@@ -614,7 +602,6 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         
         this.dibujar();
         this.juegoActivo = true;
-        console.log('Reinicio rápido - forma:', this.formaSeleccionada, 'imagen:', this.imagenSeleccionada);
     }
 
     actualizarTimerDisplay() {
@@ -654,43 +641,73 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
 
     dibujarMovimientosValidos() {
         const pulso = 0.3 + (Math.sin(Date.now() / 300) * 0.25 + 0.25);
+        
         this.movimientosValidos.forEach(mov => {
             this.ctx.fillStyle = `rgba(255, 107, 53, ${pulso})`;
             this.ctx.strokeStyle = '#FF6B35';
             this.ctx.lineWidth = 3;
-            this.ctx.beginPath();
-            this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.stroke();
+            
+            //Si hay una ficha seleccionada, usar su forma
+            if (this.fichaSeleccionada && typeof this.fichaSeleccionada.crearForma === 'function') {
+                this.ctx.beginPath();
+                this.fichaSeleccionada.crearForma(mov.x, mov.y, 25); // Usar radio de 25 para los indicadores
+                this.ctx.fill();
+                this.ctx.stroke();
+            } else {
+                //Fallback a círculo si no hay ficha seleccionada o no tiene el método
+                this.ctx.beginPath();
+                this.ctx.arc(mov.x, mov.y, 25, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.stroke();
+            }
 
+            //Efecto de pulso exterior
             const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 9;
             this.ctx.strokeStyle = `rgba(255, 255, 255, ${pulso * 0.7})`;
             this.ctx.lineWidth = 2;
-            this.ctx.beginPath();
-            this.ctx.arc(mov.x, mov.y, tamanoPulso, 0, Math.PI * 2);
-            this.ctx.stroke();
+            
+            if (this.fichaSeleccionada && typeof this.fichaSeleccionada.crearForma === 'function') {
+                this.ctx.beginPath();
+                this.fichaSeleccionada.crearForma(mov.x, mov.y, tamanoPulso);
+                this.ctx.stroke();
+            } else {
+                this.ctx.beginPath();
+                this.ctx.arc(mov.x, mov.y, tamanoPulso, 0, Math.PI * 2);
+                this.ctx.stroke();
+            }
         });
 
         if (this.ayudaActiva && this.movimientoAyuda) {
             const ayuda = this.movimientoAyuda;
             const pulsoAyuda = 0.4 + (Math.sin(Date.now() / 250) * 0.3 + 0.3);
 
+            //Resaltar la ficha para la ayuda
             this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
             this.ctx.strokeStyle = '#0096FF';
             this.ctx.lineWidth = 4;
-            // Usar crearForma de la ficha para la ayuda
+            
             this.ctx.beginPath();
             ayuda.ficha.crearForma(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8);
             this.ctx.fill();
             this.ctx.stroke();
 
+            //Resaltar el destino de movimiento para la ayuda
             this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.5})`;
             this.ctx.strokeStyle = '#0096FF';
             this.ctx.lineWidth = 4;
-            this.ctx.beginPath();
-            this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.stroke();
+            
+            //Usar la forma de la ficha para el destino de ayuda también
+            if (ayuda.ficha && typeof ayuda.ficha.crearForma === 'function') {
+                this.ctx.beginPath();
+                ayuda.ficha.crearForma(ayuda.movimiento.x, ayuda.movimiento.y, 30);
+                this.ctx.fill();
+                this.ctx.stroke();
+            } else {
+                this.ctx.beginPath();
+                this.ctx.arc(ayuda.movimiento.x, ayuda.movimiento.y, 30, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.stroke();
+            }
         }
     }
 
