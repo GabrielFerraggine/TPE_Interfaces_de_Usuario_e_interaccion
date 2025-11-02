@@ -34,6 +34,7 @@ class Ficha {
         return false;
     }
 
+    // Dibuja la imagen de la ficha dentro de su forma
     dibujarImagen(x, y, radio) {
         const ctx = this.ctx;
         const imagenFicha = this.imagenFicha;
@@ -59,6 +60,7 @@ class Ficha {
         // Método base que será sobrescrito
     }
 
+    // Dibuja el borde de la ficha
     dibujarBorde(x, y, radio) {
         const ctx = this.ctx;
         
@@ -75,6 +77,7 @@ class Ficha {
         ctx.stroke();
     }
 
+    // Crea un gradiente para la ficha
     crearGradiente(x, y, radio) {
         const ctx = this.ctx;
         const gradiente = ctx.createRadialGradient(

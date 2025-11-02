@@ -1,7 +1,7 @@
 // ==================== SISTEMA DE NOTIFICACIONES ====================
 
 
-//extraje el sistema de notificaciones en otro js (me parecio que estaba bueno para achicar el codigo del tablero)
+// Muestra una notificación con título, mensaje y botones personalizados
 
 function showNotification(title, message, buttons = []) {
     const overlay = document.getElementById('notificationOverlay');
@@ -37,6 +37,7 @@ function showNotification(title, message, buttons = []) {
     notification.classList.add('active');
 }
 
+// Oculta la notificación
 function hideNotification() {
     const overlay = document.getElementById('notificationOverlay');
     const notification = document.getElementById('gameNotification');

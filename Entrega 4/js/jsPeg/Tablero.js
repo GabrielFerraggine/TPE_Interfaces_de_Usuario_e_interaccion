@@ -11,7 +11,7 @@ class Tablero {
 
         // Objeto para mapear nombres de formas a sus clases
         this.formasFichas = {};
-        this.inicializarFormasFichas(); 
+        this.inicializarFormasFichas();
         this.formaSeleccionada = 'aleatoria';
         this.imagenSeleccionada = 'aleatoria';
 
@@ -32,13 +32,13 @@ class Tablero {
         this.sistemaTiempoLimite = new SistemaTiempoLimite(this);
 
         //Precargar la imagen
-    this.inicializarFormasFichas();
-    this.precargarImagenes(() => {
-        this.inicializarFichas();
-        this.configurarEventos();
-        this.dibujar();
-        this.configurarModalEventListeners();
-    });
+        this.inicializarFormasFichas();
+        this.precargarImagenes(() => {
+            this.inicializarFichas();
+            this.configurarEventos();
+            this.dibujar();
+            this.configurarModalEventListeners();
+        });
 
         this.juegoActivo = false;
         this.timer = 0;
@@ -47,51 +47,54 @@ class Tablero {
     }
 
     //crear fichas basado en la selección
-crearFicha(ctx, x, y, radio, tablero, fila, columna) {
-    // Verificar que formasFichas tenga contenido
-    if (Object.keys(this.formasFichas).length === 0) {
-        console.error('No hay formas de fichas disponibles');
-        return null;
-    }
-
-    let ClaseFicha;
-    if (this.formaSeleccionada === 'aleatoria') {
-        const tipos = Object.values(this.formasFichas).filter(cls => typeof cls === 'function');
-        if (tipos.length === 0) {
-            console.error('No hay constructores válidos en formasFichas');
+    crearFicha(ctx, x, y, radio, tablero, fila, columna) {
+        // Verificar que formasFichas tenga contenido
+        if (Object.keys(this.formasFichas).length === 0) {
+            console.error('No hay formas de fichas disponibles');
             return null;
         }
-        ClaseFicha = tipos[Math.floor(Math.random() * tipos.length)];
-    } else {
-        ClaseFicha = this.formasFichas[this.formaSeleccionada];
+
+        let ClaseFicha;
+        if (this.formaSeleccionada === 'aleatoria') {
+            const tipos = Object.values(this.formasFichas).filter(cls => typeof cls === 'function');
+            if (tipos.length === 0) {
+                console.error('No hay constructores válidos en formasFichas');
+                return null;
+            }
+            ClaseFicha = tipos[Math.floor(Math.random() * tipos.length)];
+        } else {
+            ClaseFicha = this.formasFichas[this.formaSeleccionada];
+        }
+
+        // Verificar que tenemos un constructor válido
+        if (typeof ClaseFicha !== 'function') {
+            console.error('ClaseFicha no es función:', ClaseFicha, 'para forma:', this.formaSeleccionada);
+            console.error('Formas disponibles:', this.formasFichas);
+            return null;
+        }
+
+        let rutaImagen;
+        if (this.imagenSeleccionada === 'aleatoria') {
+            rutaImagen = this.obtenerImagenAleatoria();
+        } else {
+            rutaImagen = this.imagenSeleccionada;
+        }
+
+        try {
+            return new ClaseFicha(ctx, x, y, radio, tablero, fila, columna, rutaImagen);
+        } catch (error) {
+            console.error('Error al crear ficha:', error);
+            return null;
+        }
     }
 
-    // Verificar que tenemos un constructor válido
-    if (typeof ClaseFicha !== 'function') {
-        console.error('ClaseFicha no es función:', ClaseFicha, 'para forma:', this.formaSeleccionada);
-        console.error('Formas disponibles:', this.formasFichas);
-        return null;
-    }
-
-    let rutaImagen;
-    if (this.imagenSeleccionada === 'aleatoria') {
-        rutaImagen = this.obtenerImagenAleatoria();
-    } else {
-        rutaImagen = this.imagenSeleccionada;
-    }
-
-    try {
-        return new ClaseFicha(ctx, x, y, radio, tablero, fila, columna, rutaImagen);
-    } catch (error) {
-        console.error('Error al crear ficha:', error);
-        return null;
-    }
-}
+    //devuelve la ruta de una de las imágenes aleatoriamente
     obtenerImagenAleatoria() {
         const indiceAleatorio = Math.floor(Math.random() * this.imagenesFichas.length);
         return this.imagenesFichas[indiceAleatorio];
     }
 
+    //inicializar las formas de las fichas
     inicializarFormasFichas() {
         // Verifica que las clases existan en el ámbito global
         if (typeof FichaCircular === 'function') {
@@ -99,13 +102,13 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         } else {
             console.error('FichaCircular no está definida');
         }
-        
+
         if (typeof FichaCuadrada === 'function') {
             this.formasFichas['cuadrada'] = FichaCuadrada;
         } else {
             console.error('FichaCuadrada no está definida');
         }
-        
+
         if (typeof FichaPentagonal === 'function') {
             this.formasFichas['pentagonal'] = FichaPentagonal;
         } else {
@@ -113,6 +116,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    //Carga la imagen actual de la ficha en un objeto Image
     cargarImagenFicha() {
         this.imagenFicha = new Image();
         this.imagenFicha.src = this.imagenFichaActual;
@@ -126,15 +130,18 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         };
     }
 
+    //Cambia la imagen actual de la ficha por una nueva
     cambiarImagenFicha(nuevaImagen) {
         this.imagenFichaActual = nuevaImagen;
         this.cargarImagenFicha();
     }
 
+    //Devuelve el objeto Image de la ficha actualmente cargada
     getImagenFicha() {
         return this.imagenFicha;
     }
 
+    //Configura el tablero inicial
     configurarTablero() {
         this.posicionesValidas = [
             [0, 0, 1, 1, 1, 0, 0],
@@ -169,6 +176,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    //inicializa las fichas
     inicializarFichas() {
         this.fichas = [];
         this.casillas.forEach(casilla => {
@@ -188,12 +196,14 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         });
     }
 
+    //añade los listeners para los eventos del mouse
     configurarEventos() {
         this.canvas.addEventListener('mousedown', this.manejarMouseDown.bind(this));
         this.canvas.addEventListener('mousemove', this.manejarMouseMove.bind(this));
         this.canvas.addEventListener('mouseup', this.manejarMouseUp.bind(this));
     }
 
+    // Maneja el evento mouse down
     manejarMouseDown(event) {
         if (!this.juegoActivo) return;
 
@@ -217,6 +227,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    // Maneja el evento mouse move
     manejarMouseMove(event) {
         if (!this.juegoActivo || !this.fichaSeleccionada) return;
 
@@ -229,6 +240,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         this.dibujar();
     }
 
+    // Maneja el evento mouse up
     manejarMouseUp(event) {
         if (!this.juegoActivo || !this.fichaSeleccionada) return;
 
@@ -249,10 +261,12 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         this.dibujar();
     }
 
+    // Muestra los movimientos validos
     mostrarMovimientosValidos(ficha) {
         this.movimientosValidos = this.obtenerMovimientosValidos(ficha);
     }
 
+    //Determina todos los movimientos posibles para una ficha
     obtenerMovimientosValidos(ficha) {
         const movimientos = [];
         const direcciones = [
@@ -285,6 +299,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         return movimientos;
     }
 
+    //Verifica si un movimiento es valido
     esMovimientoValido(ficha, filaDestino, columnaDestino, filaSalto, columnaSalto) {
         if (filaDestino < 0 || filaDestino >= 7 || columnaDestino < 0 || columnaDestino >= 7) return false;
         if (this.posicionesValidas[filaDestino][columnaDestino] !== 1) return false;
@@ -302,14 +317,17 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         return true;
     }
 
+    // Obtiene la casilla en una posición específica
     obtenerCasilla(fila, columna) {
         return this.casillas.find(c => c.fila === fila && c.columna === columna);
     }
 
+    // Obtiene la ficha en una posición específica
     obtenerFichaEnCasilla(fila, columna) {
         return this.fichas.find(f => f.fila === fila && f.columna === columna);
     }
 
+    //Comprueba si las coordenadas x, y están cerca de un punto de movimiento válido
     intentarMoverFicha(ficha, x, y) {
         for (let movimiento of this.movimientosValidos) {
             const distancia = Math.sqrt(Math.pow(x - movimiento.x, 2) + Math.pow(y - movimiento.y, 2));
@@ -320,6 +338,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    // Realiza el movimiento de una ficha
     realizarMovimiento(ficha, movimiento) {
         const filaOriginal = ficha.fila;
         const columnaOriginal = ficha.columna;
@@ -357,7 +376,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         setTimeout(() => this.verificarFinJuego(), 100);
     }
 
-    // En verificarFinJuego(), cambia el callback:
+    // Comprueba si el juego ha terminado (no quedan movimientos posibles)
     verificarFinJuego() {
         let hayMovimientos = false;
         for (let ficha of this.fichas) {
@@ -391,26 +410,26 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
                 mensaje = `Quedaron ${fichasRestantes} vikingos en pie.`;
             }
             const botones = [
-                { 
-                    text: 'Jugar de Nuevo', 
-                    type: 'confirm', 
+                {
+                    text: 'Jugar de Nuevo',
+                    type: 'confirm',
                     callback: () => {
                         this.reiniciarJuego(); // Esto mostrará el modal de configuración
-                    } 
+                    }
                 },
-                { 
-                    text: 'Menú Principal', 
-                    type: 'cancel', 
-                    callback: () => { 
+                {
+                    text: 'Menú Principal',
+                    type: 'cancel',
+                    callback: () => {
                         this.reinicioRapido(); // Esto reinicia rápidamente sin modal
-                    } 
+                    }
                 }
             ];
             showNotification(titulo, mensaje, botones);
         }
     }
 
-    //MUESTRA EL MODAL VISUAL
+    //muestra el modal visual
     iniciarJuego() {
         if (this.juegoActivo) return;
 
@@ -431,10 +450,10 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
 
         // Mostrar el modal de configuración
-        configModal.classList.add('active'); 
+        configModal.classList.add('active');
     }
 
-    // En Tablero.js
+    // configura los event listeners para el modal de configuración
     configurarModalEventListeners() {
         const configModal = document.getElementById('configModal');
         const confirmBtn = document.getElementById('confirmConfigBtn');
@@ -504,8 +523,9 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             });
         });
     }
+
+    //Inicia una nueva partida con la configuración seleccionada
     _comenzarPartida() {
-        // Primero reiniciar el juego rápidamente con las configuraciones seleccionadas
         this.reinicioRapido();
 
         // Configurar el estado del juego
@@ -514,7 +534,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         this.ultimoMovimiento = 0;
         this.actualizarTimerDisplay();
         this.detenerAyuda();
-        
+
         // Iniciar sistemas
         this.sistemaTiempoLimite.iniciarTiempoLimite();
         this.iniciarTimer();
@@ -529,9 +549,10 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         animar();
     }
 
+    //se inicia el timer
     iniciarTimer() {
         this.detenerTimer(); // Asegurarse de que no hay timers duplicados
-        
+
         this.timerInterval = setInterval(() => {
             this.timer++;
             this.actualizarTimerDisplay();
@@ -543,11 +564,13 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }, 1000);
     }
 
+    //desactiva el sistema de ayuda
     detenerAyuda() {
         this.ayudaActiva = false;
         this.movimientoAyuda = null;
     }
 
+    //Busca un movimiento válido al azar
     mostrarAyuda() {
         const movimientosPosibles = [];
         for (let ficha of this.fichas) {
@@ -567,6 +590,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    //detiene el timer
     detenerTimer() {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
@@ -574,16 +598,18 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    //reinicia el juego
     reiniciarJuego() {
         //Primero detener todo
         this.detenerTimer();
         this.detenerAyuda();
         this.juegoActivo = false;
-        
+
         //Mostrar el modal de configuración para nueva partida
         this.iniciarJuego();
     }
 
+    //reinicia el juego sin mostrar el modal
     reinicioRapido() {
         this.detenerAyuda();
         this.juegoActivo = false;
@@ -591,7 +617,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         this.ultimoMovimiento = 0;
         this.fichaSeleccionada = null;
         this.movimientosValidos = [];
-        
+
         // Mantener las configuraciones actuales
         // Reiniciar completamente el tablero y fichas
         this.configurarTablero();
@@ -599,11 +625,12 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
 
         this.sistemaTiempoLimite.detenerTiempoLimite();
         this.sistemaTiempoLimite.iniciarTiempoLimite();
-        
+
         this.dibujar();
         this.juegoActivo = true;
     }
 
+    //Actualiza el elemento HTML del timer para mostrar el tiempo de juego
     actualizarTimerDisplay() {
         const minutos = Math.floor(this.timer / 60);
         const segundos = this.timer % 60;
@@ -611,6 +638,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         document.getElementById('timerDisplay').textContent = tiempoFormateado;
     }
 
+    //Limpia el canvas y llama a los métodos específicos para dibujar el tablero
     dibujar() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.dibujarTablero();
@@ -618,6 +646,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         this.dibujarFichas();
     }
 
+    //Dibuja las casillas del tablero en el canvas
     dibujarTablero() {
         this.ctx.fillStyle = '#3B2F2F'; //fondo tablero
         this.ctx.strokeStyle = '#1C1C1C'; //borde tablero
@@ -639,14 +668,15 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         });
     }
 
+    // Dibuja los movimientos validos dependiendo la forma de la ficha seleccionada
     dibujarMovimientosValidos() {
         const pulso = 0.3 + (Math.sin(Date.now() / 300) * 0.25 + 0.25);
-        
+
         this.movimientosValidos.forEach(mov => {
             this.ctx.fillStyle = `rgba(255, 107, 53, ${pulso})`;
             this.ctx.strokeStyle = '#FF6B35';
             this.ctx.lineWidth = 3;
-            
+
             //Si hay una ficha seleccionada, usar su forma
             if (this.fichaSeleccionada && typeof this.fichaSeleccionada.crearForma === 'function') {
                 this.ctx.beginPath();
@@ -665,7 +695,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             const tamanoPulso = 25 + Math.sin(Date.now() / 400) * 9;
             this.ctx.strokeStyle = `rgba(255, 255, 255, ${pulso * 0.7})`;
             this.ctx.lineWidth = 2;
-            
+
             if (this.fichaSeleccionada && typeof this.fichaSeleccionada.crearForma === 'function') {
                 this.ctx.beginPath();
                 this.fichaSeleccionada.crearForma(mov.x, mov.y, tamanoPulso);
@@ -685,7 +715,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.3})`;
             this.ctx.strokeStyle = '#0096FF';
             this.ctx.lineWidth = 4;
-            
+
             this.ctx.beginPath();
             ayuda.ficha.crearForma(ayuda.ficha.x, ayuda.ficha.y, ayuda.ficha.radio + 8);
             this.ctx.fill();
@@ -695,7 +725,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
             this.ctx.fillStyle = `rgba(0, 150, 255, ${pulsoAyuda * 0.5})`;
             this.ctx.strokeStyle = '#0096FF';
             this.ctx.lineWidth = 4;
-            
+
             //Usar la forma de la ficha para el destino de ayuda también
             if (ayuda.ficha && typeof ayuda.ficha.crearForma === 'function') {
                 this.ctx.beginPath();
@@ -711,6 +741,7 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+    // Dibuja todas las fichas
     dibujarFichas() {
         this.fichas.forEach(ficha => {
             if (ficha !== this.fichaSeleccionada) ficha.dibujar(this.ctx);
@@ -722,6 +753,8 @@ crearFicha(ctx, x, y, radio, tablero, fila, columna) {
         }
     }
 
+
+    //metodo para precargar las imagenes y evitar retrasos en el juego
     precargarImagenes(callback) {
         const rutas = this.imagenesFichas;
         let cargadas = 0;

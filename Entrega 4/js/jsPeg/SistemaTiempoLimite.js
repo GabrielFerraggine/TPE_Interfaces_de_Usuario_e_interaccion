@@ -6,12 +6,14 @@ class SistemaTiempoLimite {
         this.alertaMostrada = false;
     }
 
+    // Inicia el temporizador del tiempo límite
     iniciarTiempoLimite() {
         this.tiempoRestante = this.tiempoLimite;
         this.alertaMostrada = false;
         this.actualizarDisplayTiempoLimite();
     }
 
+    // Actualiza el temporizador del tiempo límite
     actualizarTiempoLimite() {
         if (!this.tablero.juegoActivo) return;
 
@@ -30,6 +32,7 @@ class SistemaTiempoLimite {
         }
     }
 
+    // Actualiza el display del tiempo límite
     actualizarDisplayTiempoLimite() {
         const minutos = Math.floor(this.tiempoRestante / 60);
         const segundos = this.tiempoRestante % 60;
@@ -49,6 +52,7 @@ class SistemaTiempoLimite {
         }
     }
 
+    // Muestra una alerta cuando queda poco tiempo
     mostrarAlertaTiempo(titulo, mensaje) {
         showNotification(titulo, mensaje, [
             {
@@ -59,6 +63,7 @@ class SistemaTiempoLimite {
         ]);
     }
 
+    // muestra notificación cuando se agota el tiempo
     tiempoAgotado() {
         this.tablero.juegoActivo = false;
         this.tablero.detenerTimer();
@@ -89,6 +94,7 @@ class SistemaTiempoLimite {
         );
     }
 
+    // Detiene y resetea el temporizador del tiempo límite
     detenerTiempoLimite() {
         this.tiempoRestante = this.tiempoLimite;
         this.alertaMostrada = false;

@@ -4,6 +4,7 @@ class FichaCuadrada extends Ficha {
         this.ctx.rect(x - radio, y - radio, lado, lado);
     }
 
+    // Dibuja la ficha
     dibujar() {
         if (!this.ocupada) return;
 
@@ -28,6 +29,7 @@ class FichaCuadrada extends Ficha {
         this.dibujarBorde(x, y, radio);
     }
 
+    // Dibuja la ficha en su posición temporal (mientras se arrastra)
     dibujarTemporal(ctx) {
         const x = this.xTemp;
         const y = this.yTemp;
@@ -54,6 +56,7 @@ class FichaCuadrada extends Ficha {
         ctx.stroke();
     }
 
+    // Verifica si un punto está dentro del cuadrado
     contienePunto(xPunto, yPunto) {
         return xPunto >= this.x - this.radio && 
                xPunto <= this.x + this.radio && 

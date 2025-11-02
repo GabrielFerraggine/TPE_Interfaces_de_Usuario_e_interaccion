@@ -3,6 +3,7 @@ class FichaCircular extends Ficha {
         this.ctx.arc(x, y, radio, 0, Math.PI * 2);
     }
 
+    // Dibuja la ficha
     dibujar() {
         if (!this.ocupada) return;
 
@@ -27,6 +28,7 @@ class FichaCircular extends Ficha {
         this.dibujarBorde(x, y, radio);
     }
 
+    // Dibuja la ficha en su posición temporal (mientras se arrastra)
     dibujarTemporal(ctx) {
         const x = this.xTemp;
         const y = this.yTemp;
@@ -53,6 +55,7 @@ class FichaCircular extends Ficha {
         ctx.stroke();
     }
 
+    // Verifica si un punto está dentro del círculo
     contienePunto(xPunto, yPunto) {
         const distancia = Math.sqrt((xPunto - this.x) ** 2 + (yPunto - this.y) ** 2);
         return distancia <= this.radio;
