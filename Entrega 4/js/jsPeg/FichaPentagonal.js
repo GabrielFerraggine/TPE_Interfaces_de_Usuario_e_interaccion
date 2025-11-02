@@ -7,6 +7,7 @@ class FichaPentagonal extends Ficha {
         this.imagen = this.imagenFicha;
     }
 
+    // Crea la forma de un pentágono
     crearForma(x, y, radio) {
         // Crear un pentágono
         const lados = 5;
@@ -29,11 +30,13 @@ class FichaPentagonal extends Ficha {
         this.ctx.closePath();
     }
 
+    // Verifica si un punto está dentro del pentágono
     contienePunto(x, y) {
         this.crearForma(this.x, this.y, this.radio);
         return this.ctx.isPointInPath(x, y);
     }
 
+    // Dibuja la ficha
     dibujar() {
         if (!this.ocupada) return;
 
@@ -62,6 +65,7 @@ class FichaPentagonal extends Ficha {
         this.dibujarBorde(x, y, radio);
     }
 
+    // Dibuja la ficha en su posición temporal (mientras se arrastra)
     dibujarTemporal(ctx) {
         const x = this.xTemp;
         const y = this.yTemp;
