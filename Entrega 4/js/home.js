@@ -324,6 +324,6 @@ let interval = setInterval(() => {
     loader.style.display = "none"; //oculta el loader
     content.style.display = "block"; //muestra el home
   }
-}, 1); 
+}, 50); 
 
 
