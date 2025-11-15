@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro / Login</title>
+  <link rel="stylesheet" href="../css/registro.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Formulario Registro -->
+    <div class="form-box" id="formRegistro">
+      <div class="close-btn"><img src="../img/CruzCancelar.png" alt="Volver al menu"></div>
+      <h2>Registrarse</h2>
+      <form id="formRegistroCampos">
+        <div class="input-box">
+          <p class="placeholder">Nombre*</p>
+          <input type="text" id="nombreCompletoRegistro">
+          <p id="nombreCompletoRegistroError"></p>
+        </div>
+        <div class="input-box">
+           <p class="placeholder">Nickname *</p>
+          <input type="text" id="nicknameRegistro">
+          <p id="nicknameRegistroError"></p>
+        </div>
+
+        <div class="input-box">
+           <p class="placeholder">Edad *</p>
+          <input type="text" id="edadRegistro">
+          <p id="edadRegistroError"></p>
+        </div>
+
+        <div class="input-box">
+           <p class="placeholder">Mail *</p>
+          <input type="email" id="mailRegistro">
+          <p id="mailRegistroError"></p>
+        </div>
+
+        <div class="input-box">
+          <p class="placeholder">Contraseña *</p>
+          <input type="password" id="passwordRegistro">
+          <p id="passwordRegistroError"></p>
+        </div>
+
+        <div class="input-box">
+          <p class="placeholder">Confirmar contraseña *</p>
+          <input type="password" id="confirmarPasswordRegistro">
+          <p id="confirmarPasswordRegistroError"></p>
+        </div>
+
+        <!-- reCAPTCHA simulado -->
+        <div class="captcha-box">
+          <label class="captcha-label">
+            <input type="checkbox" class="captcha-check">
+            <span class="checkmark"></span>
+            <span class="captcha-text">I'm not a robot</span>
+          </label>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" class="captcha-logo">
+        </div>
+
+        <button class="btn" id="btn_registrarse">Registrarse</button>
+      </form>
+      <div class="line-container">
+        <div class="line"></div>
+        <div class="circle">O</div>
+        <div class="line"></div>
+      </div>
+      <div class="social-login">
+        <button class="google btn"><img src="../img/Google.png" alt="Google">Ingresar con Google</button>
+        <button class="facebook btn"><img src="../img/FacebookLogin.png" alt="Facebook">Ingresar con Facebook</button>
+      </div>
+      <p class="login-text">¿Ya tienes cuenta? <a href="#" id="btnLogin">Inicia Sesión</a></p>
+    </div>
+
+    <!-- Formulario Login -->
+    <div class="form-box hidden" id="formLogin">
+      <div class="close-btn"><img src="../img/CruzCancelar.png" alt="Volver al menu"></div>
+      <h2>Inicia Sesión</h2>
+      <form id="formLoginCampos">
+        <div class="input-box">
+           <p class="placeholder">Email *</p>
+          <input type="email" id="emailLogin">
+          <p id="emailLoginError"></p>
+        </div>
+
+        <div class="input-box">
+           <p class="placeholder">Contraseña *</p>
+          <input type="password" id="passwordLogin">
+          <p id="passwordLoginError"></p>
+        </div>
+
+        <!-- reCAPTCHA simulado -->
+        <div class="captcha-box">
+          <label class="captcha-label">
+            <input type="checkbox" class="captcha-check">
+            <span class="checkmark"></span>
+            <span class="captcha-text">I'm not a robot</span>
+          </label>
+          <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" class="captcha-logo">
+        </div>
+        
+        <button class="btn" id="btn_login">Iniciar Sesión</button>
+      </form>
+      <div class="line-container">
+        <div class="line"></div>
+        <div class="circle">O</div>
+        <div class="line"></div>
+      </div>
+      <div class="social-login">
+        <button class="google btn"><img src="../img/Google.png" alt="Google">Ingresar con Google</button>
+        <button class="facebook btn"><img src="../img/FacebookLogin.png" alt="Facebook">Ingresar con Facebook</button>
+      </div>
+      <p class="login-text">¿No tienes cuenta? <a href="#" id="btnRegistro">Registrarse</a></p>
+    </div>
+  </div>
+
+  <!--- SVG del check -->
+  <svg class="checkmark" id="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/><!--cx y cy coordenads, r es radio-->
+      <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/><!-- coordenadas de inicio y fin de las 2 lineas del check-->
+  </svg>
+
+  
+  <script src="../js/registro.js"></script>
+</body>
+</html>
+
+
+
+
+
