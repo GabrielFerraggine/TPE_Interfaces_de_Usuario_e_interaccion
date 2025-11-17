@@ -81,13 +81,33 @@
     background: linear-gradient(to bottom, #1a3a52, #2d5a7b);
 }
 
-/* Parallax Layers */
+/*animacion parallax*/
+@keyframes scroll {
+    0% {
+        background-position-x: 0px;
+    }
+    100% {
+        background-position-x: -3840px;
+    }
+}
+
 #flappyGameContainer .parallax-layer {
     position: absolute;
     width: 200%;
     height: 100%;
     background-size: auto 100%;
     background-repeat: repeat-x;
+
+    /*propiedades de la animación CSS */
+    animation-name: scroll;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-play-state: paused;
+}
+
+/*la clase '.scrolling' la la va a usarel js para empezar la animacion*/
+#flappyGameContainer .parallax-layer.scrolling {
+    animation-play-state: running;
 }
 
 #flappyGameContainer .layer-sky {
@@ -95,6 +115,10 @@
     height: 100%;
     background: linear-gradient(to bottom, #1a3a52, #2d5a7b);
     z-index: 1;
+
+    /* background-image: url('../img/capa-cielo.png'); */
+    
+    animation-name: none;
 }
 
 #flappyGameContainer .layer-clouds {
@@ -107,6 +131,11 @@
         radial-gradient(circle at 80% 60%, #b8c5d6 70px, transparent 70px);
     background-position: 0 0, 80px 40px, 160px 15px;
     background-size: 300px 150px, 400px 150px, 350px 150px;
+
+    /* background-image: url('../img/capa-nubes.png'); /*imagen del fondo a implementar*/
+    
+    /* velocidad de animacion parralax */
+    animation-duration: 80s;
 }
 
 #flappyGameContainer .layer-mountains-far {
@@ -116,6 +145,10 @@
     background: linear-gradient(135deg, #1f2d42 50%, transparent 50%);
     background-size: 250px 150px;
     background-position: 0 0;
+
+    /* background-image: url('../img/capa-montanas-lejanas.png'); */
+
+    animation-duration: 50s;
 }
 
 #flappyGameContainer .layer-mountains-near {
@@ -126,6 +159,10 @@
                 linear-gradient(45deg, transparent 50%, #2a3d54 50%);
     background-size: 200px 200px;
     background-position: 0 0, 100px 0;
+
+    /* background-image: url('../img/capa-montanas-cercanas.png'); */
+
+    animation-duration: 30s;
 }
 
 #flappyGameContainer .layer-ground {
@@ -135,6 +172,10 @@
     background-color: #3d5a1f;
     background-image: linear-gradient(90deg, #3d5a1f 49%, rgba(0,0,0,0.2) 50%);
     background-size: 150px 100%;
+
+    /* background-image: url('../img/capa-suelo.png'); */
+
+    animation-duration: 12s;
 }
 
 /* Game Objects */
@@ -642,6 +683,11 @@
     }
 }
 
+#flappyGameContainer .viking.invincible {
+    /* infinite hace que parpadee durante los 2s que dura el cooldown.*/
+    animation: vikingInvincible 0.4s infinite;
+}
+
 /* Efectos de vida */
 @keyframes lifeLost {
     0%, 100% { 
@@ -656,45 +702,4 @@
 
 .life-lost {
     animation: lifeLost 0.5s ease-in-out;
-}
-
-/* ==================== RESPONSIVE ==================== */
-@media (max-width: 1700px) {
-    #flappyGameContainer {
-        height: 600px;
-    }
-}
-
-@media (max-width: 768px) {
-    #flappyGameContainer {
-        height: 400px;
-    }
-    
-    #flappyGameContainer .hud {
-        padding: 8px 12px;
-        gap: 15px;
-        font-size: 12px;
-    }
-    
-    #flappyGameContainer .hud-value {
-        font-size: 16px;
-    }
-    
-    #flappyGameContainer .viking {
-        left: 60px;
-        width: 30px;
-        height: 40px;
-    }
-    
-    #flappyGameContainer .obstacle {
-        width: 50px;
-    }
-    
-    #flappyGameContainer .game-over-content {
-        padding: 30px 40px;
-    }
-    
-    #flappyGameContainer .game-over-content h1 {
-        font-size: 28px;
-    }
 }
