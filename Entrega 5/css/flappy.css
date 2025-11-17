@@ -112,27 +112,28 @@
 
 #flappyGameContainer .layer-sky {
     top: 0;
-    height: 100%;
-    background: linear-gradient(to bottom, #1a3a52, #2d5a7b);
+    height: 40%;
+    /*background: #57B8FA;*/
     z-index: 1;
 
-    /* background-image: url('../img/capa-cielo.png'); */
+    background-image: url('../img/ImgFlappy/nubes.png');
     
     animation-name: none;
 }
 
 #flappyGameContainer .layer-clouds {
-    top: 10%;
-    height: 25%;
+    top: 0;
+    height: 60%;
     z-index: 2;
-    background-image: 
+   
+    /*background-image: 
         radial-gradient(circle at 20% 50%, #b8c5d6 60px, transparent 60px),
         radial-gradient(circle at 60% 30%, #b8c5d6 80px, transparent 80px),
         radial-gradient(circle at 80% 60%, #b8c5d6 70px, transparent 70px);
     background-position: 0 0, 80px 40px, 160px 15px;
-    background-size: 300px 150px, 400px 150px, 350px 150px;
+    background-size: 300px 150px, 400px 150px, 350px 150px;*/
 
-    /* background-image: url('../img/capa-nubes.png'); /*imagen del fondo a implementar*/
+    background-image: url('../img/ImgFlappy/nubes.png');
     
     /* velocidad de animacion parralax */
     animation-duration: 80s;
@@ -142,11 +143,12 @@
     top: 30%;
     height: 35%;
     z-index: 3;
-    background: linear-gradient(135deg, #1f2d42 50%, transparent 50%);
+    /*background: linear-gradient(135deg, #1f2d42 50%, transparent 50%);
     background-size: 250px 150px;
-    background-position: 0 0;
+    background-position: 0 0;*/
 
-    /* background-image: url('../img/capa-montanas-lejanas.png'); */
+    background-image: url('../img/ImgFlappy/backgroundGlacialMountain.png');
+
 
     animation-duration: 50s;
 }
@@ -155,25 +157,24 @@
     top: 45%;
     height: 35%;
     z-index: 4;
-    background: linear-gradient(135deg, #2a3d54 50%, transparent 50%),
+    /*background: linear-gradient(135deg, #57B8FA 50%, transparent 50%),
                 linear-gradient(45deg, transparent 50%, #2a3d54 50%);
     background-size: 200px 200px;
-    background-position: 0 0, 100px 0;
+    background-position: 0 0, 100px 0;*/
 
-    /* background-image: url('../img/capa-montanas-cercanas.png'); */
+    background-image: url('../img/ImgFlappy/MontaniaCercana.png');
 
     animation-duration: 30s;
 }
 
 #flappyGameContainer .layer-ground {
     bottom: 0;
-    height: 20%;
+    height: 38%;
     z-index: 5;
-    background-color: #3d5a1f;
-    background-image: linear-gradient(90deg, #3d5a1f 49%, rgba(0,0,0,0.2) 50%);
-    background-size: 150px 100%;
+  /*background-color: #3d5a1f;
+    background-image: linear-gradient(90deg, #3d5a1f 49%, rgba(0,0,0,0.2) 50%);*/
 
-    /* background-image: url('../img/capa-suelo.png'); */
+    background-image: url('../img/ImgFlappy/Nieve.png'); 
 
     animation-duration: 12s;
 }
