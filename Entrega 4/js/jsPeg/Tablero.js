@@ -270,10 +270,15 @@ class Tablero {
     obtenerMovimientosValidos(ficha) {
         const movimientos = [];
         const direcciones = [
-            { df: -2, dc: 0, sf: -1, sc: 0 },
-            { df: 2, dc: 0, sf: 1, sc: 0 },
-            { df: 0, dc: -2, sf: 0, sc: -1 },
-            { df: 0, dc: 2, sf: 0, sc: 1 }
+            //fila destino/columna destino/fila salto/ columna salto
+            { df: -2, dc: 0, sf: -1, sc: 0 },//Arriba
+            { df: 2, dc: 0, sf: 1, sc: 0 },//Abajo
+            { df: 0, dc: -2, sf: 0, sc: -1 },//Izquierda
+            { df: 0, dc: 2, sf: 0, sc: 1 },//Derecha
+            { df: -3, dc: 0, sf: -2, sc: 0 },//Arriba
+            { df: 3, dc: 0, sf: 2, sc: 0 },//Abajo
+            { df: 0, dc: -3, sf: 0, sc: -2 },//Izquierda
+            { df: 0, dc: 3, sf: 0, sc: 2 }//Derecha
         ];
 
         for (let dir of direcciones) {
@@ -349,13 +354,34 @@ class Tablero {
         ficha.columna = movimiento.columna;
 
         const indexFichaSaltada = this.fichas.indexOf(movimiento.fichaSaltada);
-        if (indexFichaSaltada > -1) {
-            this.fichas.splice(indexFichaSaltada, 1);
+        if (indexFichaSaltada > -1) {//cantidad borrada;
+
+            if(filaOriginal < movimiento.fila) {//Hacia abajo
+                this.fichas.splice(indexFichaSaltada, 1);
+                this.fichas.splice(columnaOriginal+1, 1);
+            } else if(filaOriginal > movimiento.fila) {//Hacia arriba
+                this.fichas.splice(indexFichaSaltada, 1);
+                this.fichas.splice(indexFichaSaltada+4, 1);
+            } else if(columnaOriginal < movimiento.columna) {//hacia derecha
+                this.fichas.splice(indexFichaSaltada, 1);
+                this.fichas.splice(indexFichaSaltada-1, 1);
+            } else {//hacia la izquierda
+                this.fichas.splice(indexFichaSaltada, 2);
+            }
         }
 
+        // const indexFichaSaltada2 = this.fichas.indexOf(movimiento.fichaSaltada);
+        // if (indexFichaSaltada2 > -1) {
+        //     this.fichas.splice(indexFichaSaltada2, 8);//cantidad borrada;
+        // }
+
+        //Logica ocupada
         const casillaOrigen = this.obtenerCasilla(filaOriginal, columnaOriginal);
         const casillaDestino = this.obtenerCasilla(movimiento.fila, movimiento.columna);
         const casillaSalto = this.obtenerCasilla(movimiento.fichaSaltada.fila, movimiento.fichaSaltada.columna);
+//        const casillaSalto2 = this.obtenerCasilla(movimiento.fichaSaltada.fila, movimiento.fichaSaltada.columna);
+        console.log(casillaSalto);
+        // console.log(casillaSalto2);
 
         if (casillaOrigen) {
             casillaOrigen.ocupada = false;
@@ -369,6 +395,10 @@ class Tablero {
             casillaSalto.ocupada = false;
             casillaSalto.vacia = true;
         }
+        // if (casillaSalto2) {
+        //      casillaSalto2.ocupada = false;
+        //      casillaSalto2.vacia = true;
+        // }
 
         this.ultimoMovimiento = this.timer;
         this.detenerAyuda();
@@ -492,6 +522,8 @@ class Tablero {
             this.formaSeleccionada = 'aleatoria';
             this.imagenSeleccionada = 'aleatoria';
             if (errorMsg) errorMsg.style.display = 'none'; // Ocultar error
+            this._comenzarPartida();
+
         };
 
         // Cerrar modal al hacer clic fuera

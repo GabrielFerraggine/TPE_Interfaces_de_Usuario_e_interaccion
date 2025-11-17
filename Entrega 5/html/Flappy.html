@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/juego.css">
-    <title>Juego</title>
+    <link rel="stylesheet" href="../css/flappy.css">
+    <title>Valhalla Flight - Valhalla Games</title>
 </head>
 
 <body>
@@ -25,8 +25,7 @@
                     <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
-                                Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a></li>
                     <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
@@ -49,7 +48,6 @@
                     <span>Player777</span>
                     <img id="userAvatar" src="../img/player.png" alt="Avatar del jugador">
 
-                    <!-- Menú desplegable -->
                     <div id="dropdownMenu" class="dropdown hidden">
                         <button class="close-btn">
                             <img src="../img/closeUser.png" alt="Volver icono"> Volver
@@ -74,60 +72,118 @@
                     Home
                 </a>
                 <span class="separator">></span>
-                <a href="../index.html#puzzle">Puzzle</a>
+                <a href="../index.html#aventura">Aventura</a>
                 <span class="separator">></span>
-                <span>Peg Solitaire</span>
+                <span>Valhalla Flight</span>
             </nav>
 
-
-
-            <!-- Card principal -->
+            <!-- Card principal del juego -->
             <section class="main-card">
-                <img src="../img/ImgFlappy/Valhalla Flight.png" alt="Juego Viking" class="main-img">
+                <div class="game-container" id="flappyGameContainer">
+                    <!-- HUD (Head-Up Display) -->
+                    <div class="hud">
+                        <div class="hud-item">
+                            <span class="hud-label">Distancia:</span>
+                            <span id="distance" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Puntaje:</span>
+                            <span id="score" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Vidas:</span>
+                            <span id="lives" class="hud-value">3</span>
+                        </div>
+                    </div>
+
+                    <!-- Instrucciones -->
+                    <div class="instructions">
+                        Haz CLIC o presiona ESPACIO para volar
+                    </div>
+
+                    <!-- Game World -->
+                    <div class="game-world">
+                        <!-- Parallax Background Layers -->
+                        <div class="parallax-layer layer-sky"></div>
+                        <div class="parallax-layer layer-clouds" id="cloudsLayer"></div>
+                        <div class="parallax-layer layer-mountains-far" id="mountainsFarLayer"></div>
+                        <div class="parallax-layer layer-mountains-near" id="mountainsNearLayer"></div>
+                        <div class="parallax-layer layer-ground" id="groundLayer"></div>
+
+                        <!-- Game Objects Container -->
+                        <div class="game-objects">
+                            <!-- Viking Player -->
+                            <div class="viking" id="viking">
+                                <div class="viking-body">
+                                    <div class="viking-head"></div>
+                                    <div class="viking-arms">
+                                        <div class="viking-arm left"></div>
+                                        <div class="viking-arm right"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Obstacles Container -->
+                            <div id="obstaclesContainer"></div>
+
+                            <!-- Bonuses Container -->
+                            <div id="bonusesContainer"></div>
+
+                            <!-- Floating Elements -->
+                            <div id="floatingElementsContainer"></div>
+
+                            <!-- Efectos de colisión -->
+                            <div id="effectsContainer"></div>
+                        </div>
+
+                        <!-- Game Over Screen -->
+                        <div class="game-over-screen" id="gameOverScreen">
+                            <div class="game-over-content">
+                                <h1>¡JUEGO TERMINADO!</h1>
+                                <p id="finalScore">Puntaje Final: 0</p>
+                                <p id="finalDistance">Distancia: 0</p>
+                                <button class="btn-restart" onclick="restartGame()">Jugar de Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
                 <div class="share-container">
                     <button class="share-btn" id="toggleShare">
                         Compartir <span class="arrow">➜</span>
                     </button>
                     <div class="social-icons-share" id="socialIcons">
-                        <img src="../img/wpp.png" alt="Whattsapp">
+                        <img src="../img/wpp.png" alt="WhatsApp">
                         <img src="../img/ig.png" alt="Instagram">
                         <img src="../img/tiktok.png" alt="Tik Tok">
                         <img src="../img/email.png" alt="Email">
                         <img src="../img/mensaje.png" alt="SMS">
-
                     </div>
                 </div>
             </section>
 
-            <!-- Descripción -->
+            <!-- Descripción del juego -->
             <section class="game-description">
-                <h2>Peg Solitaire Viking Odyssey</h2>
+                <h2>Valhalla Flight</h2>
                 <div class="desc-content">
                     <div class="text">
                         <p>
-                            El Peg Solitaire Viking Odyssey en su versión de 33 guerreros es una gesta de tablero,
-                            forjada en la estrategia y el ingenio de un solo jugador.
+                            ¡Embárcate en una épica aventura vikinga a través de los cielos de Asgard! Controla a tu valiente vikingo 
+                            mientras esquivas obstáculos, recolecta tesoros y sobrevives el mayor tiempo posible en este emocionante 
+                            juego de scroll horizontal.
                         </p>
                         <ul>
-                            <li>🛡 <b>Tablero:</b>Adopta la forma de una cruz sagrada de batalla (un cuadrado de 7x7 con
-                                las esquinas devoradas por el destino), que ofrece exactamente 33 campos de combate.
-                            </li>
-                            <li>⚔️ <b>Guerreros:</b> Al inicio, todos los campos están ocupados por fieros vikingos,
-                                salvo el trono central, que permanece vacío aguardando al héroe digno.</li>
-                            <li>✖️ <b>Movimientos:</b></li>
-                            <ul id="movimientos">
-                                <li>Un guerrero puede lanzarse por encima de un hermano adyacente (en línea recta, nunca
-                                    en diagonal) hacia un campo vacío inmediato.</li>
-                                <li>El guerrero que ha sido saltado cae en combate y es retirado del campo.</li>
-                            </ul>
-                            <li>🔮 <b>Destino:</b>La odisea exige que los guerreros se enfrenten hasta que quede solo
-                                uno en pie, el campeón, que ha de ocupar el trono central y ser recordado como el último
-                                vikingo en la saga.</li>
+                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el vikingo vuele y esquive obstáculos</li>
+                            <li>⚔️ <b>Objetivo:</b> Vuela la mayor distancia posible mientras esquivas montañas y recolectas tesoros dorados</li>
+                            <li>✨ <b>Bonuses:</b> Recolecta los tesoros dorados para sumar puntos extra a tu puntuación</li>
+                            <li>❤️ <b>Vidas:</b> Comienzas con 3 vidas - ¡cuídalas bien!</li>
+                            <li>🏔️ <b>Obstáculos:</b> Esquiva las montañas y picos que aparecen en tu camino</li>
                         </ul>
                     </div>
                     <div class="images">
-                        <img src="../img/peg1.png" alt="Tablero 1">
-                        <img src="../img/peg2.png" alt="Tablero 2">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=400&fit=crop" alt="Gameplay Valhalla Flight 1">
+                        <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=600&h=400&fit=crop" alt="Gameplay Valhalla Flight 2">
                     </div>
                 </div>
             </section>
@@ -137,30 +193,29 @@
                 <h3>¿Cómo se Juega?</h3>
                 <div class="steps">
                     <div class="step">
-                        <img id="mouse" src="../img/mouse.png" alt="Mouse">
-                        <p>Haz clic en un guerrero</p>
+                        <img src="../img/mouse.png" alt="Mouse">
+                        <p>Haz CLIC para volar</p>
                     </div>
                     <div class="step">
-                        <img id="flechas" src="../img/flechas.png" alt="Flechas">
-                        <p>Muévete solo en línea recta</p>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583384.png" alt="Tecla Espacio">
+                        <p>O presiona ESPACIO</p>
                     </div>
                     <div class="step">
-                        <img id="flecha-der" src="../img/flecha-der.png" alt="Salto">
-                        <p>Salta sobre otro guerrero</p>
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Tesoro">
+                        <p>Recolecta tesoros dorados</p>
                     </div>
                     <div class="step">
-                        <img id="eliminar" src="../img/Xr-removebg-preview.png" alt="Eliminar">
-                        <p>Elimina al que saltaste</p>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2976/2976215.png" alt="Montaña">
+                        <p>Esquiva las montañas</p>
                     </div>
                 </div>
 
                 <p>
-                    <a href="https://www.youtube.com/watch?v=qTOhdAHP05s">
+                    <a href="https://www.youtube.com/watch?v=ejB4e3W0g7g">
                         <span id="link-ayuda">¿Necesitas ayuda?</span>
-                    </a> Descubre paso a paso cómo jugar al Peg Solitaire Viking Odyssey.
+                    </a> Mira el video tutorial para dominar Valhalla Flight.
                 </p>
             </section>
-
 
             <!-- Comentarios -->
             <section class="comments">
@@ -174,23 +229,23 @@
                 <h4>Comentarios sobre el juego</h4>
 
                 <div class="comment">
-                    <img src="../img/user1.png">
+                    <img src="../img/user1.png" alt="Usuario">
                     <div class="comment-body">
-                        <p class="username">FreeRaider</p>
-                        <p class="text">Gran juego, tenes que ponerte un buen tiempo para entenderlo.</p>
+                        <p class="username">SkyWarrior</p>
+                        <p class="text">¡Increíble juego! Los gráficos nórdicos son espectaculares y la jugabilidad muy adictiva.</p>
                         <div class="comment-actions">
-                            <button class="like">👍 <span>12</span></button>
-                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="like">👍 <span>28</span></button>
+                            <button class="dislike">👎 <span>2</span></button>
                             <button class="reply">💬</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="comment">
-                    <img src="../img/user2.png">
+                    <img src="../img/user2.png" alt="Usuario">
                     <div class="comment-body">
-                        <p class="username">OdinPlayer</p>
-                        <p class="text">Malísimo, no es divertido.</p>
+                        <p class="username">OdinRider</p>
+                        <p class="text">Muy divertido, me encanta la temática vikinga. ¡Llevo 5000 puntos!</p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>45</span></button>
                             <button class="dislike">👎 <span>1</span></button>
@@ -200,12 +255,12 @@
                 </div>
 
                 <div class="comment">
-                    <img src="../img/user1.png">
+                    <img src="../img/user1.png" alt="Usuario">
                     <div class="comment-body">
-                        <p class="username">RuneSeeker</p>
-                        <p class="text">Sencillo pero entretenido, genial y sin molestos anuncios.</p>
+                        <p class="username">ValkyrieQueen</p>
+                        <p class="text">Los controles son muy responsivos y el sistema de vidas hace que sea desafiante pero justo.</p>
                         <div class="comment-actions">
-                            <button class="like">👍 <span>3</span></button>
+                            <button class="like">👍 <span>33</span></button>
                             <button class="dislike">👎 <span>0</span></button>
                             <button class="reply">💬</button>
                         </div>
@@ -213,13 +268,12 @@
                 </div>
 
                 <div class="comment">
-                    <img src="../img/user2.png">
+                    <img src="../img/user2.png" alt="Usuario">
                     <div class="comment-body">
-                        <p class="username">DrakarForce</p>
-                        <p class="text">Lo jugaba cuando era chico, ahora lo instale pero no recordaba como jugarlo o
-                            cual era la meta.</p>
+                        <p class="username">RagnarFlyer</p>
+                        <p class="text">Perfecto para jugar en ratos libres. La progresión es muy satisfactoria.</p>
                         <div class="comment-actions">
-                            <button class="like">👍 <span>1</span></button>
+                            <button class="like">👍 <span>19</span></button>
                             <button class="dislike">👎 <span>0</span></button>
                             <button class="reply">💬</button>
                         </div>
@@ -227,12 +281,11 @@
                 </div>
             </section>
 
-
             <!-- Footer -->
             <footer class="main-footer">
                 <div class="footer-container">
                     <div class="footer-section">
-                        <h4>Sobre Valhala Games</h4>
+                        <h4>Sobre Valhalla Games</h4>
                         <ul>
                             <li><a href="#">Quiénes Somos</a></li>
                             <li><a href="#">Contáctanos</a></li>
@@ -270,14 +323,16 @@
                     </div>
                 </div>
             </footer>
+            
             <div class="footer-bottom">
-                <div class="footer-bottom-container"> <a href="../index.html">
+                <div class="footer-bottom-container">
+                    <a href="../index.html">
                         <div class="footer-logo">
                             <img src="../img/imgPag.png" alt="Logo Valhalla Games">
                             <span>Valhalla Games</span>
                         </div>
                     </a>
-                    <p class="copyright">© 2025 Valhala Games. Todos los derechos reservados.</p>
+                    <p class="copyright">© 2025 Valhalla Games. Todos los derechos reservados.</p>
                     <div class="social-icons">
                         <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
                         <a href="#"><img src="../img/twitter.png" alt="X"></a>
@@ -287,10 +342,9 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+
+    <!-- Scripts -->
     <script src="../js/flappy.js"></script>
 </body>
-
 </html>
