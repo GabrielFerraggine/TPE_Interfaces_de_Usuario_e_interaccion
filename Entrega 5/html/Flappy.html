@@ -65,7 +65,6 @@
                 </div>
             </header>
 
-            <!-- Breadcrumb -->
             <nav class="breadcrumb">
                 <a href="../index.html">
                     <img src="../img/viking.png" alt="Home" class="breadcrumb-icon">
@@ -77,10 +76,8 @@
                 <span>Valhalla Flight</span>
             </nav>
 
-            <!-- Card principal del juego -->
             <section class="main-card">
                 <div class="game-container" id="flappyGameContainer">
-                    <!-- HUD (Head-Up Display) -->
                     <div class="hud">
                         <div class="hud-item">
                             <span class="hud-label">Distancia:</span>
@@ -96,47 +93,26 @@
                         </div>
                     </div>
 
-                    <!-- Instrucciones -->
                     <div class="instructions">
                         Haz CLIC o presiona ESPACIO para volar
                     </div>
 
-                    <!-- Game World -->
                     <div class="game-world">
-                        <!-- Parallax Background Layers -->
                         <div class="parallax-layer layer-sky"></div>
                         <div class="parallax-layer layer-clouds" id="cloudsLayer"></div>
                         <div class="parallax-layer layer-mountains-far" id="mountainsFarLayer"></div>
                         <div class="parallax-layer layer-mountains-near" id="mountainsNearLayer"></div>
                         <div class="parallax-layer layer-ground" id="groundLayer"></div>
 
-                        <!-- Game Objects Container -->
                         <div class="game-objects">
-                            <!-- Viking Player -->
-                            <div class="viking" id="viking">
-                                <div class="viking-body">
-                                    <div class="viking-head"></div>
-                                    <div class="viking-arms">
-                                        <div class="viking-arm left"></div>
-                                        <div class="viking-arm right"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="dragon" id="dragon"></div>
 
-                            <!-- Obstacles Container -->
                             <div id="obstaclesContainer"></div>
-
-                            <!-- Bonuses Container -->
                             <div id="bonusesContainer"></div>
-
-                            <!-- Floating Elements -->
                             <div id="floatingElementsContainer"></div>
-
-                            <!-- Efectos de colisión -->
                             <div id="effectsContainer"></div>
                         </div>
 
-                        <!-- Game Over Screen -->
                         <div class="game-over-screen" id="gameOverScreen">
                             <div class="game-over-content">
                                 <h1>¡JUEGO TERMINADO!</h1>
@@ -163,18 +139,17 @@
                 </div>
             </section>
 
-            <!-- Descripción del juego -->
             <section class="game-description">
                 <h2>Valhalla Flight</h2>
                 <div class="desc-content">
                     <div class="text">
                         <p>
-                            ¡Embárcate en una épica aventura vikinga a través de los cielos de Asgard! Controla a tu valiente vikingo 
+                            ¡Embárcate en una épica aventura a través de los cielos de Asgard! Controla a tu dragón 
                             mientras esquivas obstáculos, recolecta tesoros y sobrevives el mayor tiempo posible en este emocionante 
                             juego de scroll horizontal.
                         </p>
                         <ul>
-                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el vikingo vuele y esquive obstáculos</li>
+                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el dragón vuele y esquive obstáculos</li>
                             <li>⚔️ <b>Objetivo:</b> Vuela la mayor distancia posible mientras esquivas montañas y recolectas tesoros dorados</li>
                             <li>✨ <b>Bonuses:</b> Recolecta los tesoros dorados para sumar puntos extra a tu puntuación</li>
                             <li>❤️ <b>Vidas:</b> Comienzas con 3 vidas - ¡cuídalas bien!</li>
@@ -188,7 +163,6 @@
                 </div>
             </section>
 
-            <!-- Cómo se juega -->
             <section class="how-to-play">
                 <h3>¿Cómo se Juega?</h3>
                 <div class="steps">
@@ -217,7 +191,6 @@
                 </p>
             </section>
 
-            <!-- Comentarios -->
             <section class="comments">
                 <h3>¡Comenta qué te pareció el juego!</h3>
                 <div class="comment-box">
@@ -232,7 +205,7 @@
                     <img src="../img/user1.png" alt="Usuario">
                     <div class="comment-body">
                         <p class="username">SkyWarrior</p>
-                        <p class="text">¡Increíble juego! Los gráficos nórdicos son espectaculares y la jugabilidad muy adictiva.</p>
+                        <p class="text">¡Increíble juego! Los gráficos son espectaculares y la jugabilidad muy adictiva.</p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>28</span></button>
                             <button class="dislike">👎 <span>2</span></button>
@@ -245,7 +218,7 @@
                     <img src="../img/user2.png" alt="Usuario">
                     <div class="comment-body">
                         <p class="username">OdinRider</p>
-                        <p class="text">Muy divertido, me encanta la temática vikinga. ¡Llevo 5000 puntos!</p>
+                        <p class="text">Muy divertido, me encanta el dragón. ¡Llevo 5000 puntos!</p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>45</span></button>
                             <button class="dislike">👎 <span>1</span></button>
@@ -281,7 +254,6 @@
                 </div>
             </section>
 
-            <!-- Footer -->
             <footer class="main-footer">
                 <div class="footer-container">
                     <div class="footer-section">
@@ -344,10 +316,9 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="../js/jsFlappy/Bonus.js"></script>
     <script src="../js/jsFlappy/Obstaculo.js"></script>
-    <script src="../js/jsFlappy/Vikingo.js"></script>
+    <script src="../js/jsFlappy/Dragon.js"></script>
     <script src="../js/jsFlappy/Juego.js"></script>
 
 </body>

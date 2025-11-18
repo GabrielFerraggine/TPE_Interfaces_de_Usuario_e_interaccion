@@ -1,10 +1,15 @@
 class Juego {
-    // Configuración del juego como propiedades estáticas
+    // Configuración del juego
     static GRAVITY = 0.8;
     static JUMP_STRENGTH = -12;
-    static VIKING_X = 80;
+    static DRAGON_X = 80;
     static SCROLL_SPEED = 5;
-    static OBSTACLE_SPAWN_RATE = 120;
+    
+    // DIFICULTAD DINÁMICA
+    static INITIAL_SPAWN_RATE = 120; // Comienza generando cada 120 frames (aprox 2 seg)
+    static MIN_SPAWN_RATE = 50;      // Nunca bajará de 50 frames (aprox 0.8 seg) para que sea posible pasar
+    static DIFFICULTY_FACTOR = 0.1; // Qué tan rápido se pone difícil
+
     static BONUS_SPAWN_RATE = 300;
     static INITIAL_LIVES = 3;
     static OBSTACLE_GAP = 200;
@@ -30,35 +35,36 @@ class Juego {
         this.lives = Juego.INITIAL_LIVES;
         this.gameStarted = false;
         
-        this.vikingo = null;
+        // Variable para controlar la dificultad actual
+        this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
+        
+        this.dragon = null;
         this.obstaculos = [];
         this.bonuses = [];
         
-        this.obstacleSpawnCounter = 0;
+        this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
 
         this.parallaxLayers = document.querySelectorAll('.parallax-layer');
     }
 
     init() {
-        console.log("🎮 Iniciando Valhalla Flight...");
+        console.log("🎮 Iniciando Valhalla Flight con dificultad dinámica...");
         
         const gameContainer = document.getElementById('flappyGameContainer');
-        const vikingElement = document.getElementById('viking');
+        const dragonElement = document.getElementById('dragon');
         
         if (!gameContainer) {
             console.error("No se encontró flappyGameContainer");
             return;
         }
         
-        if (!vikingElement) {
-            console.error("No se encontró el vikingo");
+        if (!dragonElement) {
+            console.error("No se encontró el dragón");
             return;
         }
         
-        console.log("Elementos del DOM encontrados");
-        
-        this.vikingo = new Vikingo(this);
+        this.dragon = new Dragon(this);
         this.isRunning = true;
         this.startGameLoop();
         this.setupEventListeners();
@@ -76,40 +82,45 @@ class Juego {
             return;
         }
 
-        // Actualizar vikingo
-        if (this.vikingo) {
-            this.vikingo.update();
+        if (this.dragon) {
+            this.dragon.update();
         }
         
-        // Actualizar juego
         if (this.gameStarted) {
             this.scrollOffset += Juego.SCROLL_SPEED;
             this.distance = Math.floor(this.scrollOffset / 10);
             document.getElementById('distance').textContent = this.distance;
-        }
-                
-        // Generar obstáculos
-        this.obstacleSpawnCounter++;
-        if (this.obstacleSpawnCounter >= Juego.OBSTACLE_SPAWN_RATE) {
-            this.spawnObstacle();
-            this.obstacleSpawnCounter = 0;
+
+            // Lógica de dificultad progresiva
+            const reduction = this.distance * Juego.DIFFICULTY_FACTOR;
+            this.currentSpawnRate = Math.max(
+                Juego.MIN_SPAWN_RATE, 
+                Juego.INITIAL_SPAWN_RATE - reduction
+            );
+
+            // Generación de Obstáculos
+            this.obstacleSpawnCounter++;
+            if (this.obstacleSpawnCounter >= this.currentSpawnRate) {
+                this.spawnObstacle();
+                this.obstacleSpawnCounter = 0;
+            }
+            
+            // Generación de Bonus
+            this.bonusSpawnCounter++;
+            if (this.bonusSpawnCounter >= Juego.BONUS_SPAWN_RATE) {
+                this.spawnBonus();
+                this.bonusSpawnCounter = 0;
+            }
         }
         
-        // Generar bonuses
-        this.bonusSpawnCounter++;
-        if (this.bonusSpawnCounter >= Juego.BONUS_SPAWN_RATE) {
-            this.spawnBonus();
-            this.bonusSpawnCounter = 0;
-        }
-        
-        // Actualizar obstáculos
+        // Actualizar obstáculos existentes
         for (let i = this.obstaculos.length - 1; i >= 0; i--) {
             if (this.obstaculos[i].update(this.gameStarted)) {
                 this.obstaculos.splice(i, 1);
             }
         }
         
-        // Actualizar bonuses
+        // Actualizar bonuses existentes
         for (let i = this.bonuses.length - 1; i >= 0; i--) {
             if (this.bonuses[i].update(this.gameStarted)) {
                 this.bonuses.splice(i, 1);
@@ -126,7 +137,6 @@ class Juego {
         
         const obstaculo = new Obstaculo(Juego.WORLD_WIDTH);
         this.obstaculos.push(obstaculo);
-        console.log("Obstáculo generado. Total:", this.obstaculos.length);
     }
 
     spawnBonus() {
@@ -135,32 +145,25 @@ class Juego {
         const x = Juego.WORLD_WIDTH;
         const maxIntentos = 20;
         
-        // Intentar encontrar una posición válida que no colisione con obstáculos
         for (let intentos = 0; intentos < maxIntentos; intentos++) {
             const y = Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
             
             if (!this.bonusColisionaConObstaculo(x, y)) {
-                // Posición válida encontrada, crear el bonus
                 const bonus = new Bonus(x, y, this);
                 this.bonuses.push(bonus);
                 return;
             }
         }
-        
-        console.log("No se pudo encontrar posición válida para el bonus");
     }
 
     bonusColisionaConObstaculo(bonusX, bonusY) {
         const bonusWidth = 25;
         const bonusHeight = 25;
         
-        // Verificar colisión con todos los obstáculos cercanos
         for (let i = 0; i < this.obstaculos.length; i++) {
             const obstaculo = this.obstaculos[i];
             
-            // Solo verificar obstáculos que estén cerca en el eje X
             if (Math.abs(obstaculo.x - bonusX) < 200) {
-                // Crear rectángulo del bonus
                 const bonusRect = {
                     left: bonusX,
                     right: bonusX + bonusWidth,
@@ -168,44 +171,39 @@ class Juego {
                     bottom: bonusY + bonusHeight
                 };
                 
-                // Verificar colisión con el obstáculo superior
                 const topCollision = this.rectsOverlap(bonusRect, obstaculo.getTopCollisionRect());
-                
-                // Verificar colisión con el obstáculo inferior
                 const bottomCollision = this.rectsOverlap(bonusRect, obstaculo.getBottomCollisionRect());
                 
                 if (topCollision || bottomCollision) {
-                    return true; // Hay colisión
+                    return true;
                 }
             }
         }
         
-        return false; // No hay colisión
+        return false;
     }
 
     checkCollisions() {
-        if (!this.gameStarted || this.vikingo.isDead) return;
+        if (!this.gameStarted || this.dragon.isDead) return;
 
-        const vikingRect = this.vikingo.getCollisionRect();
+        const dragonRect = this.dragon.getCollisionRect();
 
-        // Colisiones con obstáculos
         for (let i = 0; i < this.obstaculos.length; i++) {
             const ob = this.obstaculos[i];
             
-            const topCollision = this.rectsOverlap(vikingRect, ob.getTopCollisionRect());
-            const bottomCollision = this.rectsOverlap(vikingRect, ob.getBottomCollisionRect());
+            const topCollision = this.rectsOverlap(dragonRect, ob.getTopCollisionRect());
+            const bottomCollision = this.rectsOverlap(dragonRect, ob.getBottomCollisionRect());
             
             if (topCollision || bottomCollision) {
                 console.log("Colisión con obstáculo!");
-                this.vikingo.takeDamage();
+                this.dragon.takeDamage();
                 break;
             }
         }
 
-        // Colisiones con bonus
         for (let i = 0; i < this.bonuses.length; i++) {
             const bonus = this.bonuses[i];
-            if (!bonus.collected && this.rectsOverlap(vikingRect, bonus.getCollisionRect())) {
+            if (!bonus.collected && this.rectsOverlap(dragonRect, bonus.getCollisionRect())) {
                 bonus.collect();
             }
         }
@@ -224,7 +222,6 @@ class Juego {
         console.log(" Fin del juego");
         this.isRunning = false;
 
-        // Detener parallax
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
         
         const gameOverScreen = document.getElementById('gameOverScreen');
@@ -239,14 +236,11 @@ class Juego {
     restart() {
         console.log("🔄 Reiniciando juego...");
         
-        // Limpiar contenedores
         document.getElementById('obstaclesContainer').innerHTML = '';
         document.getElementById('bonusesContainer').innerHTML = '';
         
-        // Pausa las animaciones CSS del parallax
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
 
-        // Resetear estado del juego
         this.isRunning = true;
         this.score = 0;
         this.distance = 0;
@@ -254,61 +248,51 @@ class Juego {
         this.gameStarted = false;
         this.scrollOffset = 0;
         
-        // Actualizar UI
+        // REINICIAMOS LA DIFICULTAD
+        this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
+        
         document.getElementById('score').textContent = '0';
         document.getElementById('distance').textContent = '0';
         document.getElementById('lives').textContent = Juego.INITIAL_LIVES;
         
-        // Limpiar arrays
         this.obstaculos = [];
         this.bonuses = [];
         
-        // Ocultar pantalla de game over
         document.getElementById('gameOverScreen').classList.remove('active');
         
-        // Reiniciar vikingo
-        if (this.vikingo) {
-            this.vikingo.reset();
+        if (this.dragon) {
+            this.dragon.reset();
         }
         
-        // Mostrar instrucciones
         const instructions = document.querySelector('.instructions');
         if (instructions) {
             instructions.style.display = 'block';
         }
         
-        // Resetear contadores
-        this.obstacleSpawnCounter = 0;
+        this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
-        
-        console.log("Juego reiniciado");
     }
 
     setupEventListeners() {
-        // Click para saltar
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.btn-restart') && !event.target.closest('#toggleShare')) {
-                if (this.vikingo) {
-                    this.vikingo.jump();
+                if (this.dragon) {
+                    this.dragon.jump();
                 }
             }
         });
         
-        // Espacio para saltar
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Space') {
                 event.preventDefault();
-                if (this.vikingo) {
-                    this.vikingo.jump();
+                if (this.dragon) {
+                    this.dragon.jump();
                 }
             }
         });
-        
-        console.log("Event listeners configurados");
     }
 }
 
-// ========== INICIALIZACIÓN ==========
 let juegoInstance = null;
 
 function initGame() {
@@ -322,16 +306,12 @@ function restartGame() {
     }
 }
 
-// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM cargado, inicializando juego...");
     initGame();
 });
 
-// También inicializar si la página ya está cargada
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
     setTimeout(initGame, 100);
 }
 
-// Hacer restartGame global para que el HTML pueda llamarlo
 window.restartGame = restartGame;
