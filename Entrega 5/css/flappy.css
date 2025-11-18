@@ -35,7 +35,7 @@
     background: transparent;
 }
 
-/* HUD adaptado */
+/* ==================== HUD (PUNTAJE, VIDAS, ETC) ==================== */
 #flappyGameContainer .hud {
     position: absolute;
     top: 20px;
@@ -72,7 +72,7 @@
     font-weight: bold;
 }
 
-/* Game World */
+/* ==================== MUNDO DEL JUEGO ==================== */
 #flappyGameContainer .game-world {
     position: relative;
     width: 100%;
@@ -81,13 +81,13 @@
     background: linear-gradient(to bottom, #1a3a52, #2d5a7b);
 }
 
-/*animacion parallax*/
+/* ==================== PARALLAX ==================== */
 @keyframes scroll {
     0% {
         background-position-x: 0px;
     }
     100% {
-        background-position-x: -3840px;
+        background-position-x: -1920px;
     }
 }
 
@@ -95,7 +95,7 @@
     position: absolute;
     width: 200%;
     height: 100%;
-    background-size: auto 100%;
+    background-size: 1920px 100%;
     background-repeat: repeat-x;
 
     /*propiedades de la animación CSS */
@@ -103,6 +103,8 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     animation-play-state: paused;
+
+    top: 0;
 }
 
 /*la clase '.scrolling' la la va a usarel js para empezar la animacion*/
@@ -111,72 +113,38 @@
 }
 
 #flappyGameContainer .layer-sky {
-    top: 0;
-    height: 40%;
-    /*background: #57B8FA;*/
-    z-index: 1;
-
-    background-image: url('../img/ImgFlappy/nubes.png');
     
-    animation-name: none;
+    z-index: 1;
+    background-image: url('../img/ImgFlappy/parallax/4-sky.png');
+    animation-name: scroll;
 }
 
 #flappyGameContainer .layer-clouds {
-    top: 0;
-    height: 60%;
-    z-index: 2;
-   
-    /*background-image: 
-        radial-gradient(circle at 20% 50%, #b8c5d6 60px, transparent 60px),
-        radial-gradient(circle at 60% 30%, #b8c5d6 80px, transparent 80px),
-        radial-gradient(circle at 80% 60%, #b8c5d6 70px, transparent 70px);
-    background-position: 0 0, 80px 40px, 160px 15px;
-    background-size: 300px 150px, 400px 150px, 350px 150px;*/
-
-    background-image: url('../img/ImgFlappy/nubes.png');
     
-    /* velocidad de animacion parralax */
-    animation-duration: 80s;
+    z-index: 2;
+    background-image: url('../img/ImgFlappy/parallax/3-backmountain.png');
+    animation-duration: 70s;
 }
 
 #flappyGameContainer .layer-mountains-far {
-    top: 30%;
-    height: 35%;
+   
     z-index: 3;
-    /*background: linear-gradient(135deg, #1f2d42 50%, transparent 50%);
-    background-size: 250px 150px;
-    background-position: 0 0;*/
-
-    background-image: url('../img/ImgFlappy/backgroundGlacialMountain.png');
-
-
-    animation-duration: 50s;
+    background-image: url('../img/ImgFlappy/parallax/2-midmountain.png');
+    animation-duration: 60s;
 }
 
 #flappyGameContainer .layer-mountains-near {
-    top: 45%;
-    height: 35%;
+    
     z-index: 4;
-    /*background: linear-gradient(135deg, #57B8FA 50%, transparent 50%),
-                linear-gradient(45deg, transparent 50%, #2a3d54 50%);
-    background-size: 200px 200px;
-    background-position: 0 0, 100px 0;*/
-
-    background-image: url('../img/ImgFlappy/MontaniaCercana.png');
-
-    animation-duration: 30s;
+    background-image: url('../img/ImgFlappy/parallax/1-midforest.png');
+    animation-duration: 24s;
 }
 
 #flappyGameContainer .layer-ground {
-    bottom: 0;
-    height: 38%;
+    
     z-index: 5;
-  /*background-color: #3d5a1f;
-    background-image: linear-gradient(90deg, #3d5a1f 49%, rgba(0,0,0,0.2) 50%);*/
-
-    background-image: url('../img/ImgFlappy/Nieve.png'); 
-
-    animation-duration: 12s;
+    background-image: url('../img/ImgFlappy/parallax/0-frontfloor.png');
+    animation-duration: 8s;
 }
 
 /* Game Objects */
@@ -202,7 +170,7 @@
     pointer-events: none;
 }
 
-/* Viking Player */
+/* ==================== JUGADOR (VIKINGO) ==================== */
 #flappyGameContainer .viking {
     position: absolute;
     left: 80px;
@@ -281,7 +249,7 @@
     transform-origin: left center;
 }
 
-/* Animaciones Keyframe */
+/* ==================== ANIMACIONES VIKINGO ==================== */
 @keyframes vikingIdle {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
@@ -320,7 +288,7 @@
     }
 }
 
-/* Obstáculos */
+/* ==================== OBSTÁCULOS ==================== */
 #flappyGameContainer .obstacle {
     position: absolute;
     width: 60px;
@@ -361,7 +329,7 @@
     border-radius: 15px 15px 0 0;
 }
 
-/* Bonuses */
+/* ==================== BONUSES ==================== */
 #flappyGameContainer .bonus {
     position: absolute;
     width: 25px;
@@ -418,7 +386,7 @@
     }
 }
 
-/* Floating Elements */
+/* ==================== ELEMENTOS FLOTANTES (DECORACIÓN) ==================== */
 #flappyGameContainer .floating-element {
     position: absolute;
     z-index: 9;
@@ -518,7 +486,7 @@
     }
 }
 
-/* Instrucciones */
+/* ==================== INSTRUCCIONES ==================== */
 #flappyGameContainer .instructions {
     position: absolute;
     bottom: 15px;
@@ -540,7 +508,7 @@
     50% { opacity: 1; }
 }
 
-/* Game Over Screen */
+/* ==================== PANTALLA GAME OVER ==================== */
 #flappyGameContainer .game-over-screen {
     position: absolute;
     top: 0;
@@ -615,7 +583,7 @@
     }
 }
 
-/* Efectos */
+/* ==================== EFECTOS (EXPLOSIÓN) ==================== */
 #flappyGameContainer .explosion {
     position: absolute;
     width: 80px;
@@ -642,7 +610,7 @@
     }
 }
 
-/* Animaciones del Vikingo */
+/* ==================== ANIMACIONES DE ESTADO (DAÑO, MUERTE, INVENCIBLE) ==================== */
 @keyframes vikingFlap {
     0%, 100% { transform: rotate(-8deg) translateY(0); }
     50% { transform: rotate(-20deg) translateY(-8px); }
@@ -703,4 +671,29 @@
 
 .life-lost {
     animation: lifeLost 0.5s ease-in-out;
+}
+
+/* ==================== ANIMACIÓN DRAGÓN (SPRITESHEET) ==================== */
+
+#flappyGameContainer .viking {
+    position: absolute;
+    left: 80px;
+    top: 100px;
+
+    width: 196.67px;
+    height: 171px;
+
+    background-image: url('../img/ImgFlappy/dragon.png');
+    background-repeat: no-repeat;
+    background-position: 0px 0px; /* Empezamos en el primer cuadro */
+
+    animation: dragon-fly 0.5s steps(6) infinite;
+    transform: scale(0.7);
+}
+
+@keyframes dragon-fly {
+    
+    100% {
+        background-position: -1180px 0px;
+    }
 }
