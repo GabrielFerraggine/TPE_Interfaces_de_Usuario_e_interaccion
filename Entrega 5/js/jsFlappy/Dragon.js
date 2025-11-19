@@ -157,12 +157,10 @@ class Dragon {
     }
 
     getCollisionRect() {
-        // ===== TUS VALORES PERSONALIZADOS =====
         const offsetX = 54;
         const offsetY = 70;
         const boxWidth = 100;
         const boxHeight = 60;
-        // ======================================
 
         return {
             left: this.x + offsetX,

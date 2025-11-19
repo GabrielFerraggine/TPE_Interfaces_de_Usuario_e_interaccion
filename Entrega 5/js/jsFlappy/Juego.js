@@ -41,6 +41,8 @@ class Juego {
         this.dragon = null;
         this.obstaculos = [];
         this.bonuses = [];
+
+        this.coinsForLife = 0;
         
         this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
@@ -247,6 +249,8 @@ class Juego {
         this.lives = Juego.INITIAL_LIVES;
         this.gameStarted = false;
         this.scrollOffset = 0;
+
+        this.coinsForLife = 0;
         
         // REINICIAMOS LA DIFICULTAD
         this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
