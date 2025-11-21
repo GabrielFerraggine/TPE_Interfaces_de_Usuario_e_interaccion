@@ -27,6 +27,9 @@ class Juego {
         return container ? container.offsetHeight : 600;
     }
 
+    //Ratio de aparicion de las aguilas
+    static DECORATION_SPAWN_RATE = 180;
+
     constructor() {
         this.isRunning = false;
         this.scrollOffset = 0;
@@ -48,6 +51,9 @@ class Juego {
         this.bonusSpawnCounter = 0;
 
         this.parallaxLayers = document.querySelectorAll('.parallax-layer');
+
+        this.decorations = [];
+        this.decorationSpawnCounter = 0;
     }
 
     init() {
@@ -113,6 +119,13 @@ class Juego {
                 this.spawnBonus();
                 this.bonusSpawnCounter = 0;
             }
+
+            //Generacion de decoraciones
+            this.decorationSpawnCounter++;
+            if (this.decorationSpawnCounter >= Juego.DECORATION_SPAWN_RATE) {
+                this.spawnDecoration();
+                this.decorationSpawnCounter = 0;
+            }
         }
 
         // Actualizar obstáculos
@@ -129,9 +142,23 @@ class Juego {
             }
         }
 
+        //Actualizar decoraciones
+        for (let i = this.decorations.length - 1; i >= 0; i--) {
+            if (this.decorations[i].update(this.gameStarted)) {
+                this.decorations.splice(i, 1);
+            }
+        }
+
         this.checkCollisions();
 
         requestAnimationFrame(() => this.update());
+    }
+
+    spawnDecoration() {
+        if (!this.gameStarted) return;
+
+        const decoration = new Decoracion(Juego.WORLD_WIDTH);
+        this.decorations.push(decoration);
     }
 
     spawnObstacle() {
@@ -240,6 +267,10 @@ class Juego {
 
         document.getElementById('obstaclesContainer').innerHTML = '';
         document.getElementById('bonusesContainer').innerHTML = '';
+        
+        //Limpiar decoraciones
+        this.decorations.forEach(decoration => decoration.remove());
+        this.decorations = [];
 
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
 
@@ -252,7 +283,7 @@ class Juego {
 
         this.coinsForLife = 0;
 
-        // REINICIAMOS LA DIFICULTAD
+        //Reinicio de dificultad
         this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
 
         document.getElementById('score').textContent = '0';
@@ -275,6 +306,7 @@ class Juego {
 
         this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
+        this.decorationSpawnCounter = 0;
     }
 
     setupEventListeners() {

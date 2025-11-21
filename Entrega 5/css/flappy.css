@@ -496,3 +496,23 @@
     background: #e8f4f8;
     transform: scale(1.05);
 }
+
+/*===================================Decoracion===============================================*/
+/* Estilos para las decoraciones */
+.decoration {
+    position: absolute;
+    width: 125px;
+    height: 320px;
+    background-image: url('../img/ImgFlappy/aguila.png');
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    z-index: 5;
+    pointer-events: none;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.decoration:hover {
+    opacity: 1;
+}
