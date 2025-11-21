@@ -1,4 +1,7 @@
-/* ==================== ESTILOS FLAPPY DRAGON ==================== */
+/* ==========================================================================
+   CONTENEDOR PRINCIPAL Y CONFIGURACIÓN
+   ========================================================================== */
+
 #flappyGameContainer {
     width: 100%;
     height: 700px;
@@ -33,7 +36,10 @@
     background: transparent;
 }
 
-/* ==================== HUD ==================== */
+/* ==========================================================================
+   INTERFAZ DE USUARIO (HUD)
+   ========================================================================== */
+
 #flappyGameContainer .hud {
     position: absolute;
     top: 20px;
@@ -70,7 +76,31 @@
     font-weight: bold;
 }
 
-/* ==================== MUNDO DEL JUEGO ==================== */
+/* Animación de "Vida Ganada" en el HUD */
+@keyframes lifeGainedAnim {
+    0% { transform: scale(1); color: #ffd700; }
+    50% { transform: scale(2); color: #32CD32; text-shadow: 0 0 15px #32CD32; }
+    100% { transform: scale(1); color: #ffd700; }
+}
+
+.life-gained {
+    animation: lifeGainedAnim 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animación de "Vida Perdida" */
+@keyframes lifeLost {
+    0%, 100% { transform: scale(1); color: #ffd700; }
+    50% { transform: scale(1.2); color: #ff002b; }
+}
+
+.life-lost {
+    animation: lifeLost 0.5s ease-in-out;
+}
+
+/* ==========================================================================
+   MUNDO Y FONDO (PARALLAX)
+   ========================================================================== */
+
 #flappyGameContainer .game-world {
     position: relative;
     width: 100%;
@@ -79,14 +109,9 @@
     background: linear-gradient(to bottom, #1a3a52, #2d5a7b);
 }
 
-/* ==================== PARALLAX ==================== */
 @keyframes scroll {
-    0% {
-        background-position-x: 0px;
-    }
-    100% {
-        background-position-x: -1920px;
-    }
+    0% { background-position-x: 0px; }
+    100% { background-position-x: -1920px; }
 }
 
 #flappyGameContainer .parallax-layer {
@@ -136,7 +161,10 @@
     animation-duration: 8s;
 }
 
-/* Game Objects */
+/* ==========================================================================
+   OBJETOS DEL JUEGO (CONTENEDORES)
+   ========================================================================== */
+
 #flappyGameContainer .game-objects {
     position: absolute;
     top: 0;
@@ -158,7 +186,10 @@
     pointer-events: none;
 }
 
-/* ==================== DRAGON (JUGADOR) ==================== */
+/* ==========================================================================
+   PERSONAJE: DRAGÓN
+   ========================================================================== */
+
 #flappyGameContainer .dragon {
     position: absolute;
     left: 80px;
@@ -166,38 +197,28 @@
     width: 196.67px;
     height: 171px;
     z-index: 100;
-    
-    /* Imagen y Sprite */
     background-image: url('../img/ImgFlappy/dragon.png');
     background-repeat: no-repeat;
     background-position: 0px 0px;
-    
-    /* Animación de vuelo por defecto */
     animation: dragon-fly 0.5s steps(6) infinite;
-    
-    /* Transformaciones base */
     transform: scale(0.7);
     transform-origin: center;
-    transition: transform 0.2s, filter 0.2s; /* Suavizar rotaciones y colores */
+    transition: transform 0.2s, filter 0.2s;
 }
 
 @keyframes dragon-fly {
-    100% {
-        background-position: -1180px 0px;
-    }
+    100% { background-position: -1180px 0px; }
 }
 
-/* ----- EFECTOS DEL DRAGÓN ----- */
-
-/* 1. Invencibilidad / Daño (Parpadeo Rojo) */
+/* Efecto de daño*/
 @keyframes dragonDamageBlink {
     0%, 100% { 
         opacity: 1; 
-        filter: brightness(1) sepia(0) hue-rotate(0deg);
+        filter: drop-shadow(0 0 0px transparent) brightness(1);
     }
     50% { 
-        opacity: 0.7; 
-        filter: brightness(1.2) sepia(1) hue-rotate(-50deg) saturate(3); /* Tono rojizo intenso */
+        opacity: 0.9; 
+        filter: drop-shadow(0 0 4px yellow) drop-shadow(0 0 8px white) brightness(1.1) sepia(1) hue-rotate(-50deg) saturate(5); 
     }
 }
 
@@ -205,31 +226,25 @@
     animation: dragon-fly 0.5s steps(6) infinite, dragonDamageBlink 0.2s infinite;
 }
 
-/* 2. Muerte (Caída y escala de grises) */
 #flappyGameContainer .dragon.dead {
-    /* Detenemos el aleteo */
-    animation-play-state: paused; 
-    
-    /* Giramos hacia abajo (picada) y quitamos color */
-    transform: scale(0.7) rotate(90deg);
-    filter: grayscale(100%) brightness(0.7);
+    animation-play-state: paused;
+    transform: scale(0.7) rotate(90deg); /*dragon cae*/
+    filter: grayscale(100%) brightness(0.7); /*dragon blanco y negro*/
 }
 
+/* ==========================================================================
+   OBSTÁCULOS
+   ========================================================================== */
 
-/* ==================== OBSTACULOS ==================== */
 #flappyGameContainer .obstacle {
     position: absolute;
     width: 60px;
-    
     background-image: url('../img/ImgFlappy/obstaculo.png'); 
-    
-    background-repeat: repeat-y; /* Se repite hacia abajo si el obstáculo es largo */
-    background-size: 100% auto;  /* Se ajusta al ancho */
+    background-repeat: repeat-y;
+    background-size: 100% auto;
     background-position: center center;
-    
     border: 2px solid #2c3e50;
-    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
-    
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
     z-index: 7;
     border-radius: 4px;
 }
@@ -253,97 +268,72 @@
     display: none;
 }
 
+/* ==========================================================================
+   BONUSES Y PUNTAJE FLOTANTE
+   ========================================================================== */
 
-/* ==================== BONUSES ==================== */
 #flappyGameContainer .bonus {
     position: absolute;
     
-    /* 1. Ancho de UN cuadro (Usamos 106px para que sea exacto) */
+    /* Calculado para imagen de 500px de ancho con 6 frames */
     width: calc(500px / 6);
     height: 280px;
     
-    background-image: url('../img/ImgFlappy/moneda.png'); 
-
-
+    background-image: url('../img/ImgFlappy/moneda.png');
+    background-repeat: no-repeat;
+    
     transform: scale(0.4); 
     transform-origin: top left;
     
     animation: spinBonus 0.6s steps(6) infinite; 
-    
     z-index: 8;
 }
 
 @keyframes spinBonus {
-    from {
-        background-position: 0px 0px;
-    }
-    to {
-        background-position: -500px 0px; 
-    }
+    from { background-position: 0px 0px; }
+    to { background-position: -500px 0px; }
 }
 
-/* ==================== EFECTOS AGARRAR BONUS ==================== */
-
+/* Efecto al recolectar */
 #flappyGameContainer .bonus.collected {
-    animation: spinBonus 0.4s steps(9) infinite, vanishBonus 0.4s ease-out forwards;
+    animation: spinBonus 0.4s steps(6) infinite, vanishBonus 0.4s ease-out forwards;
 }
 
 @keyframes vanishBonus {
-    0% {
-        transform: scale(0.4); 
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0.8); 
-        opacity: 0;
-    }
+    0% { transform: scale(0.4); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
 }
 
-/*Texto flotante(+50) */ 
+/* Texto flotante (+50 o +1 VIDA) */
 .floating-score {
     position: absolute;
     color: #ffd700;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 18px;
-    text-shadow: 2px 2px 0px #c41e3a, -1px -1px 0 #000; 
+    text-shadow: 2px 2px 0px #c41e3a, -1px -1px 0 #000;
     z-index: 100;
     pointer-events: none;
     animation: floatScore 0.8s ease-out forwards;
 }
 
 @keyframes floatScore {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(-30px) scale(1.2);
-    }
-    100% {
-        transform: translateY(-60px) scale(1);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(-30px) scale(1.2); }
+    100% { transform: translateY(-60px) scale(1); opacity: 0; }
 }
 
-/* ==================== EFECTO VIDA GANADA ==================== */
-@keyframes lifeGainedAnim {
-    0% { transform: scale(1); color: #ffd700; }
-    50% { transform: scale(2); color: #32CD32; text-shadow: 0 0 15px #32CD32; } /* Crece y se pone verde */
-    100% { transform: scale(1); color: #ffd700; }
-}
+/* ==========================================================================
+   ELEMENTOS FLOTANTES (DECORACIÓN)
+   ========================================================================== */
 
-.life-gained {
-    animation: lifeGainedAnim 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* ==================== ELEMENTOS FLOTANTES ==================== */
 #flappyGameContainer .floating-element {
     position: absolute;
     z-index: 9;
     pointer-events: none;
 }
 
+/* Cuervo decorativo */
 #flappyGameContainer .floating-element.raven {
     width: 35px;
     height: 25px;
@@ -352,6 +342,7 @@
     animation: float 4s ease-in-out infinite;
 }
 
+/* Nube generada por CSS */
 #flappyGameContainer .floating-element.cloud {
     width: 50px;
     height: 25px;
@@ -359,15 +350,6 @@
     border-radius: 50%;
     animation: floatCloud 6s ease-in-out infinite;
     filter: brightness(1.2);
-}
-
-#flappyGameContainer .floating-element.sparkle {
-    width: 15px;
-    height: 15px;
-    background: radial-gradient(circle, #ffd700 30%, transparent 70%);
-    border-radius: 50%;
-    animation: sparkleTwinkle 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 6px #ffd700);
 }
 
 #flappyGameContainer .floating-element.cloud::before {
@@ -392,52 +374,40 @@
     right: 4px;
 }
 
+/* Partículas de brillo */
+#flappyGameContainer .floating-element.sparkle {
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle, #ffd700 30%, transparent 70%);
+    border-radius: 50%;
+    animation: sparkleTwinkle 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px #ffd700);
+}
+
+/* Animaciones para elementos flotantes */
 @keyframes float {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg); 
-    }
-    25% { 
-        transform: translateY(-8px) rotate(4deg); 
-    }
-    50% { 
-        transform: translateY(-15px) rotate(0deg); 
-    }
-    75% { 
-        transform: translateY(-8px) rotate(-4deg); 
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(4deg); }
+    50% { transform: translateY(-15px) rotate(0deg); }
+    75% { transform: translateY(-8px) rotate(-4deg); }
 }
 
 @keyframes floatCloud {
-    0%, 100% { 
-        transform: translateY(0) translateX(0);
-        opacity: 0.8;
-    }
-    25% { 
-        transform: translateY(-12px) translateX(4px);
-        opacity: 1;
-    }
-    50% { 
-        transform: translateY(-4px) translateX(8px);
-        opacity: 0.9;
-    }
-    75% { 
-        transform: translateY(-8px) translateX(-4px);
-        opacity: 0.95;
-    }
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.8; }
+    25% { transform: translateY(-12px) translateX(4px); opacity: 1; }
+    50% { transform: translateY(-4px) translateX(8px); opacity: 0.9; }
+    75% { transform: translateY(-8px) translateX(-4px); opacity: 0.95; }
 }
 
 @keyframes sparkleTwinkle {
-    0%, 100% { 
-        opacity: 0.3; 
-        transform: scale(0.8) rotate(0deg);
-    }
-    50% { 
-        opacity: 1; 
-        transform: scale(1.2) rotate(180deg);
-    }
+    0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
 }
 
-/* ==================== INSTRUCCIONES ==================== */
+/* ==========================================================================
+   PANTALLAS Y BOTONES (INICIO / GAME OVER)
+   ========================================================================== */
+
 #flappyGameContainer .instructions {
     position: absolute;
     bottom: 15px;
@@ -459,7 +429,6 @@
     50% { opacity: 1; }
 }
 
-/* ==================== PANTALLA GAME OVER ==================== */
 #flappyGameContainer .game-over-screen {
     position: absolute;
     top: 0;
@@ -486,6 +455,11 @@
     border-radius: 15px;
     animation: popIn 0.5s ease-out;
     max-width: 80%;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 #flappyGameContainer .game-over-content h1 {
@@ -521,58 +495,4 @@
 #flappyGameContainer .btn-restart:hover {
     background: #e8f4f8;
     transform: scale(1.05);
-}
-
-@keyframes popIn {
-    0% {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* ==================== EFECTOS DRAGON ==================== */
-#flappyGameContainer .explosion {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, #ff6b35 0%, #ff8e53 50%, transparent 70%);
-    border-radius: 50%;
-    animation: explosion 0.5s ease-out forwards;
-    pointer-events: none;
-    z-index: 99;
-}
-
-@keyframes explosion {
-    0% {
-        transform: scale(0);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
-}
-
-/* Efectos de vida */
-@keyframes lifeLost {
-    0%, 100% { 
-        transform: scale(1);
-        color: #ffd700;
-    }
-    50% { 
-        transform: scale(1.2);
-        color: #c41e3a;
-    }
-}
-
-.life-lost {
-    animation: lifeLost 0.5s ease-in-out;
 }

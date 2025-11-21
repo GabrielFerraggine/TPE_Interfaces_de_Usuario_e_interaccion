@@ -40,7 +40,7 @@ class Bonus {
             
             this.juego.coinsForLife++; // Sumamos 1 al contador interno
             
-            if (this.juego.coinsForLife >= 5 && this.juego.lives < Juego.INITIAL_LIVES) { //suma una vida al recolectar 5 monedas, solo si tiene menos de las iniciales
+            if (this.juego.coinsForLife >= 3 && this.juego.lives < Juego.INITIAL_LIVES) { //suma una vida al recolectar 5 monedas, solo si tiene menos de las iniciales
                 this.juego.lives++;
                 this.juego.coinsForLife = 0;
                 

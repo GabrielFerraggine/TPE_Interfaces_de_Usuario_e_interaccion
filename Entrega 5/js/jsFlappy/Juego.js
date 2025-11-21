@@ -4,11 +4,11 @@ class Juego {
     static JUMP_STRENGTH = -12;
     static DRAGON_X = 80;
     static SCROLL_SPEED = 5;
-    
+
     // DIFICULTAD DINÁMICA
-    static INITIAL_SPAWN_RATE = 120; // Comienza generando cada 120 frames (aprox 2 seg)
-    static MIN_SPAWN_RATE = 50;      // Nunca bajará de 50 frames (aprox 0.8 seg) para que sea posible pasar
-    static DIFFICULTY_FACTOR = 0.1; // Qué tan rápido se pone difícil
+    static INITIAL_SPAWN_RATE = 120;
+    static MIN_SPAWN_RATE = 50;
+    static DIFFICULTY_FACTOR = 0.1;
 
     static BONUS_SPAWN_RATE = 300;
     static INITIAL_LIVES = 3;
@@ -16,15 +16,15 @@ class Juego {
     static OBSTACLE_WIDTH = 60;
     static MIN_GAP_Y = 150;
     static MAX_GAP_Y = 400;
-    
-    static get WORLD_WIDTH() { 
+
+    static get WORLD_WIDTH() {
         const container = document.getElementById('flappyGameContainer');
-        return container ? container.offsetWidth : 800; 
+        return container ? container.offsetWidth : 800;
     }
-    
-    static get WORLD_HEIGHT() { 
+
+    static get WORLD_HEIGHT() {
         const container = document.getElementById('flappyGameContainer');
-        return container ? container.offsetHeight : 600; 
+        return container ? container.offsetHeight : 600;
     }
 
     constructor() {
@@ -34,16 +34,16 @@ class Juego {
         this.distance = 0;
         this.lives = Juego.INITIAL_LIVES;
         this.gameStarted = false;
-        
+
         // Variable para controlar la dificultad actual
         this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
-        
+
         this.dragon = null;
         this.obstaculos = [];
         this.bonuses = [];
 
         this.coinsForLife = 0;
-        
+
         this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
 
@@ -52,25 +52,25 @@ class Juego {
 
     init() {
         console.log("🎮 Iniciando Valhalla Flight con dificultad dinámica...");
-        
+
         const gameContainer = document.getElementById('flappyGameContainer');
         const dragonElement = document.getElementById('dragon');
-        
+
         if (!gameContainer) {
             console.error("No se encontró flappyGameContainer");
             return;
         }
-        
+
         if (!dragonElement) {
             console.error("No se encontró el dragón");
             return;
         }
-        
+
         this.dragon = new Dragon(this);
         this.isRunning = true;
         this.startGameLoop();
         this.setupEventListeners();
-        
+
         console.log("Juego inicializado correctamente");
     }
 
@@ -87,16 +87,16 @@ class Juego {
         if (this.dragon) {
             this.dragon.update();
         }
-        
+
         if (this.gameStarted) {
             this.scrollOffset += Juego.SCROLL_SPEED;
             this.distance = Math.floor(this.scrollOffset / 10);
             document.getElementById('distance').textContent = this.distance;
 
-            // Lógica de dificultad progresiva
+            // Dificultad progresiva
             const reduction = this.distance * Juego.DIFFICULTY_FACTOR;
             this.currentSpawnRate = Math.max(
-                Juego.MIN_SPAWN_RATE, 
+                Juego.MIN_SPAWN_RATE,
                 Juego.INITIAL_SPAWN_RATE - reduction
             );
 
@@ -106,7 +106,7 @@ class Juego {
                 this.spawnObstacle();
                 this.obstacleSpawnCounter = 0;
             }
-            
+
             // Generación de Bonus
             this.bonusSpawnCounter++;
             if (this.bonusSpawnCounter >= Juego.BONUS_SPAWN_RATE) {
@@ -114,42 +114,42 @@ class Juego {
                 this.bonusSpawnCounter = 0;
             }
         }
-        
-        // Actualizar obstáculos existentes
+
+        // Actualizar obstáculos
         for (let i = this.obstaculos.length - 1; i >= 0; i--) {
             if (this.obstaculos[i].update(this.gameStarted)) {
                 this.obstaculos.splice(i, 1);
             }
         }
-        
-        // Actualizar bonuses existentes
+
+        // Actualizar bonuses
         for (let i = this.bonuses.length - 1; i >= 0; i--) {
             if (this.bonuses[i].update(this.gameStarted)) {
                 this.bonuses.splice(i, 1);
             }
         }
-        
+
         this.checkCollisions();
-        
+
         requestAnimationFrame(() => this.update());
     }
 
     spawnObstacle() {
         if (!this.gameStarted) return;
-        
+
         const obstaculo = new Obstaculo(Juego.WORLD_WIDTH);
         this.obstaculos.push(obstaculo);
     }
 
     spawnBonus() {
         if (!this.gameStarted) return;
-        
+
         const x = Juego.WORLD_WIDTH;
         const maxIntentos = 20;
-        
+
         for (let intentos = 0; intentos < maxIntentos; intentos++) {
             const y = Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
-            
+
             if (!this.bonusColisionaConObstaculo(x, y)) {
                 const bonus = new Bonus(x, y, this);
                 this.bonuses.push(bonus);
@@ -161,10 +161,10 @@ class Juego {
     bonusColisionaConObstaculo(bonusX, bonusY) {
         const bonusWidth = 25;
         const bonusHeight = 25;
-        
+
         for (let i = 0; i < this.obstaculos.length; i++) {
             const obstaculo = this.obstaculos[i];
-            
+
             if (Math.abs(obstaculo.x - bonusX) < 200) {
                 const bonusRect = {
                     left: bonusX,
@@ -172,16 +172,16 @@ class Juego {
                     top: bonusY,
                     bottom: bonusY + bonusHeight
                 };
-                
+
                 const topCollision = this.rectsOverlap(bonusRect, obstaculo.getTopCollisionRect());
                 const bottomCollision = this.rectsOverlap(bonusRect, obstaculo.getBottomCollisionRect());
-                
+
                 if (topCollision || bottomCollision) {
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
 
@@ -192,10 +192,10 @@ class Juego {
 
         for (let i = 0; i < this.obstaculos.length; i++) {
             const ob = this.obstaculos[i];
-            
+
             const topCollision = this.rectsOverlap(dragonRect, ob.getTopCollisionRect());
             const bottomCollision = this.rectsOverlap(dragonRect, ob.getBottomCollisionRect());
-            
+
             if (topCollision || bottomCollision) {
                 console.log("Colisión con obstáculo!");
                 this.dragon.takeDamage();
@@ -225,22 +225,22 @@ class Juego {
         this.isRunning = false;
 
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
-        
+
         const gameOverScreen = document.getElementById('gameOverScreen');
         document.getElementById('finalScore').textContent = `Puntaje Final: ${this.score}`;
         document.getElementById('finalDistance').textContent = `Distancia: ${this.distance}`;
-        
+
         setTimeout(() => {
             gameOverScreen.classList.add('active');
-        }, 1000);
+        }, 1200);
     }
 
     restart() {
         console.log("🔄 Reiniciando juego...");
-        
+
         document.getElementById('obstaclesContainer').innerHTML = '';
         document.getElementById('bonusesContainer').innerHTML = '';
-        
+
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
 
         this.isRunning = true;
@@ -251,28 +251,28 @@ class Juego {
         this.scrollOffset = 0;
 
         this.coinsForLife = 0;
-        
+
         // REINICIAMOS LA DIFICULTAD
         this.currentSpawnRate = Juego.INITIAL_SPAWN_RATE;
-        
+
         document.getElementById('score').textContent = '0';
         document.getElementById('distance').textContent = '0';
         document.getElementById('lives').textContent = Juego.INITIAL_LIVES;
-        
+
         this.obstaculos = [];
         this.bonuses = [];
-        
+
         document.getElementById('gameOverScreen').classList.remove('active');
-        
+
         if (this.dragon) {
             this.dragon.reset();
         }
-        
+
         const instructions = document.querySelector('.instructions');
         if (instructions) {
             instructions.style.display = 'block';
         }
-        
+
         this.obstacleSpawnCounter = Juego.INITIAL_SPAWN_RATE - 20;
         this.bonusSpawnCounter = 0;
     }
@@ -285,7 +285,7 @@ class Juego {
                 }
             }
         });
-        
+
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Space') {
                 event.preventDefault();
@@ -310,7 +310,7 @@ function restartGame() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initGame();
 });
 

@@ -7,21 +7,21 @@ class Dragon {
         this.velocityY = 0;
         this.isDead = false;
         this.isInvincible = false;
-        
+
         // Dimensiones referenciales (el hitbox real lo define getCollisionRect abajo)
         this.width = 137;
         this.height = 120;
 
         //descomentar para ver hitboxes (1/3)
-        // this.debugBox = document.createElement('div');
-        // this.debugBox.style.position = 'absolute';
-        // this.debugBox.style.border = '2px solid red';
-        // this.debugBox.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
-        // this.debugBox.style.zIndex = '999';
-        // this.debugBox.style.pointerEvents = 'none';
-        // document.getElementById('flappyGameContainer').appendChild(this.debugBox);
+        //  this.debugBox = document.createElement('div');
+        //  this.debugBox.style.position = 'absolute';
+        //  this.debugBox.style.border = '2px solid red';
+        //  this.debugBox.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+        //  this.debugBox.style.zIndex = '999';
+        //  this.debugBox.style.pointerEvents = 'none';
+        //  document.getElementById('flappyGameContainer').appendChild(this.debugBox);
 
-        console.log("Dragón listo con efectos activados");
+        // console.log("Dragón listo con efectos activados");
     }
 
     jump() {
@@ -51,31 +51,39 @@ class Dragon {
     }
 
     update() {
-        if (!this.juego.gameStarted) return;
+        //Permitimos actualizar si el juego corre O si el dragon murio
+        if (!this.juego.gameStarted && !this.isDead) return;
         
-        // Aplicar gravedad siempre
-        this.velocityY += Juego.GRAVITY;
+        // Gravedad (usando la lógica de caída lenta que hicimos antes)
+        if (this.isDead) {
+            this.velocityY += Juego.GRAVITY; 
+            if (this.velocityY > 7) this.velocityY = 7;
+        } else {
+            this.velocityY += Juego.GRAVITY;
+        }
+        
         this.y += this.velocityY;
 
-        const minY = -50; // puede subir un poco más allá del techo
-        const maxY = Juego.WORLD_HEIGHT + 50; // suelo visual
-
+        const minY = -50; 
+        
         // Techo
         if (this.y < minY) {
             this.y = minY;
             this.velocityY = 0;
         }
 
-        // Suelo / Muerte por caída
         if (this.y > Juego.WORLD_HEIGHT - this.height + 20) {
             if (!this.isDead) {
-                this.die(); // Si toca el suelo vivo, muere
+                // Si toca el suelo vivo, muere instantáneamente y termina
+                this.die(); 
+                this.juego.endGame();
+            } else {
+                this.y = Juego.WORLD_HEIGHT - this.height + 20;
+                this.juego.endGame();
             }
         }
-
+        // this.drawDebugHitbox(); //descomentar para ver hitboxes (2/3)
         this.render();
-        //descomentar para ver hitboxes (2/3)
-        // this.drawDebugHitbox();
     }
 
     render() {
@@ -84,35 +92,40 @@ class Dragon {
     }
 
     //descomentar para ver hitboxes (3/3)
-    // drawDebugHitbox() {
-    //     const rect = this.getCollisionRect();
-    //     this.debugBox.style.left = `${rect.left}px`;
-    //     this.debugBox.style.top = `${rect.top}px`;
-    //     this.debugBox.style.width = `${rect.right - rect.left}px`;
-    //     this.debugBox.style.height = `${rect.bottom - rect.top}px`;
-    // }
+    //  drawDebugHitbox() {
+    //      const rect = this.getCollisionRect();
+    //      this.debugBox.style.left = `${rect.left}px`;
+    //      this.debugBox.style.top = `${rect.top}px`;
+    //      this.debugBox.style.width = `${rect.right - rect.left}px`;
+    //      this.debugBox.style.height = `${rect.bottom - rect.top}px`;
+    //  }
 
     takeDamage() {
-        // Si ya está muerto o es invencible, no hacer nada
+         //Si ya está muerto o es invencible, no hacer nada
         if (this.isDead || this.isInvincible) return;
 
         this.isInvincible = true;
         this.juego.lives--;
         document.getElementById('lives').textContent = this.juego.lives;
-        
+
         console.log(`¡Golpe recibido! Vidas restantes: ${this.juego.lives}`);
 
         //Agregar clase de daño/invencibilidad
         this.element.classList.add('invincible');
-        
-        //rebote al ser golpeado
-        this.velocityY = Juego.JUMP_STRENGTH * 0.5;
 
-        // timer para quitar invencibilidad (1.5 segundos)
+        //rebote al ser golpeado
+        if (this.juego.lives > 0) {
+            // Si sigue vivo, rebote para arriba
+            this.velocityY = Juego.JUMP_STRENGTH * 0.5;
+        } else {
+            this.velocityY = 0; 
+        }
+
+        // timer para sacar invencibilidad
         setTimeout(() => {
             this.endInvincibility();
-        }, 1500); 
-        
+        }, 1500);//1.5seg
+
         if (this.juego.lives <= 0) {
             this.die();
         }
@@ -132,13 +145,13 @@ class Dragon {
         console.log("💀 El dragón ha caído.");
         this.isDead = true;
         
-        this.element.classList.remove('invincible'); // sacar parpadeo si lo tenía
-        this.element.classList.add('dead'); // Activar animacion de muerte
+        this.element.classList.remove('invincible'); 
+        this.element.classList.add('dead'); 
 
-        // Notificar al juego que termine
-        setTimeout(() => {
-            this.juego.endGame();
-        }, 1000);
+        this.juego.gameStarted = false; 
+        //frena el fondo
+        this.juego.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
+
     }
 
     reset() {
@@ -146,11 +159,11 @@ class Dragon {
         this.isInvincible = false;
         this.y = Juego.WORLD_HEIGHT / 2;
         this.velocityY = 0;
-        
+
         // Limpiar clases de efectos
         this.element.classList.remove('invincible');
         this.element.classList.remove('dead');
-        
+
         // Asegurar que la rotación vuelva a 0 (manejado por CSS al quitar .dead, 
         // pero forzamos render por si acaso)
         this.render();
@@ -160,7 +173,7 @@ class Dragon {
         const offsetX = 54;
         const offsetY = 70;
         const boxWidth = 100;
-        const boxHeight = 60;
+        const boxHeight = 40;
 
         return {
             left: this.x + offsetX,
