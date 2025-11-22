@@ -385,7 +385,6 @@ ul {
     align-items: center;
     background-color: var(--background-dark);
     padding: 5px;
-    border-top: 2px solid rgba(255, 107, 53, 0.2);
     margin-top: 10px;
     gap: 10px;
 }
@@ -902,7 +901,7 @@ ul {
 .desc-content .images img {
     border-radius: 12px;
     width: 100%;
-    height: 240px;
+    height: 50vh;
 }
 
 #movimientos {
@@ -961,7 +960,7 @@ ul#movimientos li {
 
 .step img {
     width: 110px;
-    height: auto;
+    max-height: 200px;
 }
 
 .step p {

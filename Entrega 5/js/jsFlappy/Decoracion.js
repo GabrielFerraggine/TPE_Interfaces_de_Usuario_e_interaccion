@@ -1,6 +1,7 @@
 class Decoracion {
-    constructor(x) {
+    constructor(x, juego) {
         this.x = x;
+        this.juego = juego; //Referencia al juego para verificar colisiones
         this.width = 500;
         this.height = 320;
         this.frameWidth = 125;
@@ -9,10 +10,53 @@ class Decoracion {
         this.animationSpeed = 8;
         this.animationCounter = 0;
         
-        this.y = Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
+        //Buscar una posicion Y que no colisione con obstáculos
+        this.y = this.findSafeYPosition();
         
         this.element = this.createDecorationElement();
         console.log("Decoración creada en x:", x, "y:", this.y);
+    }
+
+    findSafeYPosition() {
+        const maxIntentos = 20; //Intentos maximos para encontrar posicion segura
+        
+        for (let intento = 0; intento < maxIntentos; intento++) {
+            const y = Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
+            
+            if (!this.colisionaConObstaculo(this.x, y)) {
+                return y; // Posición segura encontrada
+            }
+        }
+        
+        //Si no encuentra posición segura despues de varios intentos,
+        //devuelve una posición por defecto
+        return Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
+    }
+
+    colisionaConObstaculo(decorationX, decorationY) {
+        const decorationRect = {
+            left: decorationX,
+            right: decorationX + this.frameWidth,
+            top: decorationY,
+            bottom: decorationY + this.height
+        };
+
+        //Verificar colision con todos los obstáculos
+        for (let i = 0; i < this.juego.obstaculos.length; i++) {
+            const obstaculo = this.juego.obstaculos[i];
+            
+            //Solo verificar obstaculos cercanos
+            if (Math.abs(obstaculo.x - decorationX) < 300) {
+                const topCollision = this.juego.rectsOverlap(decorationRect, obstaculo.getTopCollisionRect());
+                const bottomCollision = this.juego.rectsOverlap(decorationRect, obstaculo.getBottomCollisionRect());
+                
+                if (topCollision || bottomCollision) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     createDecorationElement() {
@@ -32,7 +76,7 @@ class Decoracion {
         
         this.element.style.left = `${this.x}px`;
         
-        //Animación del sprite
+        //Animacion del sprite
         this.animationCounter++;
         if (this.animationCounter >= this.animationSpeed) {
             this.currentFrame = (this.currentFrame + 1) % this.totalFrames;

@@ -28,7 +28,7 @@ class Juego {
     }
 
     //Ratio de aparicion de las aguilas
-    static DECORATION_SPAWN_RATE = 180;
+    static DECORATION_SPAWN_RATE = 200;
 
     constructor() {
         this.isRunning = false;
@@ -157,7 +157,7 @@ class Juego {
     spawnDecoration() {
         if (!this.gameStarted) return;
 
-        const decoration = new Decoracion(Juego.WORLD_WIDTH);
+        const decoration = new Decoracion(Juego.WORLD_WIDTH, this);
         this.decorations.push(decoration);
     }
 
@@ -311,6 +311,13 @@ class Juego {
 
     setupEventListeners() {
         document.addEventListener('click', (event) => {
+            //Verificar que sea click izquierdo
+            if (event.button !== 0) return;
+            
+            //Verificar que el click sea dentro del contenedor del juego
+            const gameContainer = document.getElementById('flappyGameContainer');
+            if (!gameContainer.contains(event.target)) return;
+            
             if (!event.target.closest('.btn-restart') && !event.target.closest('#toggleShare')) {
                 if (this.dragon) {
                     this.dragon.jump();
