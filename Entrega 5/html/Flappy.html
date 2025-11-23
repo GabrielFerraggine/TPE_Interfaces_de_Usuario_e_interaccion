@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/juego.css">
+    <link rel="stylesheet" href="../css/flappy.css">
+    <title>Valhalla Flight - Valhalla Games</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <button id="menuHamburguesaBtn">
+                    <img id="menuIcon" src="../img/Menu Hamburguesa.png" alt="Abrir menú">
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#"><img src="../img/Accion.png" alt="Acción"><span>Acción</span></a></li>
+                    <li><a href="#"><img src="../img/Aventura.png" alt="Aventura"><span>Aventura</span></a></li>
+                    <li><a href="#"><img src="../img/Terror.png" alt="Terror"><span>Terror</span></a></li>
+                    <li><a href="#"><img src="../img/Deportes.png" alt="Deportes"><span>Deportes</span></a></li>
+                    <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
+                    <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
+                    <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="content-wrapper">
+            <header class="main-header">
+                <a href="../index.html">
+                    <div class="logo-header">
+                        <h1>Valhalla Games</h1>
+                        <img src="../img/imgPag.png" alt="Valhalla Games Logo">
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="¿Qué vas a jugar hoy?">
+                    <button id="btn-search"></button>
+                </div>
+
+                <div class="user-profile">
+                    <span>Player777</span>
+                    <img id="userAvatar" src="../img/player.png" alt="Avatar del jugador">
+
+                    <div id="dropdownMenu" class="dropdown hidden">
+                        <button class="close-btn">
+                            <img src="../img/closeUser.png" alt="Volver icono"> Volver
+                        </button>
+                        <button>
+                            <img src="../img/icon-user.png" alt="Perfil icono"> Perfil
+                        </button>
+                        <button>
+                            <img src="../img/settings.png" alt="Configuración icono"> Configuración
+                        </button>
+                        <button id="logoutBtn">
+                            <img src="../img/logout.png" alt="Cerrar sesión icono"> Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <nav class="breadcrumb">
+                <a href="../index.html">
+                    <img src="../img/viking.png" alt="Home" class="breadcrumb-icon">
+                    Home
+                </a>
+                <span class="separator">></span>
+                <a href="../index.html#aventura">Aventura</a>
+                <span class="separator">></span>
+                <span>Valhalla Flight</span>
+            </nav>
+
+            <section class="main-card">
+                <div class="game-container" id="flappyGameContainer">
+                    <div class="hud">
+                        <div class="hud-item">
+                            <span class="hud-label">Distancia:</span>
+                            <span id="distance" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Puntaje:</span>
+                            <span id="score" class="hud-value">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">Vidas:</span>
+                            <span id="lives" class="hud-value">3</span>
+                        </div>
+                    </div>
+
+                    <div class="instructions">
+                        Haz CLIC o presiona ESPACIO para volar
+                    </div>
+
+                    <div class="game-world">
+                        <div class="parallax-layer layer-sky"></div>
+                        <div class="parallax-layer layer-clouds" id="cloudsLayer"></div>
+                        <div class="parallax-layer layer-mountains-far" id="mountainsFarLayer"></div>
+                        <div class="parallax-layer layer-mountains-near" id="mountainsNearLayer"></div>
+                        <div class="parallax-layer layer-ground" id="groundLayer"></div>
+
+                        <div class="game-objects">
+                            <div class="dragon" id="dragon"></div>
+
+                            <div id="obstaclesContainer"></div>
+                            <div id="bonusesContainer"></div>
+                            <div id="floatingElementsContainer"></div>
+                            <div id="effectsContainer"></div>
+                        </div>
+
+                        <div class="game-over-screen" id="gameOverScreen">
+                            <div class="game-over-content">
+                                <h1>¡JUEGO TERMINADO!</h1>
+                                <p id="finalScore">Puntaje Final: 0</p>
+                                <p id="finalDistance">Distancia: 0</p>
+                                <button class="btn-restart" onclick="restartGame()">Jugar de Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="share-container">
+                    <button class="share-btn" id="toggleShare">
+                        Compartir <span class="arrow">➜</span>
+                    </button>
+                    <div class="social-icons-share" id="socialIcons">
+                        <img src="../img/wpp.png" alt="WhatsApp">
+                        <img src="../img/ig.png" alt="Instagram">
+                        <img src="../img/tiktok.png" alt="Tik Tok">
+                        <img src="../img/email.png" alt="Email">
+                        <img src="../img/mensaje.png" alt="SMS">
+                    </div>
+
+                    <a href="#helpSection" class="share-btn help">
+                        ¿Necesitas ayuda?
+                    </a>
+                </div>
+            </section>
+
+            <section class="game-description">
+                <h2>Valhalla Flight</h2>
+                <div class="desc-content">
+                    <div class="text">
+                        <p>
+                            ¡Embárcate en una épica aventura a través de los cielos de Asgard! Controla a tu dragón
+                            mientras esquivas obstáculos, recolecta tesoros y sobrevives el mayor tiempo posible en este
+                            emocionante
+                            juego de scroll horizontal.
+                        </p>
+                        <ul>
+                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el dragón vuele y
+                                esquive obstáculos</li>
+                            <li>⚔️ <b>Objetivo:</b> Vuela la mayor distancia posible mientras esquivas montañas y
+                                recolectas tesoros dorados</li>
+                            <li>✨ <b>Bonuses:</b> Arriesgate a Recolectar los tesoros dorados para sumar puntos extra a
+                                tu puntuación, si consigues 3 monedas doradas, se te sumara una vida!</li>
+                            <li>❤️ <b>Vidas:</b> Comienzas con 3 vidas - ¡cuídalas bien!</li>
+                            <li>🏔️ <b>Obstáculos:</b> Esquiva los pilares runicos en tu camino</li>
+                        </ul>
+                    </div>
+                    <div class="images">
+                        <img src="../img/ImgFlappy/DragonPresentacion.webp" alt="Gameplay Valhalla Flight 1">
+                    </div>
+                </div>
+            </section>
+
+            <section class="how-to-play" id="helpSection">
+                <h3>¿Cómo se Juega?</h3>
+                <div class="steps">
+                    <div class="step">
+                        <img src="../img/mouse.png" alt="Mouse">
+                        <p>Haz CLICK IZQUIERDO para volar</p>
+                    </div>
+                    <div class="step">
+                        <img class="space" src="../img/ImgFlappy/botonEspacio.png" alt="Tecla Espacio">
+                        <p>O presiona ESPACIO</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/ImgFlappy/MonedaGrande.png" alt="Tesoro">
+                        <p>Recolecta tesoros dorados</p>
+                    </div>
+                    <div class="step">
+                        <img src="../img/ImgFlappy/obstaculo.png" alt="Pilar">
+                        <p>Esquiva los pilares!!</p>
+                    </div>
+                </div>
+
+                <p>
+                    <a href="https://www.youtube.com/watch?v=ejB4e3W0g7g">
+                        <span id="link-ayuda">¿Necesitas ayuda?</span>
+                    </a> Mira el video tutorial para dominar Valhalla Flight.
+                </p>
+            </section>
+
+            <section class="comments">
+                <h3>¡Comenta qué te pareció el juego!</h3>
+                <div class="comment-box">
+                    <img src="../img/player.png" alt="Avatar" class="avatar">
+                    <input type="text" placeholder="Escribe tu comentario...">
+                    <button class="send-btn">➤</button>
+                </div>
+
+                <h4>Comentarios sobre el juego</h4>
+
+                <div class="comment">
+                    <img src="../img/user1.png" alt="Usuario">
+                    <div class="comment-body">
+                        <p class="username">SkyWarrior</p>
+                        <p class="text">¡Increíble juego! Los gráficos son espectaculares y la jugabilidad muy adictiva.
+                        </p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>28</span></button>
+                            <button class="dislike">👎 <span>2</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user2.png" alt="Usuario">
+                    <div class="comment-body">
+                        <p class="username">OdinRider</p>
+                        <p class="text">Muy divertido, me encanta el dragón. ¡Llevo 5000 puntos!</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>45</span></button>
+                            <button class="dislike">👎 <span>1</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user1.png" alt="Usuario">
+                    <div class="comment-body">
+                        <p class="username">ValkyrieQueen</p>
+                        <p class="text">Los controles son muy responsivos y el sistema de vidas hace que sea desafiante
+                            pero justo.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>33</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="../img/user2.png" alt="Usuario">
+                    <div class="comment-body">
+                        <p class="username">RagnarFlyer</p>
+                        <p class="text">Perfecto para jugar en ratos libres. La progresión es muy satisfactoria.</p>
+                        <div class="comment-actions">
+                            <button class="like">👍 <span>19</span></button>
+                            <button class="dislike">👎 <span>0</span></button>
+                            <button class="reply">💬</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="main-footer">
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Sobre Valhalla Games</h4>
+                        <ul>
+                            <li><a href="#">Quiénes Somos</a></li>
+                            <li><a href="#">Contáctanos</a></li>
+                            <li><a href="#">Enviar Feedback</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Terror</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Puzzle</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Otros</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Reportar un problema</a></li>
+                            <li><a href="#">Términos de Servicios</a></li>
+                            <li><a href="#">Política de Cookies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Recibí Información</h4>
+                        <p>Suscribite para recibir las últimas novedades y juegos nuevos.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email">
+                            <button type="submit">→</button>
+                        </form>
+                    </div>
+                </div>
+            </footer>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-container">
+                    <a href="../index.html">
+                        <div class="footer-logo">
+                            <img src="../img/imgPag.png" alt="Logo Valhalla Games">
+                            <span>Valhalla Games</span>
+                        </div>
+                    </a>
+                    <p class="copyright">© 2025 Valhalla Games. Todos los derechos reservados.</p>
+                    <div class="social-icons">
+                        <a href="#"><img src="../img/ig.png" alt="Instagram"></a>
+                        <a href="#"><img src="../img/twitter.png" alt="X"></a>
+                        <a href="#"><img src="../img/yt.png" alt="Youtube"></a>
+                        <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jsFlappy/Decoracion.js"></script>
+    <script src="../js/jsFlappy/Bonus.js"></script>
+    <script src="../js/jsFlappy/Obstaculo.js"></script>
+    <script src="../js/jsFlappy/Dragon.js"></script>
+    <script src="../js/jsFlappy/Juego.js"></script>
+    <script src="../js/jsFlappy/Flappy.js"></script>
+
+</body>
+
+</html>
