@@ -57,18 +57,15 @@ class Juego {
     }
 
     init() {
-        console.log("🎮 Iniciando Valhalla Flight con dificultad dinámica...");
 
         const gameContainer = document.getElementById('flappyGameContainer');
         const dragonElement = document.getElementById('dragon');
 
         if (!gameContainer) {
-            console.error("No se encontró flappyGameContainer");
             return;
         }
 
         if (!dragonElement) {
-            console.error("No se encontró el dragón");
             return;
         }
 
@@ -76,8 +73,6 @@ class Juego {
         this.isRunning = true;
         this.startGameLoop();
         this.setupEventListeners();
-
-        console.log("Juego inicializado correctamente");
     }
 
     startGameLoop() {
@@ -224,7 +219,6 @@ class Juego {
             const bottomCollision = this.rectsOverlap(dragonRect, ob.getBottomCollisionRect());
 
             if (topCollision || bottomCollision) {
-                console.log("Colisión con obstáculo!");
                 this.dragon.takeDamage();
                 break;
             }
@@ -248,7 +242,6 @@ class Juego {
     }
 
     endGame() {
-        console.log(" Fin del juego");
         this.isRunning = false;
 
         this.parallaxLayers.forEach(layer => layer.classList.remove('scrolling'));
@@ -263,7 +256,6 @@ class Juego {
     }
 
     restart() {
-        console.log("🔄 Reiniciando juego...");
 
         document.getElementById('obstaclesContainer').innerHTML = '';
         document.getElementById('bonusesContainer').innerHTML = '';

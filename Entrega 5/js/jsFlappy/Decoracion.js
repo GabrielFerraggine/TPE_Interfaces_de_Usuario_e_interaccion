@@ -14,7 +14,6 @@ class Decoracion {
         this.y = this.findSafeYPosition();
         
         this.element = this.createDecorationElement();
-        console.log("Decoración creada en x:", x, "y:", this.y);
     }
 
     findSafeYPosition() {

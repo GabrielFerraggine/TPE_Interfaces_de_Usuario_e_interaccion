@@ -13,8 +13,6 @@ class Bonus {
         this.element.style.top = `${y}px`;
 
         document.getElementById('bonusesContainer').appendChild(this.element);
-
-        console.log("Bonus creado en:", x, y);
     }
 
     update(gameStarted) {
@@ -44,7 +42,7 @@ class Bonus {
                 this.juego.lives++;
                 this.juego.coinsForLife = 0;
                 
-                // Actualizamos el HUD de vidas
+                //Actualizamos el HUD de vidas
                 const livesElement = document.getElementById('lives');
                 livesElement.textContent = this.juego.lives;
 
@@ -55,12 +53,11 @@ class Bonus {
                 livesElement.classList.add('life-gained');
 
                 this.spawnFloatingText("+1 VIDA", "#32CD32");
-                console.log("¡Vida extra ganada!");
             } else {
                 this.spawnFloatingText("+50", "#ffd700");
             }
 
-            // Animación de la moneda desapareciendo
+            //Animación de la moneda desapareciendo
             this.element.classList.add('collected');
 
             setTimeout(() => {

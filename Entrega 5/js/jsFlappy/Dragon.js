@@ -8,24 +8,14 @@ class Dragon {
         this.isDead = false;
         this.isInvincible = false;
 
-        // Dimensiones referenciales (el hitbox real lo define getCollisionRect abajo)
+        //Dimensiones referenciales (el hitbox real lo define getCollisionRect abajo)
         this.width = 137;
         this.height = 120;
 
-        //descomentar para ver hitboxes (1/3)
-        //  this.debugBox = document.createElement('div');
-        //  this.debugBox.style.position = 'absolute';
-        //  this.debugBox.style.border = '2px solid red';
-        //  this.debugBox.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
-        //  this.debugBox.style.zIndex = '999';
-        //  this.debugBox.style.pointerEvents = 'none';
-        //  document.getElementById('flappyGameContainer').appendChild(this.debugBox);
-
-        // console.log("Dragón listo con efectos activados");
     }
 
     jump() {
-        // Si está muerto, no puede saltar
+        //Si está muerto, no puede saltar
         if (this.isDead) return;
 
         if (!this.juego.gameStarted) {
@@ -37,7 +27,6 @@ class Dragon {
     }
 
     startGame() {
-        console.log("🎮 INICIANDO JUEGO!");
         this.juego.gameStarted = true;
         this.juego.isRunning = true;
         this.velocityY = Juego.JUMP_STRENGTH;
@@ -108,8 +97,6 @@ class Dragon {
         this.juego.lives--;
         document.getElementById('lives').textContent = this.juego.lives;
 
-        console.log(`¡Golpe recibido! Vidas restantes: ${this.juego.lives}`);
-
         //Agregar clase de daño/invencibilidad
         this.element.classList.add('invincible');
 
@@ -142,7 +129,6 @@ class Dragon {
     die() {
         if (this.isDead) return;
 
-        console.log("💀 El dragón ha caído.");
         this.isDead = true;
         
         this.element.classList.remove('invincible'); 

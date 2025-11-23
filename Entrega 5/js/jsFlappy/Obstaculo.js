@@ -13,8 +13,6 @@ class Obstaculo {
 
         this.topElement = this.createObstacleElement('obstacle-top', this.topHeight);
         this.bottomElement = this.createObstacleElement('obstacle-bottom', this.bottomHeight);
-        
-        console.log("Obstáculo creado en x:", x);
     }
 
     createObstacleElement(className, height) {
