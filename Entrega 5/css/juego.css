@@ -369,6 +369,8 @@ ul {
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     position: relative;
+
+    z-index: 1;
 }
 
 .main-card img {

@@ -19,9 +19,12 @@ class Decoracion {
 
     findSafeYPosition() {
         const maxIntentos = 20; //Intentos maximos para encontrar posicion segura
+
+        const minHeight = 30;
+        const maxHeight = Juego.WORLD_HEIGHT / 2;
         
         for (let intento = 0; intento < maxIntentos; intento++) {
-            const y = Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
+            const y = Math.random() * (maxHeight - minHeight) + minHeight; //aparecen de la mitad de la pantalla para arriba
             
             if (!this.colisionaConObstaculo(this.x, y)) {
                 return y; // Posición segura encontrada
@@ -30,7 +33,7 @@ class Decoracion {
         
         //Si no encuentra posición segura despues de varios intentos,
         //devuelve una posición por defecto
-        return Math.random() * (Juego.WORLD_HEIGHT - 200) + 100;
+        return Math.random() * (maxHeight - minHeight) + minHeight;
     }
 
     colisionaConObstaculo(decorationX, decorationY) {

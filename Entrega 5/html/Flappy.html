@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,8 @@
                     <li><a href="#"><img src="../img/rompecabezas.png" alt="Puzzle"><span>Puzzle</span></a></li>
                     <li><a href="#"><img src="../img/Barcos.png" alt="Barcos"><span>Barcos</span></a></li>
                     <li><a href="#"><img src="../img/Musica.png" alt="Música"><span>Música</span></a></li>
-                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower Defense</span></a></li>
+                    <li><a href="#"><img src="../img/Tower Defense.png" alt="Tower-defense"><span>Tower
+                                Defense</span></a></li>
                     <li><a href="#"><img src="../img/Vestir.png" alt="Vestir"><span>Vestir</span></a></li>
                 </ul>
             </nav>
@@ -123,7 +125,6 @@
                         </div>
                     </div>
                 </div>
-            </section>
 
                 <div class="share-container">
                     <button class="share-btn" id="toggleShare">
@@ -136,6 +137,10 @@
                         <img src="../img/email.png" alt="Email">
                         <img src="../img/mensaje.png" alt="SMS">
                     </div>
+                    
+                    <a href="#helpSection" class="share-btn help">
+                        ¿Necesitas ayuda?
+                    </a>
                 </div>
             </section>
 
@@ -144,14 +149,18 @@
                 <div class="desc-content">
                     <div class="text">
                         <p>
-                            ¡Embárcate en una épica aventura a través de los cielos de Asgard! Controla a tu dragón 
-                            mientras esquivas obstáculos, recolecta tesoros y sobrevives el mayor tiempo posible en este emocionante 
+                            ¡Embárcate en una épica aventura a través de los cielos de Asgard! Controla a tu dragón
+                            mientras esquivas obstáculos, recolecta tesoros y sobrevives el mayor tiempo posible en este
+                            emocionante
                             juego de scroll horizontal.
                         </p>
                         <ul>
-                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el dragón vuele y esquive obstáculos</li>
-                            <li>⚔️ <b>Objetivo:</b> Vuela la mayor distancia posible mientras esquivas montañas y recolectas tesoros dorados</li>
-                            <li>✨ <b>Bonuses:</b> Arriesgate a Recolectar los tesoros dorados para sumar puntos extra a tu puntuación, si consigues 3 monedas doradas, se te sumara una vida!</li>
+                            <li>🛡 <b>Controles:</b> Haz clic o presiona ESPACIO para hacer que el dragón vuele y
+                                esquive obstáculos</li>
+                            <li>⚔️ <b>Objetivo:</b> Vuela la mayor distancia posible mientras esquivas montañas y
+                                recolectas tesoros dorados</li>
+                            <li>✨ <b>Bonuses:</b> Arriesgate a Recolectar los tesoros dorados para sumar puntos extra a
+                                tu puntuación, si consigues 3 monedas doradas, se te sumara una vida!</li>
                             <li>❤️ <b>Vidas:</b> Comienzas con 3 vidas - ¡cuídalas bien!</li>
                             <li>🏔️ <b>Obstáculos:</b> Esquiva los pilares runicos en tu camino</li>
                         </ul>
@@ -162,15 +171,15 @@
                 </div>
             </section>
 
-            <section class="how-to-play">
+            <section class="how-to-play" id="helpSection">
                 <h3>¿Cómo se Juega?</h3>
                 <div class="steps">
                     <div class="step">
                         <img src="../img/mouse.png" alt="Mouse">
-                        <p>Haz CLIC para volar</p>
+                        <p>Haz CLICK IZQUIERDO para volar</p>
                     </div>
                     <div class="step">
-                        <img src="../img/ImgFlappy/botonEspacio.png" alt="Tecla Espacio">
+                        <img class="space" src="../img/ImgFlappy/botonEspacio.png" alt="Tecla Espacio">
                         <p>O presiona ESPACIO</p>
                     </div>
                     <div class="step">
@@ -204,7 +213,8 @@
                     <img src="../img/user1.png" alt="Usuario">
                     <div class="comment-body">
                         <p class="username">SkyWarrior</p>
-                        <p class="text">¡Increíble juego! Los gráficos son espectaculares y la jugabilidad muy adictiva.</p>
+                        <p class="text">¡Increíble juego! Los gráficos son espectaculares y la jugabilidad muy adictiva.
+                        </p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>28</span></button>
                             <button class="dislike">👎 <span>2</span></button>
@@ -230,7 +240,8 @@
                     <img src="../img/user1.png" alt="Usuario">
                     <div class="comment-body">
                         <p class="username">ValkyrieQueen</p>
-                        <p class="text">Los controles son muy responsivos y el sistema de vidas hace que sea desafiante pero justo.</p>
+                        <p class="text">Los controles son muy responsivos y el sistema de vidas hace que sea desafiante
+                            pero justo.</p>
                         <div class="comment-actions">
                             <button class="like">👍 <span>33</span></button>
                             <button class="dislike">👎 <span>0</span></button>
@@ -294,7 +305,7 @@
                     </div>
                 </div>
             </footer>
-            
+
             <div class="footer-bottom">
                 <div class="footer-bottom-container">
                     <a href="../index.html">
@@ -320,6 +331,8 @@
     <script src="../js/jsFlappy/Obstaculo.js"></script>
     <script src="../js/jsFlappy/Dragon.js"></script>
     <script src="../js/jsFlappy/Juego.js"></script>
+    <script src="../js/jsFlappy/Flappy.js"></script>
 
 </body>
+
 </html>
